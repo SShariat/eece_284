@@ -118,6 +118,7 @@ void LCDprint(char * string, unsigned char line, bit clear)
 void main (void)
 {
 	//initializes port
+	//is this a good comment.
 	InitPorts();
 	LCD_8BIT(); 
 	LCDprint("LCD 8-bit test:", 1, 1);
