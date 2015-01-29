@@ -46,6 +46,8 @@ void waitms (unsigned int ms)
 {
 	unsigned int j;
 	unsigned char k;
+	
+	//Waiting for 1 Micro-second
 	for(j=0; j<ms; j++)
 		for (k=0; k<20; k++) Wait50us();
 }
@@ -116,8 +118,8 @@ void LCDprint(char * string, unsigned char line, bit clear)
 void main (void)
 {
 	InitPorts();
-	LCD_8BIT();
-   	// Display something in the LCD
+	LCD_8BIT(); 
 	LCDprint("LCD 8-bit test:", 1, 1);
 	LCDprint("Hello, World!", 2, 1);
+
 }
