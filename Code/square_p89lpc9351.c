@@ -55,4 +55,5 @@ void main (void)
 	InitTimer0();
 	pwm1=50; //50% duty cycle wave at 100Hz
 	printf("Hello!\n\rPlease check pin 3 (P1.6) with the oscilloscope!\n\r");
+	P1_7=0;
 }

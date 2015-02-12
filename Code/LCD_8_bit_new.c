@@ -115,13 +115,54 @@ void LCDprint(char * string, unsigned char line, bit clear)
 	if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 }
 
+//ADDS A TIME TIME DELAY
+void delay(void)
+{
+    int j, k;
+    for(j=0; j<100; j++)
+    {
+        for(k=0; k<1000; k++);
+    }
+}
+
+
 void main (void)
 {
 	//initializes port
-	//is this a good comment.
 	InitPorts();
 	LCD_8BIT(); 
-	LCDprint("LCD 8-bit test:", 1, 1);
-	LCDprint("Hello, World!", 2, 1);
-
+	//LCDprint("LCD 8-bit test:", 1, 1);
+	//LCDprint("Hello, World!", 2, 1);
+	LCDprint("PORT TEST", 1,1);
+	
+	while(1)
+    {
+        P0_0=0;
+        P0_1=0;
+        P0_2=0;
+        P0_3=0;
+        P0_4=0;
+        P0_5=0;
+        P0_6=0;
+        P3_0=0;
+        P3_1=0;
+        P1_2=0;
+        P1_3=0;
+                
+        delay();
+        
+        P0_0=1;
+        P0_1=1;
+        P0_2=1;
+        P0_3=1;
+        P0_4=1;
+        P0_5=1;
+        P0_6=1;
+        P3_0=1;
+        P3_1=1;
+        P1_2=1;
+        P1_3=1;
+        
+        delay();
+    }
 }
