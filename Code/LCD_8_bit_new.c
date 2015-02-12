@@ -129,8 +129,7 @@ void delay(void)
 void main (void)
 {
 	//initializes port
-	//is this a good comment.
-	//this is an even better comment
+	// this is the newest comment possible
 	InitPorts();
 	LCD_8BIT(); 
 	//LCDprint("LCD 8-bit test:", 1, 1);
