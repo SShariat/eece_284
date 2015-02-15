@@ -21,7 +21,7 @@ R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,0076,NO
+R_CSEG,code,0074,NO
 </SEGMENTS>
 
 <LOCALS>
@@ -122,13 +122,13 @@ E5 data8(_pwmcount;)
 C3
 E5 data8(_pwmcount;)
 95 data8(_pwm1;)
-92 96
+92 84
 D0 D0
 D0 E0
 32
 12 addr16(_InitSerialPort;)  
 12 addr16(_InitTimer0;)  
-75 data8(_pwm1;) 32
+75 data8(_pwm1;) 64
 74 data8(__str_0;)
 C0 E0
 74 data8(__str_0;0x0008;>>;)
@@ -139,7 +139,6 @@ C0 E0
 15 81
 15 81
 15 81
-C2 97
 22
 </CODE>
 

@@ -1,7 +1,7 @@
 0000              1   ;--------------------------------------------------------
 0000              2   ; File Created by C51
 0000              3   ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-0000              4   ; This file was generated Thu Feb 05 12:03:19 2015
+0000              4   ; This file was generated Thu Feb 12 15:33:23 2015
 0000              5   ;--------------------------------------------------------
                   5   $name square_p89lpc9351
                   6   $optc51 --model-small
@@ -516,59 +516,59 @@ FFBF            488   ;--------------------------------------------------------
 0000            516   ;Allocation info for local variables in function 'InitSerialPort'
 0000            517   ;------------------------------------------------------------
 0000            518   ;------------------------------------------------------------
-0000            519   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:17: void InitSerialPort(void)
+0000            519   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:17: void InitSerialPort(void)
 0000            520   ;        -----------------------------------------
 0000            521   ;         function InitSerialPort
 0000            522   ;        -----------------------------------------
 0000            523   _InitSerialPort:
 0000            524            using   0
-0000            525   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:19: BRGCON=0x00; //Make sure the baud rate generator is off
+0000            525   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:19: BRGCON=0x00; //Make sure the baud rate generator is off
 0000 75BD00     526            mov     _BRGCON,#0x00
-0003            527   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:20: BRGR1=((XTAL/BAUD)-16)/0x100;
+0003            527   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:20: BRGR1=((XTAL/BAUD)-16)/0x100;
 0003 75BF00     528            mov     _BRGR1,#0x00
-0006            529   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:21: BRGR0=((XTAL/BAUD)-16)%0x100;
+0006            529   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:21: BRGR0=((XTAL/BAUD)-16)%0x100;
 0006 75BE30     530            mov     _BRGR0,#0x30
-0009            531   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:22: BRGCON=0x03; //Turn-on the baud rate generator
+0009            531   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:22: BRGCON=0x03; //Turn-on the baud rate generator
 0009 75BD03     532            mov     _BRGCON,#0x03
-000C            533   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:23: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
+000C            533   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:23: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
 000C 759852     534            mov     _SCON,#0x52
-000F            535   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:24: P1M1=0x00; //Enable pins RxD and Txd
+000F            535   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:24: P1M1=0x00; //Enable pins RxD and Txd
 000F 759100     536            mov     _P1M1,#0x00
-0012            537   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:25: P1M2=0x00; //Enable pins RxD and Txd
+0012            537   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:25: P1M2=0x00; //Enable pins RxD and Txd
 0012 759200     538            mov     _P1M2,#0x00
 0015 22         539            ret
 0016            540   ;------------------------------------------------------------
 0016            541   ;Allocation info for local variables in function 'InitTimer0'
 0016            542   ;------------------------------------------------------------
 0016            543   ;------------------------------------------------------------
-0016            544   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:28: void InitTimer0 (void)
+0016            544   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:28: void InitTimer0 (void)
 0016            545   ;        -----------------------------------------
 0016            546   ;         function InitTimer0
 0016            547   ;        -----------------------------------------
 0016            548   _InitTimer0:
-0016            549   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:31: TR0=0; // Stop timer 0
+0016            549   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:31: TR0=0; // Stop timer 0
 0016 C28C       550            clr     _TR0
-0018            551   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:32: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
+0018            551   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:32: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
 0018 74F0       552            mov     a,#0xF0
 001A 5589       553            anl     a,_TMOD
 001C 4401       554            orl     a,#0x01
 001E F589       555            mov     _TMOD,a
-0020            556   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:33: TH0=TIMER0_RELOAD_VALUE/0x100;
+0020            556   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:33: TH0=TIMER0_RELOAD_VALUE/0x100;
 0020 758CFE     557            mov     _TH0,#0xFE
-0023            558   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:34: TL0=TIMER0_RELOAD_VALUE%0x100;
+0023            558   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:34: TL0=TIMER0_RELOAD_VALUE%0x100;
 0023 758A90     559            mov     _TL0,#0x90
-0026            560   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:35: TR0=1; // Start timer 0 (bit 4 in TCON)
+0026            560   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:35: TR0=1; // Start timer 0 (bit 4 in TCON)
 0026 D28C       561            setb    _TR0
-0028            562   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:36: ET0=1; // Enable timer 0 interrupt
+0028            562   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:36: ET0=1; // Enable timer 0 interrupt
 0028 D2A9       563            setb    _ET0
-002A            564   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:37: EA=1;  // Enable global interrupts
+002A            564   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:37: EA=1;  // Enable global interrupts
 002A D2AF       565            setb    _EA
 002C 22         566            ret
 002D            567   ;------------------------------------------------------------
 002D            568   ;Allocation info for local variables in function 'pwmcounter'
 002D            569   ;------------------------------------------------------------
 002D            570   ;------------------------------------------------------------
-002D            571   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:41: void pwmcounter (void) interrupt 1
+002D            571   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:41: void pwmcounter (void) interrupt 1
 002D            572   ;        -----------------------------------------
 002D            573   ;         function pwmcounter
 002D            574   ;        -----------------------------------------
@@ -576,26 +576,26 @@ FFBF            488   ;--------------------------------------------------------
 002D C0E0       576            push    acc
 002F C0D0       577            push    psw
 0031 75D000     578            mov     psw,#0x00
-0034            579   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:44: TR0=0; // Stop timer 0
+0034            579   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:44: TR0=0; // Stop timer 0
 0034 C28C       580            clr     _TR0
-0036            581   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:45: TH0=TIMER0_RELOAD_VALUE/0x100;
+0036            581   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:45: TH0=TIMER0_RELOAD_VALUE/0x100;
 0036 758CFE     582            mov     _TH0,#0xFE
-0039            583   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:46: TL0=TIMER0_RELOAD_VALUE%0x100;
+0039            583   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:46: TL0=TIMER0_RELOAD_VALUE%0x100;
 0039 758A90     584            mov     _TL0,#0x90
-003C            585   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:47: TR0=1; // Start timer 0
+003C            585   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:47: TR0=1; // Start timer 0
 003C D28C       586            setb    _TR0
-003E            587   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:48: if(++pwmcount>99) pwmcount=0;
-003E 05B0       588            inc     _pwmcount
-0040 E5B0       589            mov     a,_pwmcount
+003E            587   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:48: if(++pwmcount>99) pwmcount=0;
+003E 0570       588            inc     _pwmcount
+0040 E570       589            mov     a,_pwmcount
 0042 249C       590            add     a,#0xff - 0x63
 0044 5001       591            jnc     L004002?
-0046 75B000     592            mov     _pwmcount,#0x00
+0046 757000     592            mov     _pwmcount,#0x00
 0049            593   L004002?:
-0049            594   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:49: P1_6=(pwm1>pwmcount)?1:0;
+0049            594   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:49: P0_4=(pwm1>pwmcount)?1:0;
 0049 C3         595            clr     c
-004A E5B0       596            mov     a,_pwmcount
-004C 9570       597            subb    a,_pwm1
-004E 9296       598            mov     _P1_6,c
+004A E570       596            mov     a,_pwmcount
+004C 9530       597            subb    a,_pwm1
+004E 9284       598            mov     _P0_4,c
 0050 D0D0       599            pop     psw
 0052 D0E0       600            pop     acc
 0054 32         601            reti
@@ -606,21 +606,21 @@ FFBF            488   ;--------------------------------------------------------
 0055            606   ;Allocation info for local variables in function 'main'
 0055            607   ;------------------------------------------------------------
 0055            608   ;------------------------------------------------------------
-0055            609   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:52: void main (void)
+0055            609   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:52: void main (void)
 0055            610   ;        -----------------------------------------
 0055            611   ;         function main
 0055            612   ;        -----------------------------------------
 0055            613   _main:
-0055            614   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:54: InitSerialPort();
+0055            614   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:54: InitSerialPort();
 0055 120100     615            lcall   _InitSerialPort
-0058            616   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:55: InitTimer0();
+0058            616   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:55: InitTimer0();
 0058 120100     617            lcall   _InitTimer0
-005B            618   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:56: pwm1=50; //50% duty cycle wave at 100Hz
-005B 757032     619            mov     _pwm1,#0x32
-005E            620   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:57: printf("Hello!\n\rPlease check pin 3 (P1.6) with the oscilloscope!\n\r");
-005E 7458       621            mov     a,#__str_0
+005B            618   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:56: pwm1=100; //100% duty cycle wave at 100Hz
+005B 753064     619            mov     _pwm1,#0x64
+005E            620   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:58: printf("Hello!\n\rPlease check pin 3 (P1.6) with the oscilloscope!\n\r");
+005E 7428       621            mov     a,#__str_0
 0060 C0E0       622            push    acc
-0062 749D       623            mov     a,#(__str_0 >> 8)
+0062 74A5       623            mov     a,#(__str_0 >> 8)
 0064 C0E0       624            push    acc
 0066 7480       625            mov     a,#0x80
 0068 C0E0       626            push    acc
@@ -628,20 +628,18 @@ FFBF            488   ;--------------------------------------------------------
 006D 1581       628            dec     sp
 006F 1581       629            dec     sp
 0071 1581       630            dec     sp
-0073            631   ;        C:\Users\Saman\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:58: P1_7=0;
-0073 C297       632            clr     _P1_7
-0075 22         633            ret
-0076            634            rseg R_CSEG
-0076            635   
-0000            636            rseg R_XINIT
-0000            637   
-0000            638            rseg R_CONST
-0000            639   __str_0:
-0000 48656C6C   640            db 'Hello!'
+0073 22         631            ret
+0074            632            rseg R_CSEG
+0074            633   
+0000            634            rseg R_XINIT
+0000            635   
+0000            636            rseg R_CONST
+0000            637   __str_0:
+0000 48656C6C   638            db 'Hello!'
      6F21
-0006 0A         641            db 0x0A
-0007 0D         642            db 0x0D
-0008 506C6561   643            db 'Please check pin 3 (P1.6) with the oscilloscope!'
+0006 0A         639            db 0x0A
+0007 0D         640            db 0x0D
+0008 506C6561   641            db 'Please check pin 3 (P1.6) with the oscilloscope!'
      73652063
      6865636B
      2070696E
@@ -653,10 +651,10 @@ FFBF            488   ;--------------------------------------------------------
      7363696C
      6C6F7363
      6F706521
-0038 0A         644            db 0x0A
-0039 0D         645            db 0x0D
-003A 00         646            db 0x00
-003B            647   
-000E            648            CSEG
-000E            649   
-000E            650   end
+0038 0A         642            db 0x0A
+0039 0D         643            db 0x0D
+003A 00         644            db 0x00
+003B            645   
+000E            646            CSEG
+000E            647   
+000E            648   end

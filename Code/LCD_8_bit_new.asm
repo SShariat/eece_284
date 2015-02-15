@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Thu Feb 05 12:00:38 2015
+; This file was generated Sat Feb 14 16:08:49 2015
 ;--------------------------------------------------------
 $name LCD_8_bit_new
 $optc51 --model-small
@@ -24,7 +24,6 @@ $optc51 --model-small
 ; Public variables in this module
 ;--------------------------------------------------------
 	public _main
-	public _delay
 	public _LCDprint
 	public _LCD_8BIT
 	public _WriteCommand
@@ -415,7 +414,7 @@ _LCDprint_PARM_2:
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
-	rseg	R_OSEG
+	rseg R_OSEG
 ;--------------------------------------------------------
 ; indirectly addressable internal ram data
 ;--------------------------------------------------------
@@ -521,39 +520,39 @@ _RTCDATL: ds 1
 ;Allocation info for local variables in function 'InitPorts'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:25: void InitPorts(void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:25: void InitPorts(void)
 ;	-----------------------------------------
 ;	 function InitPorts
 ;	-----------------------------------------
 _InitPorts:
 	using	0
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:27: P0M1=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:27: P0M1=0;
 	mov	_P0M1,#0x00
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:28: P0M2=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:28: P0M2=0;
 	mov	_P0M2,#0x00
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:29: P1M1=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:29: P1M1=0;
 	mov	_P1M1,#0x00
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:30: P1M2=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:30: P1M2=0;
 	mov	_P1M2,#0x00
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:31: P2M1=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:31: P2M1=0;
 	mov	_P2M1,#0x00
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:32: P2M2=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:32: P2M2=0;
 	mov	_P2M2,#0x00
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:33: P3M1=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:33: P3M1=0;
 	mov	_P3M1,#0x00
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:34: P3M2=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:34: P3M2=0;
 	mov	_P3M2,#0x00
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Wait50us'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:37: void Wait50us (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:37: void Wait50us (void)
 ;	-----------------------------------------
 ;	 function Wait50us
 ;	-----------------------------------------
 _Wait50us:
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:42: _endasm;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:42: _endasm;
 	
 	    mov R0, #82
 	L0:
@@ -567,14 +566,14 @@ _Wait50us:
 ;j                         Allocated to registers r4 r5 
 ;k                         Allocated to registers r6 
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:45: void waitms (unsigned int ms)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:45: void waitms (unsigned int ms)
 ;	-----------------------------------------
 ;	 function waitms
 ;	-----------------------------------------
 _waitms:
 	mov	r2,dpl
 	mov	r3,dph
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
 	mov	r4,#0x00
 	mov	r5,#0x00
 L004004?:
@@ -584,7 +583,7 @@ L004004?:
 	mov	a,r5
 	subb	a,r3
 	jnc	L004008?
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:52: for (k=0; k<20; k++) Wait50us();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:52: for (k=0; k<20; k++) Wait50us();
 	mov	r6,#0x14
 L004003?:
 	push	ar2
@@ -599,7 +598,7 @@ L004003?:
 	pop	ar3
 	pop	ar2
 	djnz	r6,L004003?
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
 	inc	r4
 	cjne	r4,#0x00,L004004?
 	inc	r5
@@ -610,16 +609,16 @@ L004008?:
 ;Allocation info for local variables in function 'LCD_pulse'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:55: void LCD_pulse (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:55: void LCD_pulse (void)
 ;	-----------------------------------------
 ;	 function LCD_pulse
 ;	-----------------------------------------
 _LCD_pulse:
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:57: LCD_E=1;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:57: LCD_E=1;
 	setb	_P2_5
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:58: Wait50us();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:58: Wait50us();
 	lcall	_Wait50us
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:59: LCD_E=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:59: LCD_E=0;
 	clr	_P2_5
 	ret
 ;------------------------------------------------------------
@@ -627,55 +626,55 @@ _LCD_pulse:
 ;------------------------------------------------------------
 ;x                         Allocated to registers 
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:62: void LCD_byte (unsigned char x)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:62: void LCD_byte (unsigned char x)
 ;	-----------------------------------------
 ;	 function LCD_byte
 ;	-----------------------------------------
 _LCD_byte:
 	mov	_ACC,dpl
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:66: LCD_D7=ACC_7;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:66: LCD_D7=ACC_7;
 	mov	c,_ACC_7
 	mov	_P1_4,c
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:67: LCD_D6=ACC_6;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:67: LCD_D6=ACC_6;
 	mov	c,_ACC_6
 	mov	_P1_6,c
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:68: LCD_D5=ACC_5;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:68: LCD_D5=ACC_5;
 	mov	c,_ACC_5
 	mov	_P1_7,c
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:69: LCD_D4=ACC_4;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:69: LCD_D4=ACC_4;
 	mov	c,_ACC_4
 	mov	_P2_0,c
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:70: LCD_D3=ACC_3;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:70: LCD_D3=ACC_3;
 	mov	c,_ACC_3
 	mov	_P2_1,c
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:71: LCD_D2=ACC_2;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:71: LCD_D2=ACC_2;
 	mov	c,_ACC_2
 	mov	_P2_2,c
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:72: LCD_D1=ACC_1;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:72: LCD_D1=ACC_1;
 	mov	c,_ACC_1
 	mov	_P2_3,c
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:73: LCD_D0=ACC_0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:73: LCD_D0=ACC_0;
 	mov	c,_ACC_0
 	mov	_P2_4,c
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:74: LCD_pulse();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:74: LCD_pulse();
 	ljmp	_LCD_pulse
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'WriteData'
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:77: void WriteData (unsigned char x)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:77: void WriteData (unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteData
 ;	-----------------------------------------
 _WriteData:
 	mov	r2,dpl
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:79: LCD_RS=1;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:79: LCD_RS=1;
 	setb	_P2_7
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:80: LCD_byte(x);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:80: LCD_byte(x);
 	mov	dpl,r2
 	lcall	_LCD_byte
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:81: waitms(2);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:81: waitms(2);
 	mov	dptr,#0x0002
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -683,55 +682,55 @@ _WriteData:
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:84: void WriteCommand (unsigned char x)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:84: void WriteCommand (unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteCommand
 ;	-----------------------------------------
 _WriteCommand:
 	mov	r2,dpl
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:86: LCD_RS=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:86: LCD_RS=0;
 	clr	_P2_7
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:87: LCD_byte(x);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:87: LCD_byte(x);
 	mov	dpl,r2
 	lcall	_LCD_byte
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:88: waitms(5);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:88: waitms(5);
 	mov	dptr,#0x0005
 	ljmp	_waitms
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'LCD_8BIT'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:91: void LCD_8BIT (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:91: void LCD_8BIT (void)
 ;	-----------------------------------------
 ;	 function LCD_8BIT
 ;	-----------------------------------------
 _LCD_8BIT:
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:93: LCD_E=0;  // Resting state of LCD's enable is zero
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:93: LCD_E=0;  // Resting state of LCD's enable is zero
 	clr	_P2_5
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:94: LCD_RW=0; // We are only writing to the LCD in this program
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:94: LCD_RW=0; // We are only writing to the LCD in this program
 	clr	_P2_6
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:95: waitms(20);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:95: waitms(20);
 	mov	dptr,#0x0014
 	lcall	_waitms
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:97: WriteCommand(0x33);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:97: WriteCommand(0x33);
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:98: WriteCommand(0x33);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:98: WriteCommand(0x33);
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:99: WriteCommand(0x33); // Stay in 8-bit mode
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:99: WriteCommand(0x33); // Stay in 8-bit mode
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:102: WriteCommand(0x38);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:102: WriteCommand(0x38);
 	mov	dpl,#0x38
 	lcall	_WriteCommand
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:103: WriteCommand(0x0c);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:103: WriteCommand(0x0c);
 	mov	dpl,#0x0C
 	lcall	_WriteCommand
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:104: WriteCommand(0x01); // Clear screen command (takes some time)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:104: WriteCommand(0x01); // Clear screen command (takes some time)
 	mov	dpl,#0x01
 	lcall	_WriteCommand
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:105: waitms(20); // Wait for clear screen command to finsih.
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:105: waitms(20); // Wait for clear screen command to finsih.
 	mov	dptr,#0x0014
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -741,7 +740,7 @@ _LCD_8BIT:
 ;string                    Allocated to registers r2 r3 r4 
 ;j                         Allocated to registers r5 
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:108: void LCDprint(char * string, unsigned char line, bit clear)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:108: void LCDprint(char * string, unsigned char line, bit clear)
 ;	-----------------------------------------
 ;	 function LCDprint
 ;	-----------------------------------------
@@ -749,7 +748,7 @@ _LCDprint:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:112: WriteCommand(line==2?0xc0:0x80);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:112: WriteCommand(line==2?0xc0:0x80);
 	mov	a,#0x02
 	cjne	a,_LCDprint_PARM_2,L010013?
 	mov	r5,#0xC0
@@ -762,13 +761,13 @@ L010014?:
 	push	ar3
 	push	ar4
 	lcall	_WriteCommand
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:113: waitms(5);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:113: waitms(5);
 	mov	dptr,#0x0005
 	lcall	_waitms
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:114: for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:114: for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
 	mov	r5,#0x00
 L010003?:
 	mov	a,r5
@@ -797,7 +796,7 @@ L010003?:
 	inc	r5
 	sjmp	L010003?
 L010006?:
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:115: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:115: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 	jnb	_LCDprint_PARM_3,L010011?
 	mov	ar2,r5
 L010007?:
@@ -813,122 +812,44 @@ L010026?:
 L010011?:
 	ret
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'delay'
-;------------------------------------------------------------
-;j                         Allocated to registers r2 r3 
-;k                         Allocated to registers r4 r5 
-;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:119: void delay(void)
-;	-----------------------------------------
-;	 function delay
-;	-----------------------------------------
-_delay:
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:122: for(j=0; j<100; j++)
-	mov	r2,#0x00
-	mov	r3,#0x00
-L011004?:
-	clr	c
-	mov	a,r2
-	subb	a,#0x64
-	mov	a,r3
-	xrl	a,#0x80
-	subb	a,#0x80
-	jnc	L011008?
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:124: for(k=0; k<1000; k++);
-	mov	r4,#0xE8
-	mov	r5,#0x03
-L011003?:
-	dec	r4
-	cjne	r4,#0xff,L011017?
-	dec	r5
-L011017?:
-	mov	a,r4
-	orl	a,r5
-	jnz	L011003?
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:122: for(j=0; j<100; j++)
-	inc	r2
-	cjne	r2,#0x00,L011004?
-	inc	r3
-	sjmp	L011004?
-L011008?:
-	ret
-;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: void main (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:132: InitPorts();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:133: InitPorts();
 	lcall	_InitPorts
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:133: LCD_8BIT(); 
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:134: LCD_8BIT(); 
 	lcall	_LCD_8BIT
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:136: LCDprint("PORT TEST", 1,1);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:137: LCDprint("PWM", 1,1);
 	mov	_LCDprint_PARM_2,#0x01
 	setb	_LCDprint_PARM_3
 	mov	dptr,#__str_0
 	mov	b,#0x80
 	lcall	_LCDprint
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:138: while(1)
-L012002?:
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:140: P0_0=0;
-	clr	_P0_0
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:141: P0_1=0;
-	clr	_P0_1
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:142: P0_2=0;
-	clr	_P0_2
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: P0_3=0;
-	clr	_P0_3
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:144: P0_4=0;
-	clr	_P0_4
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:145: P0_5=0;
-	clr	_P0_5
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:146: P0_6=0;
-	clr	_P0_6
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:147: P3_0=0;
-	clr	_P3_0
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:148: P3_1=0;
-	clr	_P3_1
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:149: P1_2=0;
-	clr	_P1_2
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:150: P1_3=0;
-	clr	_P1_3
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:152: delay();
-	lcall	_delay
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:154: P0_0=1;
-	setb	_P0_0
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:155: P0_1=1;
-	setb	_P0_1
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:156: P0_2=1;
-	setb	_P0_2
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:157: P0_3=1;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:139: while(1)
+L011002?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:141: P0_3 = 1;
 	setb	_P0_3
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:158: P0_4=1;
-	setb	_P0_4
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:159: P0_5=1;
-	setb	_P0_5
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:160: P0_6=1;
-	setb	_P0_6
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:161: P3_0=1;
-	setb	_P3_0
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:162: P3_1=1;
-	setb	_P3_1
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:163: P1_2=1;
-	setb	_P1_2
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:164: P1_3=1;
-	setb	_P1_3
-;	C:\Users\Saman\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:166: delay();
-	lcall	_delay
-	sjmp	L012002?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:142: waitms(2);
+	mov	dptr,#0x0002
+	lcall	_waitms
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: P0_3 = 0;
+	clr	_P0_3
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:144: waitms(2);
+	mov	dptr,#0x0002
+	lcall	_waitms
+	sjmp	L011002?
 	rseg R_CSEG
 
 	rseg R_XINIT
 
 	rseg R_CONST
 __str_0:
-	db 'PORT TEST'
+	db 'PWM'
 	db 0x00
 
 	CSEG

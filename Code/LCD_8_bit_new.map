@@ -1,17 +1,17 @@
 Modules linked:
    'LCD_8_bit_new' from 'LCD_8_bit_new.obj'
-   'gptrget' from 'C:\Users\Saman\Google Drive\UBC\3rd Year\Term 2\EECE 284\CrossIDE\Call51\Bin\..\lib\small\libc51.lib'
-   'crt0' from 'C:\Users\Saman\Google Drive\UBC\3rd Year\Term 2\EECE 284\CrossIDE\Call51\Bin\..\lib\small\libc51.lib'
-   'startup' from 'C:\Users\Saman\Google Drive\UBC\3rd Year\Term 2\EECE 284\CrossIDE\Call51\Bin\..\lib\small\libc51.lib'
+   'gptrget' from 'Z:\CrossIDE\Call51\Bin\..\lib\small\libc51.lib'
+   'crt0' from 'Z:\CrossIDE\Call51\Bin\..\lib\small\libc51.lib'
+   'startup' from 'Z:\CrossIDE\Call51\Bin\..\lib\small\libc51.lib'
 
 Memory use per module linked:
-C:00436 D:001 I:000 B:001 X:00000 - LCD_8_bit_new
+C:00360 D:001 I:000 B:001 X:00000 - LCD_8_bit_new
 C:00028 D:000 I:000 B:000 X:00000 - gptrget
 C:00113 D:000 I:000 B:000 X:00000 - crt0
 C:00004 D:000 I:000 B:000 X:00000 - startup
 C:00004 D:000 I:000 B:000 X:00000 - ABSOLUTE
 ------------------------------------------------------
-C:00585 D:001 I:000 B:001 X:00000 - Totals
+C:00509 D:001 I:000 B:001 X:00000 - Totals
 
 INTERMAL RAM map (see legend below):
 00: 0 0 0 0 0 0 0 0 a . . . . . . . 
@@ -50,7 +50,7 @@ BIT map:
 70: . . . . . . . . . . . . . . . . 
 
 CODE usage map:
-0000: 256 256 073 000 000 000 000 000 000 000 000 000 000 000 000 000 
+0000: 256 253 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
 1000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
 2000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
 3000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
@@ -66,7 +66,7 @@ C000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000
 D000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
 E000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
 F000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
-Total: 585 bytes
+Total: 509 bytes
 
 XDATA usage map:
 0000: 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 
@@ -90,9 +90,9 @@ Total: 12 bytes
 Base Segments:
    BIT_BANK=D:0000, size=0000
    R_BSEG=B:0000, size=0001
-   R_CONST=C:0074, size=000A
-   R_CSEG=C:007F, size=01CA
-   R_DINIT=C:007E, size=0000
+   R_CONST=C:0074, size=0004
+   R_CSEG=C:0079, size=0184
+   R_DINIT=C:0078, size=0000
    R_DSEG=D:0000, size=0001
    R_GSINIT=C:0003, size=0071
    R_HOME=C:0000, size=0000
@@ -107,23 +107,23 @@ Base Segments:
 Module Segments:
    CSEG=C:0000, size=0004
    LCD_8_bit_new:R_BSEG=B:0000, size=0001
-   LCD_8_bit_new:R_CONST=C:0074, size=000A
-   LCD_8_bit_new:R_CSEG=C:007F, size=01AA
+   LCD_8_bit_new:R_CONST=C:0074, size=0004
+   LCD_8_bit_new:R_CSEG=C:0079, size=0164
    LCD_8_bit_new:R_DSEG=D:0008, size=0001
    crt0:R_GSINIT=C:0003, size=0071
-   gptrget:R_CSEG=C:0229, size=001C
-   startup:R_CSEG=C:0245, size=0004
+   gptrget:R_CSEG=C:01DD, size=001C
+   startup:R_CSEG=C:01F9, size=0004
 
 Public symbols:
    _BODCFG=X:FFC8
    _CLKCON=X:FFDE
-   _InitPorts=C:007F
-   _LCD_8BIT=C:011B
+   _InitPorts=C:0079
+   _LCD_8BIT=C:0115
    _LCD_8_bit_new_R_DSEG_size=L:0001
    _LCD_8_bit_new_R_DSEG_start=L:0008
-   _LCD_byte=C:00D7
-   _LCD_pulse=C:00CF
-   _LCDprint=C:014F
+   _LCD_byte=C:00D1
+   _LCD_pulse=C:00C9
+   _LCDprint=C:0149
    _LCDprint_PARM_2=D:0008
    _LCDprint_PARM_3=B:0000
    _PGA0TRIM2X4X=X:FFCC
@@ -138,12 +138,12 @@ Public symbols:
    _RTCDATL=X:FFBE
    _R_BSEG_size=L:0001
    _R_BSEG_start=L:0000
-   _R_CONST_size=L:000A
+   _R_CONST_size=L:0004
    _R_CONST_start=L:0074
-   _R_CSEG_size=L:01CA
-   _R_CSEG_start=L:007F
+   _R_CSEG_size=L:0184
+   _R_CSEG_start=L:0079
    _R_DINIT_size=L:0000
-   _R_DINIT_start=L:007E
+   _R_DINIT_start=L:0078
    _R_GSINIT_size=L:0071
    _R_GSINIT_start=L:0003
    _R_HOME_size=L:0000
@@ -160,35 +160,30 @@ Public symbols:
    _R_XINIT_start=L:0000
    _R_XSEG_size=L:0000
    _R_XSEG_start=L:0000
-   _Wait50us=C:0098
-   _WriteCommand=C:010C
-   _WriteData=C:00FD
-   __c51_external_startup=C:0245
-   __gptrget=C:0229
+   _Wait50us=C:0092
+   _WriteCommand=C:0106
+   _WriteData=C:00F7
+   __c51_external_startup=C:01F9
+   __gptrget=C:01DD
    _crt0=C:0003
-   _delay=C:01BD
-   _dummy_name_crt0=C:0245
-   _main=C:01E1
+   _dummy_name_crt0=C:01F9
+   _main=C:01B7
    _stack_start=L:0021
-   _waitms=C:009D
+   _waitms=C:0097
 
 Local symbols:
-   LCD_8_bit_new:L004003?=C:00AE
-   LCD_8_bit_new:L004004?=C:00A5
-   LCD_8_bit_new:L004008?=C:00CE
-   LCD_8_bit_new:L010003?=C:0179
-   LCD_8_bit_new:L010006?=C:01A5
-   LCD_8_bit_new:L010007?=C:01AA
-   LCD_8_bit_new:L010011?=C:01BC
-   LCD_8_bit_new:L010013?=C:015E
-   LCD_8_bit_new:L010014?=C:0160
-   LCD_8_bit_new:L010026?=C:01AD
-   LCD_8_bit_new:L011003?=C:01D0
-   LCD_8_bit_new:L011004?=C:01C1
-   LCD_8_bit_new:L011008?=C:01E0
-   LCD_8_bit_new:L011017?=C:01D5
-   LCD_8_bit_new:L012002?=C:01F5
-   LCD_8_bit_new:L0=C:009A
+   LCD_8_bit_new:L004003?=C:00A8
+   LCD_8_bit_new:L004004?=C:009F
+   LCD_8_bit_new:L004008?=C:00C8
+   LCD_8_bit_new:L010003?=C:0173
+   LCD_8_bit_new:L010006?=C:019F
+   LCD_8_bit_new:L010007?=C:01A4
+   LCD_8_bit_new:L010011?=C:01B6
+   LCD_8_bit_new:L010013?=C:0158
+   LCD_8_bit_new:L010014?=C:015A
+   LCD_8_bit_new:L010026?=C:01A7
+   LCD_8_bit_new:L011002?=C:01CB
+   LCD_8_bit_new:L0=C:0094
    LCD_8_bit_new:__str_0=C:0074
    crt0:PClearLoop?done?=C:006C
    crt0:PClearLoop?repeat?=C:005E
@@ -199,7 +194,7 @@ Local symbols:
    crt0:__c51_init_data=C:0010
    crt0:__c51_program_startup=C:006F
    crt0:forever?home?=C:0072
-   gptrget:codeptr?=C:0240
-   gptrget:dataptrrestore?=C:0237
-   gptrget:pdataptr?=C:023D
-   gptrget:xdataptr?=C:0243
+   gptrget:codeptr?=C:01F4
+   gptrget:dataptrrestore?=C:01EB
+   gptrget:pdataptr?=C:01F1
+   gptrget:xdataptr?=C:01F7
