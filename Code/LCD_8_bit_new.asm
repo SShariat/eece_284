@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Sat Feb 14 16:08:49 2015
+; This file was generated Mon Feb 23 17:06:27 2015
 ;--------------------------------------------------------
 $name LCD_8_bit_new
 $optc51 --model-small
@@ -24,6 +24,7 @@ $optc51 --model-small
 ; Public variables in this module
 ;--------------------------------------------------------
 	public _main
+	public _LCDport_print
 	public _LCDprint
 	public _LCD_8BIT
 	public _WriteCommand
@@ -411,6 +412,8 @@ _TMOD20         BIT 0xc8
 	rseg R_DSEG
 _LCDprint_PARM_2:
 	ds 1
+_LCDport_print_string_2_62:
+	ds 20
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -812,44 +815,63 @@ L010026?:
 L010011?:
 	ret
 ;------------------------------------------------------------
+;Allocation info for local variables in function 'LCDport_print'
+;------------------------------------------------------------
+;string                    Allocated with name '_LCDport_print_string_2_62'
+;------------------------------------------------------------
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:128: void LCDport_print(void){
+;	-----------------------------------------
+;	 function LCDport_print
+;	-----------------------------------------
+_LCDport_print:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: while(1){
+L011002?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:131: char string[20]  = "something";
+	mov	_LCDport_print_string_2_62,#0x73
+	mov	(_LCDport_print_string_2_62 + 0x0001),#0x6F
+	mov	(_LCDport_print_string_2_62 + 0x0002),#0x6D
+	mov	(_LCDport_print_string_2_62 + 0x0003),#0x65
+	mov	(_LCDport_print_string_2_62 + 0x0004),#0x74
+	mov	(_LCDport_print_string_2_62 + 0x0005),#0x68
+	mov	(_LCDport_print_string_2_62 + 0x0006),#0x69
+	mov	(_LCDport_print_string_2_62 + 0x0007),#0x6E
+	mov	(_LCDport_print_string_2_62 + 0x0008),#0x67
+	mov	(_LCDport_print_string_2_62 + 0x0009),#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:135: LCDprint(string, 2,1);
+	mov	_LCDprint_PARM_2,#0x02
+	setb	_LCDprint_PARM_3
+	mov	dptr,#_LCDport_print_string_2_62
+	mov	b,#0x40
+	lcall	_LCDprint
+	sjmp	L011002?
+;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: void main (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:139: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:133: InitPorts();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: InitPorts();
 	lcall	_InitPorts
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:134: LCD_8BIT(); 
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:144: LCD_8BIT(); 
 	lcall	_LCD_8BIT
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:137: LCDprint("PWM", 1,1);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:147: LCDprint("Print Value Test", 1,1);
 	mov	_LCDprint_PARM_2,#0x01
 	setb	_LCDprint_PARM_3
-	mov	dptr,#__str_0
+	mov	dptr,#__str_1
 	mov	b,#0x80
 	lcall	_LCDprint
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:139: while(1)
-L011002?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:141: P0_3 = 1;
-	setb	_P0_3
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:142: waitms(2);
-	mov	dptr,#0x0002
-	lcall	_waitms
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: P0_3 = 0;
-	clr	_P0_3
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:144: waitms(2);
-	mov	dptr,#0x0002
-	lcall	_waitms
-	sjmp	L011002?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:148: LCDport_print();
+	ljmp	_LCDport_print
 	rseg R_CSEG
 
 	rseg R_XINIT
 
 	rseg R_CONST
-__str_0:
-	db 'PWM'
+__str_1:
+	db 'Print Value Test'
 	db 0x00
 
 	CSEG

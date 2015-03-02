@@ -108,7 +108,7 @@ void LCD_8BIT (void)
 void LCDprint(char * string, unsigned char line, bit clear)
 {
 	unsigned char j;
-
+	
 	WriteCommand(line==2?0xc0:0x80);
 	waitms(5);
 	for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
@@ -125,6 +125,16 @@ void LCDprint(char * string, unsigned char line, bit clear)
     //}
 //}
 
+void LCDport_print(void){
+	while(1){
+	//Read From Port
+	char string[20]  = "something";
+	//char string[3];
+	//sprintf(string, "%f", a);
+	//Print String to LCD
+	LCDprint(string, 2,1);
+	}
+}
 
 void main (void)
 {
@@ -134,13 +144,6 @@ void main (void)
 	LCD_8BIT(); 
 	//LCDprint("LCD 8-bit test:", 1, 1);
 	//LCDprint("Hello, World!", 2, 1);
-	LCDprint("PWM", 1,1);
-	
-	while(1)
-    {
-    	P0_3 = 1;
-    	waitms(2);
-    	P0_3 = 0;
-    	waitms(2);
-    }
+	LCDprint("Print Value Test", 1,1);
+	LCDport_print();
 }

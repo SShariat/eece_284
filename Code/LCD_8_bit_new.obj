@@ -11,17 +11,17 @@ R_GSINIT,code,0000,NO
 R_BSEG,bit,0001,NO
 R_XSEG,xdata,0000,NO
 BIT_BANK,data,0000,OV
-R_CONST,code,0004,NO
+R_CONST,code,0011,NO
 rbank0,data,0000,OV
 R_PSEG,xdata,0000,NO
 R_DINIT,code,0000,NO
-R_DSEG,data,0001,NO
+R_DSEG,data,0015,NO
 R_OSEG,data,0000,OV
 R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,0164,NO
+R_CSEG,code,0183,NO
 </SEGMENTS>
 
 <LOCALS>
@@ -36,15 +36,16 @@ L0,R_CSEG,001B,0000
 L010007?,R_CSEG,012B,0000
 L010006?,R_CSEG,0126,0000
 L010003?,R_CSEG,00FA,0000
-__str_0,R_CONST,0000,0000
-L011002?,R_CSEG,0152,0000
+__str_1,R_CONST,0000,0000
+L011002?,R_CSEG,013E,0000
+_LCDport_print_string_2_62,R_DSEG,0001,0014
 </LOCALS>
 
 <PUBLICS>
 _LCDprint,R_CSEG,00D0,0000
 _WriteData,R_CSEG,007E,0000
 _InitPorts,R_CSEG,0000,0000
-_main,R_CSEG,013E,0000
+_main,R_CSEG,016C,0000
 _PGACON0B,XSEG,FFCE,0001
 _PGACON1B,XSEG,FFE4,0001
 _LCD_pulse,R_CSEG,0050,0000
@@ -60,6 +61,7 @@ _LCD_byte,R_CSEG,0058,0000
 _Wait50us,R_CSEG,0019,0000
 _LCDprint_PARM_2,R_DSEG,0000,0001
 _LCDprint_PARM_3,R_BSEG,0000,0001
+_LCDport_print,R_CSEG,013E,0000
 _PGA0TRIM8X16X,XSEG,FFCD,0001
 _PGA1TRIM8X16X,XSEG,FFE3,0001
 _BODCFG,XSEG,FFC8,0001
@@ -248,20 +250,30 @@ D0 02
 0A
 80 rel2(L010007?;)
 22
+75 data8(_LCDport_print_string_2_62;) 73
+75 data8(_LCDport_print_string_2_62;0x0001;+;) 6F
+75 data8(_LCDport_print_string_2_62;0x0002;+;) 6D
+75 data8(_LCDport_print_string_2_62;0x0003;+;) 65
+75 data8(_LCDport_print_string_2_62;0x0004;+;) 74
+75 data8(_LCDport_print_string_2_62;0x0005;+;) 68
+75 data8(_LCDport_print_string_2_62;0x0006;+;) 69
+75 data8(_LCDport_print_string_2_62;0x0007;+;) 6E
+75 data8(_LCDport_print_string_2_62;0x0008;+;) 67
+75 data8(_LCDport_print_string_2_62;0x0009;+;) 00
+75 data8(_LCDprint_PARM_2;) 02
+D2 bit(_LCDprint_PARM_3;)
+90 data16(_LCDport_print_string_2_62;)  
+75 F0 40
+12 addr16(_LCDprint;)  
+80 rel2(L011002?;)
 12 addr16(_InitPorts;)  
 12 addr16(_LCD_8BIT;)  
 75 data8(_LCDprint_PARM_2;) 01
 D2 bit(_LCDprint_PARM_3;)
-90 data16(__str_0;)  
+90 data16(__str_1;)  
 75 F0 80
 12 addr16(_LCDprint;)  
-D2 83
-90 00 02
-12 addr16(_waitms;)  
-C2 83
-90 00 02
-12 addr16(_waitms;)  
-80 rel2(L011002?;)
+02 addr16(_LCDport_print;)  
 </CODE>
 
 <CODE R_CSEG>
@@ -271,7 +283,7 @@ C2 83
 </CODE>
 
 <CODE R_CONST>
-50 57 4D 
+50 72 69 6E 74 20 56 61 6C 75 65 20 54 65 73 74 
 00
 </CODE>
 
