@@ -1,0 +1,483 @@
+<MODULE>
+main code
+</MODULE>
+
+<OPTC51>
+--model-small
+</OPTC51>
+
+<PRINTF_FLOAT>
+printf_float
+</PRINTF_FLOAT>
+
+<SEGMENTS>
+R_GSINIT,code,0000,NO
+R_BSEG,bit,0001,NO
+R_XSEG,xdata,0000,NO
+BIT_BANK,data,0000,OV
+R_CONST,code,0026,NO
+rbank0,data,0000,OV
+R_PSEG,xdata,0000,NO
+R_DINIT,code,0000,NO
+R_DSEG,data,0026,NO
+R_OSEG,data,0000,OV
+R_IXSEG,xdata,0000,NO
+R_ISEG,idata,0000,NO
+R_HOME,code,0000,NO
+R_XINIT,code,0000,NO
+R_CSEG,code,02DD,NO
+</SEGMENTS>
+
+<LOCALS>
+_display_LCD_buff_1_89,R_DSEG,0015,0011
+L010014?,R_CSEG,00E1,0000
+L010013?,R_CSEG,00DF,0000
+L010011?,R_CSEG,013D,0000
+L016002?,R_CSEG,02D5,0000
+L004008?,R_CSEG,004F,0000
+L004004?,R_CSEG,0026,0000
+L004003?,R_CSEG,002F,0000
+L010026?,R_CSEG,012E,0000
+L0,R_CSEG,001B,0000
+L1,R_CSEG,0172,0000
+L2,R_CSEG,0170,0000
+L3,R_CSEG,016E,0000
+L010007?,R_CSEG,012B,0000
+L010006?,R_CSEG,0126,0000
+L010003?,R_CSEG,00FA,0000
+__str_1,R_CONST,0000,0000
+__str_2,R_CONST,000B,0000
+__str_3,R_CONST,0016,0000
+L011002?,R_CSEG,013E,0000
+_LCDport_print_string_2_81,R_DSEG,0001,0014
+L014001?,R_CSEG,019A,0000
+</LOCALS>
+
+<PUBLICS>
+_LCDprint,R_CSEG,00D0,0000
+_WriteData,R_CSEG,007E,0000
+_InitPorts,R_CSEG,0000,0000
+_main,R_CSEG,02B0,0000
+_PGACON0B,XSEG,FFCE,0001
+_PGACON1B,XSEG,FFE4,0001
+_LCD_pulse,R_CSEG,0050,0000
+_WriteCommand,R_CSEG,008D,0000
+_CLKCON,XSEG,FFDE,0001
+_PGA1TRIM2X4X,XSEG,FFE2,0001
+_PGA0TRIM2X4X,XSEG,FFCC,0001
+_PGACON0,XSEG,FFCA,0001
+_PGACON1,XSEG,FFE1,0001
+_RTCDATH,XSEG,FFBF,0001
+_RTCDATL,XSEG,FFBE,0001
+_LCD_byte,R_CSEG,0058,0000
+_Wait50us,R_CSEG,0019,0000
+_LCDprint_PARM_2,R_DSEG,0000,0001
+_LCDprint_PARM_3,R_BSEG,0000,0001
+_LCDport_print,R_CSEG,013E,0000
+_PGA0TRIM8X16X,XSEG,FFCD,0001
+_InitADC,R_CSEG,018F,0000
+_Wait1S,R_CSEG,016C,0000
+_PGA1TRIM8X16X,XSEG,FFE3,0001
+_display_LCD,R_CSEG,01A0,0000
+_BODCFG,XSEG,FFC8,0001
+_LCD_8BIT,R_CSEG,009C,0000
+_waitms,R_CSEG,001E,0000
+_InitSerialPort,R_CSEG,0179,0000
+</PUBLICS>
+
+<EXTERNALS>
+__gptrget,any,0000,0000
+___fsmul,any,0000,0000
+___uchar2fs,any,0000,0000
+_printf,any,0000,0000
+_sprintf,any,0000,0000
+_crt0,any,0000,0000
+___fsdiv,any,0000,0000
+</EXTERNALS>
+
+<CODE AT 0000>
+</CODE>
+
+<CODE R_HOME>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_CSEG>
+</CODE>
+
+<CODE AT 0000>
+02 addr16(_crt0;)  
+</CODE>
+
+<CODE R_HOME>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_DINIT>
+</CODE>
+
+<CODE R_CSEG>
+75 84 1E
+75 85 00
+75 91 00
+75 92 00
+75 A4 00
+75 A5 00
+75 B1 00
+75 B2 00
+22
+78 52
+D8 rel2(L0;)
+22
+AA 82
+AB 83
+7C 00
+7D 00
+C3
+EC
+9A
+ED
+9B
+50 rel2(L004008?;)
+7E 14
+C0 02
+C0 03
+C0 04
+C0 05
+C0 06
+12 addr16(_Wait50us;)  
+D0 06
+D0 05
+D0 04
+D0 03
+D0 02
+DE rel2(L004003?;)
+0C
+BC 00 rel3(L004004?;)
+0D
+80 rel2(L004004?;)
+22
+D2 A5
+12 addr16(_Wait50us;)  
+C2 A5
+22
+85 82 E0
+A2 E7
+92 94
+A2 E6
+92 96
+A2 E5
+92 97
+A2 E4
+92 A0
+A2 E3
+92 A1
+A2 E2
+92 A2
+A2 E1
+92 A3
+A2 E0
+92 A4
+02 addr16(_LCD_pulse;)  
+AA 82
+D2 A7
+8A 82
+12 addr16(_LCD_byte;)  
+90 00 02
+02 addr16(_waitms;)  
+AA 82
+C2 A7
+8A 82
+12 addr16(_LCD_byte;)  
+90 00 05
+02 addr16(_waitms;)  
+C2 A5
+C2 A6
+90 00 14
+12 addr16(_waitms;)  
+75 82 33
+12 addr16(_WriteCommand;)  
+75 82 33
+12 addr16(_WriteCommand;)  
+75 82 33
+12 addr16(_WriteCommand;)  
+75 82 38
+12 addr16(_WriteCommand;)  
+75 82 0C
+12 addr16(_WriteCommand;)  
+75 82 01
+12 addr16(_WriteCommand;)  
+90 00 14
+02 addr16(_waitms;)  
+AA 82
+AB 83
+AC F0
+74 02
+B5 data8(_LCDprint_PARM_2;) rel3(L010013?;)
+7D C0
+80 rel2(L010014?;)
+7D 80
+8D 82
+C0 02
+C0 03
+C0 04
+12 addr16(_WriteCommand;)  
+90 00 05
+12 addr16(_waitms;)  
+D0 04
+D0 03
+D0 02
+7D 00
+ED
+2A
+FE
+E4
+3B
+FF
+8C 00
+8E 82
+8F 83
+88 F0
+12 addr16(__gptrget;)  
+FE
+60 rel2(L010006?;)
+8E 82
+C0 02
+C0 03
+C0 04
+C0 05
+12 addr16(_WriteData;)  
+D0 05
+D0 04
+D0 03
+D0 02
+0D
+80 rel2(L010003?;)
+30 bit(_LCDprint_PARM_3;) rel3(L010011?;)
+8D 02
+BA 10 rel3(L010026?;)
+50 rel2(L010011?;)
+75 82 20
+C0 02
+12 addr16(_WriteData;)  
+D0 02
+0A
+80 rel2(L010007?;)
+22
+75 data8(_LCDport_print_string_2_81;) 73
+75 data8(_LCDport_print_string_2_81;0x0001;+;) 6F
+75 data8(_LCDport_print_string_2_81;0x0002;+;) 6D
+75 data8(_LCDport_print_string_2_81;0x0003;+;) 65
+75 data8(_LCDport_print_string_2_81;0x0004;+;) 74
+75 data8(_LCDport_print_string_2_81;0x0005;+;) 68
+75 data8(_LCDport_print_string_2_81;0x0006;+;) 69
+75 data8(_LCDport_print_string_2_81;0x0007;+;) 6E
+75 data8(_LCDport_print_string_2_81;0x0008;+;) 67
+75 data8(_LCDport_print_string_2_81;0x0009;+;) 00
+75 data8(_LCDprint_PARM_2;) 02
+D2 bit(_LCDprint_PARM_3;)
+90 data16(_LCDport_print_string_2_81;)  
+75 F0 40
+12 addr16(_LCDprint;)  
+80 rel2(L011002?;)
+7A 28
+79 FA
+78 B8
+D8 rel2(L1;)
+D9 rel2(L2;)
+DA rel2(L3;)
+22
+75 BD 00
+75 BF 00
+75 BE 30
+75 BD 03
+75 98 52
+75 91 00
+75 92 00
+22
+D2 C6
+75 A1 20
+75 A3 F0
+75 97 05
+E5 97
+30 E3 rel3(L014001?;)
+22
+85 D5 82
+12 addr16(___uchar2fs;)  
+AA 82
+AB 83
+AC F0
+FD
+C0 02
+C0 03
+C0 04
+C0 05
+90 33 33
+75 F0 53
+74 40
+12 addr16(___fsmul;)  
+AA 82
+AB 83
+AC F0
+FD
+E5 81
+24 FC
+F5 81
+E4
+C0 E0
+C0 E0
+74 7F
+C0 E0
+74 43
+C0 E0
+8A 82
+8B 83
+8C F0
+ED
+12 addr16(___fsdiv;)  
+AA 82
+AB 83
+AC F0
+FD
+E5 81
+24 FC
+F5 81
+C0 02
+C0 03
+C0 04
+C0 05
+74 data8(__str_1;)
+C0 E0
+74 data8(__str_1;0x0008;>>;)
+C0 E0
+74 80
+C0 E0
+74 data8(_display_LCD_buff_1_89;)
+C0 E0
+74 data8(_display_LCD_buff_1_89;0x0008;>>;)
+C0 E0
+74 40
+C0 E0
+12 addr16(_sprintf;)  
+E5 81
+24 F6
+F5 81
+75 data8(_LCDprint_PARM_2;) 01
+D2 bit(_LCDprint_PARM_3;)
+90 data16(_display_LCD_buff_1_89;)  
+75 F0 40
+12 addr16(_LCDprint;)  
+85 D6 82
+12 addr16(___uchar2fs;)  
+AA 82
+AB 83
+AC F0
+FD
+C0 02
+C0 03
+C0 04
+C0 05
+90 33 33
+75 F0 53
+74 40
+12 addr16(___fsmul;)  
+AA 82
+AB 83
+AC F0
+FD
+E5 81
+24 FC
+F5 81
+E4
+C0 E0
+C0 E0
+74 7F
+C0 E0
+74 43
+C0 E0
+8A 82
+8B 83
+8C F0
+ED
+12 addr16(___fsdiv;)  
+AA 82
+AB 83
+AC F0
+FD
+E5 81
+24 FC
+F5 81
+C0 02
+C0 03
+C0 04
+C0 05
+74 data8(__str_2;)
+C0 E0
+74 data8(__str_2;0x0008;>>;)
+C0 E0
+74 80
+C0 E0
+74 data8(_display_LCD_buff_1_89;)
+C0 E0
+74 data8(_display_LCD_buff_1_89;0x0008;>>;)
+C0 E0
+74 40
+C0 E0
+12 addr16(_sprintf;)  
+E5 81
+24 F6
+F5 81
+75 data8(_LCDprint_PARM_2;) 02
+D2 bit(_LCDprint_PARM_3;)
+90 data16(_display_LCD_buff_1_89;)  
+75 F0 40
+02 addr16(_LCDprint;)  
+12 addr16(_InitPorts;)  
+12 addr16(_LCD_8BIT;)  
+12 addr16(_InitSerialPort;)  
+12 addr16(_InitADC;)  
+74 data8(__str_3;)
+C0 E0
+74 data8(__str_3;0x0008;>>;)
+C0 E0
+74 80
+C0 E0
+12 addr16(_printf;)  
+15 81
+15 81
+15 81
+D2 86
+D2 87
+12 addr16(_display_LCD;)  
+12 addr16(_Wait1S;)  
+80 rel2(L016002?;)
+</CODE>
+
+<CODE R_CSEG>
+</CODE>
+
+<CODE R_XINIT>
+</CODE>
+
+<CODE R_CONST>
+56 30 3A 20 25 34 2E 32 66 56 
+00
+56 31 3A 20 25 34 2E 32 66 56 
+00
+0D
+0A
+41 44 43 20 76 61 6C 75 65 73 3A 
+0D
+0A
+00
+</CODE>
+
+<CODE AT 0003>
+</CODE>

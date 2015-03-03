@@ -1,7 +1,7 @@
 0000              1   ;--------------------------------------------------------
 0000              2   ; File Created by C51
 0000              3   ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-0000              4   ; This file was generated Mon Feb 23 17:06:27 2015
+0000              4   ; This file was generated Mon Mar 02 16:20:37 2015
 0000              5   ;--------------------------------------------------------
                   5   $name LCD_8_bit_new
                   6   $optc51 --model-small
@@ -559,7 +559,7 @@ FFBF            497   ;--------------------------------------------------------
 0019            559            
 0019 7852       560                mov R0, #82
 001B            561            L0:
-001B D868       562            djnz R0, L0 ; 2 machine cycles-> 2*0.27126us*92=50us
+001B D8A8       562            djnz R0, L0 ; 2 machine cycles-> 2*0.27126us*92=50us
 001D            563                
 001D 22         564            ret
 001E            565   ;------------------------------------------------------------
@@ -600,10 +600,10 @@ FFBF            497   ;--------------------------------------------------------
 0040 D004       600            pop     ar4
 0042 D003       601            pop     ar3
 0044 D002       602            pop     ar2
-0046 DEA8       603            djnz    r6,L004003?
+0046 DEE8       603            djnz    r6,L004003?
 0048            604   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
 0048 0C         605            inc     r4
-0049 BC0028     606            cjne    r4,#0x00,L004004?
+0049 BC0068     606            cjne    r4,#0x00,L004004?
 004C 0D         607            inc     r5
 004D 8001       608            sjmp    L004004?
 004F            609   L004008?:
@@ -753,7 +753,7 @@ FFBF            497   ;--------------------------------------------------------
 00D4 ACF0       753            mov     r4,b
 00D6            754   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:112: WriteCommand(line==2?0xc0:0x80);
 00D6 7402       755            mov     a,#0x02
-00D8 B55028     756            cjne    a,_LCDprint_PARM_2,L010013?
+00D8 B55068     756            cjne    a,_LCDprint_PARM_2,L010013?
 00DB 7DC0       757            mov     r5,#0xC0
 00DD 8001       758            sjmp    L010014?
 00DF            759   L010013?:
@@ -800,10 +800,10 @@ FFBF            497   ;--------------------------------------------------------
 0124 8001       800            sjmp    L010003?
 0126            801   L010006?:
 0126            802   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:115: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
-0126 300068     803            jnb     _LCDprint_PARM_3,L010011?
+0126 3000A8     803            jnb     _LCDprint_PARM_3,L010011?
 0129 8D02       804            mov     ar2,r5
 012B            805   L010007?:
-012B BA10E8     806            cjne    r2,#0x10,L010026?
+012B BA1028     806            cjne    r2,#0x10,L010026?
 012E            807   L010026?:
 012E 5001       808            jnc     L010011?
 0130 758220     809            mov     dpl,#0x20
@@ -827,20 +827,20 @@ FFBF            497   ;--------------------------------------------------------
 013E            827   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: while(1){
 013E            828   L011002?:
 013E            829   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:131: char string[20]  = "something";
-013E 75E873     830            mov     _LCDport_print_string_2_62,#0x73
-0141 75E96F     831            mov     (_LCDport_print_string_2_62 + 0x0001),#0x6F
-0144 75EA6D     832            mov     (_LCDport_print_string_2_62 + 0x0002),#0x6D
-0147 75EB65     833            mov     (_LCDport_print_string_2_62 + 0x0003),#0x65
-014A 75EC74     834            mov     (_LCDport_print_string_2_62 + 0x0004),#0x74
-014D 75ED68     835            mov     (_LCDport_print_string_2_62 + 0x0005),#0x68
-0150 75EE69     836            mov     (_LCDport_print_string_2_62 + 0x0006),#0x69
-0153 75EF6E     837            mov     (_LCDport_print_string_2_62 + 0x0007),#0x6E
-0156 75F067     838            mov     (_LCDport_print_string_2_62 + 0x0008),#0x67
-0159 75F100     839            mov     (_LCDport_print_string_2_62 + 0x0009),#0x00
+013E 752873     830            mov     _LCDport_print_string_2_62,#0x73
+0141 75296F     831            mov     (_LCDport_print_string_2_62 + 0x0001),#0x6F
+0144 752A6D     832            mov     (_LCDport_print_string_2_62 + 0x0002),#0x6D
+0147 752B65     833            mov     (_LCDport_print_string_2_62 + 0x0003),#0x65
+014A 752C74     834            mov     (_LCDport_print_string_2_62 + 0x0004),#0x74
+014D 752D68     835            mov     (_LCDport_print_string_2_62 + 0x0005),#0x68
+0150 752E69     836            mov     (_LCDport_print_string_2_62 + 0x0006),#0x69
+0153 752F6E     837            mov     (_LCDport_print_string_2_62 + 0x0007),#0x6E
+0156 753067     838            mov     (_LCDport_print_string_2_62 + 0x0008),#0x67
+0159 753100     839            mov     (_LCDport_print_string_2_62 + 0x0009),#0x00
 015C            840   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:135: LCDprint(string, 2,1);
 015C 755002     841            mov     _LCDprint_PARM_2,#0x02
 015F D200       842            setb    _LCDprint_PARM_3
-0161 90A1E8     843            mov     dptr,#_LCDport_print_string_2_62
+0161 90A028     843            mov     dptr,#_LCDport_print_string_2_62
 0164 75F040     844            mov     b,#0x40
 0167 120100     845            lcall   _LCDprint
 016A 8001       846            sjmp    L011002?
@@ -853,17 +853,17 @@ FFBF            497   ;--------------------------------------------------------
 016C            853   ;         function main
 016C            854   ;        -----------------------------------------
 016C            855   _main:
-016C            856   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: InitPorts();
+016C            856   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:142: InitPorts();
 016C 120100     857            lcall   _InitPorts
-016F            858   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:144: LCD_8BIT(); 
+016F            858   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: LCD_8BIT(); 
 016F 120100     859            lcall   _LCD_8BIT
-0172            860   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:147: LCDprint("Print Value Test", 1,1);
+0172            860   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:146: LCDprint("Print Value Test", 1,1);
 0172 755001     861            mov     _LCDprint_PARM_2,#0x01
 0175 D200       862            setb    _LCDprint_PARM_3
-0177 90A968     863            mov     dptr,#__str_1
+0177 90A7A8     863            mov     dptr,#__str_1
 017A 75F080     864            mov     b,#0x80
 017D 120100     865            lcall   _LCDprint
-0180            866   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:148: LCDport_print();
+0180            866   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:147: LCDport_print();
 0180 020100     867            ljmp    _LCDport_print
 0183            868            rseg R_CSEG
 0183            869   

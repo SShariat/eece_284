@@ -1,10 +1,11 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Mon Mar 02 16:20:37 2015
+; This file was generated Mon Mar 02 18:12:07 2015
 ;--------------------------------------------------------
-$name LCD_8_bit_new
+$name main_code
 $optc51 --model-small
+$printf_float
 	R_DSEG    segment data
 	R_CSEG    segment code
 	R_BSEG    segment bit
@@ -24,6 +25,10 @@ $optc51 --model-small
 ; Public variables in this module
 ;--------------------------------------------------------
 	public _main
+	public _display_LCD
+	public _InitADC
+	public _InitSerialPort
+	public _Wait1S
 	public _LCDport_print
 	public _LCDprint
 	public _LCD_8BIT
@@ -412,8 +417,10 @@ _TMOD20         BIT 0xc8
 	rseg R_DSEG
 _LCDprint_PARM_2:
 	ds 1
-_LCDport_print_string_2_62:
+_LCDport_print_string_2_81:
 	ds 20
+_display_LCD_buff_1_89:
+	ds 17
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -523,39 +530,39 @@ _RTCDATL: ds 1
 ;Allocation info for local variables in function 'InitPorts'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:25: void InitPorts(void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:26: void InitPorts(void)
 ;	-----------------------------------------
 ;	 function InitPorts
 ;	-----------------------------------------
 _InitPorts:
 	using	0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:27: P0M1=0;
-	mov	_P0M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:28: P0M2=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:28: P0M1=0x1E;
+	mov	_P0M1,#0x1E
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:29: P0M2=0x00;
 	mov	_P0M2,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:29: P1M1=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:30: P1M1=0;
 	mov	_P1M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:30: P1M2=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:31: P1M2=0;
 	mov	_P1M2,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:31: P2M1=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:32: P2M1=0;
 	mov	_P2M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:32: P2M2=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:33: P2M2=0;
 	mov	_P2M2,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:33: P3M1=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:34: P3M1=0;
 	mov	_P3M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:34: P3M2=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:35: P3M2=0;
 	mov	_P3M2,#0x00
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Wait50us'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:37: void Wait50us (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:38: void Wait50us (void)
 ;	-----------------------------------------
 ;	 function Wait50us
 ;	-----------------------------------------
 _Wait50us:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:42: _endasm;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:43: _endasm;
 	
 	    mov R0, #82
 	L0:
@@ -569,14 +576,14 @@ _Wait50us:
 ;j                         Allocated to registers r4 r5 
 ;k                         Allocated to registers r6 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:45: void waitms (unsigned int ms)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:46: void waitms (unsigned int ms)
 ;	-----------------------------------------
 ;	 function waitms
 ;	-----------------------------------------
 _waitms:
 	mov	r2,dpl
 	mov	r3,dph
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:52: for(j=0; j<ms; j++)
 	mov	r4,#0x00
 	mov	r5,#0x00
 L004004?:
@@ -586,7 +593,7 @@ L004004?:
 	mov	a,r5
 	subb	a,r3
 	jnc	L004008?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:52: for (k=0; k<20; k++) Wait50us();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:53: for (k=0; k<20; k++) Wait50us();
 	mov	r6,#0x14
 L004003?:
 	push	ar2
@@ -601,7 +608,7 @@ L004003?:
 	pop	ar3
 	pop	ar2
 	djnz	r6,L004003?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:52: for(j=0; j<ms; j++)
 	inc	r4
 	cjne	r4,#0x00,L004004?
 	inc	r5
@@ -612,16 +619,16 @@ L004008?:
 ;Allocation info for local variables in function 'LCD_pulse'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:55: void LCD_pulse (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:56: void LCD_pulse (void)
 ;	-----------------------------------------
 ;	 function LCD_pulse
 ;	-----------------------------------------
 _LCD_pulse:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:57: LCD_E=1;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:58: LCD_E=1;
 	setb	_P2_5
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:58: Wait50us();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:59: Wait50us();
 	lcall	_Wait50us
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:59: LCD_E=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:60: LCD_E=0;
 	clr	_P2_5
 	ret
 ;------------------------------------------------------------
@@ -629,55 +636,55 @@ _LCD_pulse:
 ;------------------------------------------------------------
 ;x                         Allocated to registers 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:62: void LCD_byte (unsigned char x)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:63: void LCD_byte (unsigned char x)
 ;	-----------------------------------------
 ;	 function LCD_byte
 ;	-----------------------------------------
 _LCD_byte:
 	mov	_ACC,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:66: LCD_D7=ACC_7;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:67: LCD_D7=ACC_7;
 	mov	c,_ACC_7
 	mov	_P1_4,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:67: LCD_D6=ACC_6;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:68: LCD_D6=ACC_6;
 	mov	c,_ACC_6
 	mov	_P1_6,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:68: LCD_D5=ACC_5;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:69: LCD_D5=ACC_5;
 	mov	c,_ACC_5
 	mov	_P1_7,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:69: LCD_D4=ACC_4;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:70: LCD_D4=ACC_4;
 	mov	c,_ACC_4
 	mov	_P2_0,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:70: LCD_D3=ACC_3;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:71: LCD_D3=ACC_3;
 	mov	c,_ACC_3
 	mov	_P2_1,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:71: LCD_D2=ACC_2;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:72: LCD_D2=ACC_2;
 	mov	c,_ACC_2
 	mov	_P2_2,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:72: LCD_D1=ACC_1;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:73: LCD_D1=ACC_1;
 	mov	c,_ACC_1
 	mov	_P2_3,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:73: LCD_D0=ACC_0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:74: LCD_D0=ACC_0;
 	mov	c,_ACC_0
 	mov	_P2_4,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:74: LCD_pulse();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:75: LCD_pulse();
 	ljmp	_LCD_pulse
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'WriteData'
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:77: void WriteData (unsigned char x)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:78: void WriteData (unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteData
 ;	-----------------------------------------
 _WriteData:
 	mov	r2,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:79: LCD_RS=1;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:80: LCD_RS=1;
 	setb	_P2_7
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:80: LCD_byte(x);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:81: LCD_byte(x);
 	mov	dpl,r2
 	lcall	_LCD_byte
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:81: waitms(2);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:82: waitms(2);
 	mov	dptr,#0x0002
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -685,55 +692,55 @@ _WriteData:
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:84: void WriteCommand (unsigned char x)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:85: void WriteCommand (unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteCommand
 ;	-----------------------------------------
 _WriteCommand:
 	mov	r2,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:86: LCD_RS=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:87: LCD_RS=0;
 	clr	_P2_7
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:87: LCD_byte(x);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:88: LCD_byte(x);
 	mov	dpl,r2
 	lcall	_LCD_byte
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:88: waitms(5);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:89: waitms(5);
 	mov	dptr,#0x0005
 	ljmp	_waitms
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'LCD_8BIT'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:91: void LCD_8BIT (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:92: void LCD_8BIT (void)
 ;	-----------------------------------------
 ;	 function LCD_8BIT
 ;	-----------------------------------------
 _LCD_8BIT:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:93: LCD_E=0;  // Resting state of LCD's enable is zero
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:94: LCD_E=0;  // Resting state of LCD's enable is zero
 	clr	_P2_5
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:94: LCD_RW=0; // We are only writing to the LCD in this program
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:95: LCD_RW=0; // We are only writing to the LCD in this program
 	clr	_P2_6
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:95: waitms(20);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:96: waitms(20);
 	mov	dptr,#0x0014
 	lcall	_waitms
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:97: WriteCommand(0x33);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:98: WriteCommand(0x33);
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:98: WriteCommand(0x33);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:99: WriteCommand(0x33);
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:99: WriteCommand(0x33); // Stay in 8-bit mode
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:100: WriteCommand(0x33); // Stay in 8-bit mode
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:102: WriteCommand(0x38);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:103: WriteCommand(0x38);
 	mov	dpl,#0x38
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:103: WriteCommand(0x0c);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:104: WriteCommand(0x0c);
 	mov	dpl,#0x0C
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:104: WriteCommand(0x01); // Clear screen command (takes some time)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:105: WriteCommand(0x01); // Clear screen command (takes some time)
 	mov	dpl,#0x01
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:105: waitms(20); // Wait for clear screen command to finsih.
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:106: waitms(20); // Wait for clear screen command to finsih.
 	mov	dptr,#0x0014
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -743,7 +750,7 @@ _LCD_8BIT:
 ;string                    Allocated to registers r2 r3 r4 
 ;j                         Allocated to registers r5 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:108: void LCDprint(char * string, unsigned char line, bit clear)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:109: void LCDprint(char * string, unsigned char line, bit clear)
 ;	-----------------------------------------
 ;	 function LCDprint
 ;	-----------------------------------------
@@ -751,7 +758,7 @@ _LCDprint:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:112: WriteCommand(line==2?0xc0:0x80);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:113: WriteCommand(line==2?0xc0:0x80);
 	mov	a,#0x02
 	cjne	a,_LCDprint_PARM_2,L010013?
 	mov	r5,#0xC0
@@ -764,13 +771,13 @@ L010014?:
 	push	ar3
 	push	ar4
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:113: waitms(5);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:114: waitms(5);
 	mov	dptr,#0x0005
 	lcall	_waitms
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:114: for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:115: for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
 	mov	r5,#0x00
 L010003?:
 	mov	a,r5
@@ -799,7 +806,7 @@ L010003?:
 	inc	r5
 	sjmp	L010003?
 L010006?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:115: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:116: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 	jnb	_LCDprint_PARM_3,L010011?
 	mov	ar2,r5
 L010007?:
@@ -817,61 +824,301 @@ L010011?:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'LCDport_print'
 ;------------------------------------------------------------
-;string                    Allocated with name '_LCDport_print_string_2_62'
+;string                    Allocated with name '_LCDport_print_string_2_81'
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:128: void LCDport_print(void){
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:129: void LCDport_print(void){
 ;	-----------------------------------------
 ;	 function LCDport_print
 ;	-----------------------------------------
 _LCDport_print:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: while(1){
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:130: while(1){
 L011002?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:131: char string[20]  = "something";
-	mov	_LCDport_print_string_2_62,#0x73
-	mov	(_LCDport_print_string_2_62 + 0x0001),#0x6F
-	mov	(_LCDport_print_string_2_62 + 0x0002),#0x6D
-	mov	(_LCDport_print_string_2_62 + 0x0003),#0x65
-	mov	(_LCDport_print_string_2_62 + 0x0004),#0x74
-	mov	(_LCDport_print_string_2_62 + 0x0005),#0x68
-	mov	(_LCDport_print_string_2_62 + 0x0006),#0x69
-	mov	(_LCDport_print_string_2_62 + 0x0007),#0x6E
-	mov	(_LCDport_print_string_2_62 + 0x0008),#0x67
-	mov	(_LCDport_print_string_2_62 + 0x0009),#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:135: LCDprint(string, 2,1);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:132: char string[20]  = "something";
+	mov	_LCDport_print_string_2_81,#0x73
+	mov	(_LCDport_print_string_2_81 + 0x0001),#0x6F
+	mov	(_LCDport_print_string_2_81 + 0x0002),#0x6D
+	mov	(_LCDport_print_string_2_81 + 0x0003),#0x65
+	mov	(_LCDport_print_string_2_81 + 0x0004),#0x74
+	mov	(_LCDport_print_string_2_81 + 0x0005),#0x68
+	mov	(_LCDport_print_string_2_81 + 0x0006),#0x69
+	mov	(_LCDport_print_string_2_81 + 0x0007),#0x6E
+	mov	(_LCDport_print_string_2_81 + 0x0008),#0x67
+	mov	(_LCDport_print_string_2_81 + 0x0009),#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:136: LCDprint(string, 2,1);
 	mov	_LCDprint_PARM_2,#0x02
 	setb	_LCDprint_PARM_3
-	mov	dptr,#_LCDport_print_string_2_62
+	mov	dptr,#_LCDport_print_string_2_81
 	mov	b,#0x40
 	lcall	_LCDprint
 	sjmp	L011002?
 ;------------------------------------------------------------
+;Allocation info for local variables in function 'Wait1S'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:140: void Wait1S (void)
+;	-----------------------------------------
+;	 function Wait1S
+;	-----------------------------------------
+_Wait1S:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:149: _endasm;
+	
+	 mov R2, #40
+	L3:
+	mov R1, #250
+	L2:
+	mov R0, #184
+	L1:
+	djnz R0, L1 ; 2 machine cycles-> 2*0.27126us*184=100us
+	    djnz R1, L2 ; 100us*250=0.025s
+	    djnz R2, L3 ; 0.025s*40=1s
+	    
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'InitSerialPort'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:152: void InitSerialPort(void)
+;	-----------------------------------------
+;	 function InitSerialPort
+;	-----------------------------------------
+_InitSerialPort:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:154: BRGCON=0x00; //Make sure the baud rate generator is off
+	mov	_BRGCON,#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:155: BRGR1=((XTAL/BAUD)-16)/0x100;
+	mov	_BRGR1,#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:156: BRGR0=((XTAL/BAUD)-16)%0x100;
+	mov	_BRGR0,#0x30
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:157: BRGCON=0x03; //Turn-on the baud rate generator
+	mov	_BRGCON,#0x03
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:158: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
+	mov	_SCON,#0x52
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:159: P1M1=0x00; //Enable pins RxD and Txd
+	mov	_P1M1,#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:160: P1M2=0x00; //Enable pins RxD and Txd
+	mov	_P1M2,#0x00
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'InitADC'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:163: void InitADC(void)
+;	-----------------------------------------
+;	 function InitADC
+;	-----------------------------------------
+_InitADC:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:169: BURST1=1; //Autoscan continuous conversion mode
+	setb	_BURST1
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:170: ADMODB = CLK0; //ADC1 clock is 7.3728MHz/2
+	mov	_ADMODB,#0x20
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:171: ADINS  = (ADI13|ADI12|ADI11|ADI10); // Select the four channels for conversion
+	mov	_ADINS,#0xF0
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:172: ADCON1 = (ENADC1|ADCS10); //Enable the converter and start immediately
+	mov	_ADCON1,#0x05
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:173: while((ADCI1&ADCON1)==0); //Wait for first conversion to complete
+L014001?:
+	mov	a,_ADCON1
+	jnb	acc.3,L014001?
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'display_LCD'
+;------------------------------------------------------------
+;buff                      Allocated with name '_display_LCD_buff_1_89'
+;------------------------------------------------------------
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:176: void display_LCD(void){
+;	-----------------------------------------
+;	 function display_LCD
+;	-----------------------------------------
+_display_LCD:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:179: sprintf (buff, "V0: %4.2fV", (AD1DAT0*3.3)/255.0);
+	mov	dpl,_AD1DAT0
+	lcall	___uchar2fs
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
+	mov	dptr,#0x3333
+	mov	b,#0x53
+	mov	a,#0x40
+	lcall	___fsmul
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x7F
+	push	acc
+	mov	a,#0x43
+	push	acc
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fsdiv
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
+	mov	a,#__str_1
+	push	acc
+	mov	a,#(__str_1 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#_display_LCD_buff_1_89
+	push	acc
+	mov	a,#(_display_LCD_buff_1_89 >> 8)
+	push	acc
+	mov	a,#0x40
+	push	acc
+	lcall	_sprintf
+	mov	a,sp
+	add	a,#0xf6
+	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:180: LCDprint(buff, 1, 1);
+	mov	_LCDprint_PARM_2,#0x01
+	setb	_LCDprint_PARM_3
+	mov	dptr,#_display_LCD_buff_1_89
+	mov	b,#0x40
+	lcall	_LCDprint
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:182: sprintf (buff, "V1: %4.2fV", (AD1DAT1*3.3)/255.0);
+	mov	dpl,_AD1DAT1
+	lcall	___uchar2fs
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
+	mov	dptr,#0x3333
+	mov	b,#0x53
+	mov	a,#0x40
+	lcall	___fsmul
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x7F
+	push	acc
+	mov	a,#0x43
+	push	acc
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fsdiv
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
+	mov	a,#__str_2
+	push	acc
+	mov	a,#(__str_2 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#_display_LCD_buff_1_89
+	push	acc
+	mov	a,#(_display_LCD_buff_1_89 >> 8)
+	push	acc
+	mov	a,#0x40
+	push	acc
+	lcall	_sprintf
+	mov	a,sp
+	add	a,#0xf6
+	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:183: LCDprint(buff, 2, 1);
+	mov	_LCDprint_PARM_2,#0x02
+	setb	_LCDprint_PARM_3
+	mov	dptr,#_display_LCD_buff_1_89
+	mov	b,#0x40
+	ljmp	_LCDprint
+;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:139: void main (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:188: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:142: InitPorts();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:190: InitPorts();
 	lcall	_InitPorts
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: LCD_8BIT(); 
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:191: LCD_8BIT();
 	lcall	_LCD_8BIT
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:146: LCDprint("Print Value Test", 1,1);
-	mov	_LCDprint_PARM_2,#0x01
-	setb	_LCDprint_PARM_3
-	mov	dptr,#__str_1
-	mov	b,#0x80
-	lcall	_LCDprint
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:147: LCDport_print();
-	ljmp	_LCDport_print
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:192: InitSerialPort();
+	lcall	_InitSerialPort
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:193: InitADC();
+	lcall	_InitADC
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:195: printf("\r\nADC values:\r\n");
+	mov	a,#__str_3
+	push	acc
+	mov	a,#(__str_3 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:197: P0_6=1;
+	setb	_P0_6
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:198: P0_7=1;
+	setb	_P0_7
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:200: while(1)
+L016002?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:203: display_LCD();
+	lcall	_display_LCD
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:204: Wait1S();
+	lcall	_Wait1S
+	sjmp	L016002?
 	rseg R_CSEG
 
 	rseg R_XINIT
 
 	rseg R_CONST
 __str_1:
-	db 'Print Value Test'
+	db 'V0: %4.2fV'
+	db 0x00
+__str_2:
+	db 'V1: %4.2fV'
+	db 0x00
+__str_3:
+	db 0x0D
+	db 0x0A
+	db 'ADC values:'
+	db 0x0D
+	db 0x0A
 	db 0x00
 
 	CSEG
