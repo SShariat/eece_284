@@ -8,7 +8,7 @@
 
 
 //We want timer 0 to interrupt every millisecond ((1/1000Hz)=1 ms)
-#define FREQ 1000L
+#define FREQ 10000L
 //The reload value formula comes from the datasheet...//FUCKING WHERE
 #define TIMER0_RELOAD_VALUE (65536L-((XTAL)/(2*FREQ)))
 
@@ -34,6 +34,8 @@
 volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
 volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
 volatile bit time_update_flag=0;
+volatile unsigned char pwmcount;
+volatile unsigned char pwm1;
 
 void InitPorts(void)
 {
@@ -199,8 +201,12 @@ void Timer0ISR (void) interrupt 1
 	TL0=TIMER0_RELOAD_VALUE%0x100;
 	TR0=1; // Start timer 0
 	
+	if(++pwmcount>99) pwmcount=0;
+	P0_5=(pwm1>pwmcount)?1:0;
+	P0_6=(pwm1>pwmcount)?1:0;
+	
 	msCount++;
-	if(msCount==1000)
+	if(msCount==10000)
 	{
 		time_update_flag=1;
 		msCount=0;
@@ -239,6 +245,7 @@ void main (void)
 	// have to declare variables before you call any functions
 	char str[17];
 	double threshold = 2;
+	pwm1=50;
 	InitPorts();
 	LCD_8BIT();
 	InitSerialPort();
@@ -247,12 +254,7 @@ void main (void)
 		
 	while(1)
 	{
-		// so uh
-		// Jesus just sorta has most things in the main function, so that's cool
 		
-		// gonna need to set another timer and interrupt for the pwm
-		// orrrrrr could just use the pwm timer and every ten times through update the display...
-			// why is the pwm going at 10000 Hz anyways?
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
 		{
 			time_update_flag=0;
