@@ -1,7 +1,7 @@
 0000              1   ;--------------------------------------------------------
 0000              2   ; File Created by C51
 0000              3   ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-0000              4   ; This file was generated Thu Mar 05 11:20:59 2015
+0000              4   ; This file was generated Thu Mar 05 12:18:21 2015
 0000              5   ;--------------------------------------------------------
                   5   $name main_code
                   6   $optc51 --model-small
@@ -445,944 +445,1354 @@
 001C            445            ds 17
 002D            446   _main_str_1_100:
 002D            447            ds 17
-003E            448   ;--------------------------------------------------------
-003E            449   ; overlayable items in internal ram 
-003E            450   ;--------------------------------------------------------
-0000            451            rseg R_OSEG
-0000            452   ;--------------------------------------------------------
-0000            453   ; indirectly addressable internal ram data
-0000            454   ;--------------------------------------------------------
-0000            455            rseg R_ISEG
-0000            456   ;--------------------------------------------------------
-0000            457   ; absolute internal ram data
-0000            458   ;--------------------------------------------------------
-0000            459            DSEG
+003E            448   _main_cor_1_100:
+003E            449            ds 4
+0042            450   _main_pre_error_1_100:
+0042            451            ds 4
+0046            452   _main_left_2_101:
+0046            453            ds 4
+004A            454   _main_right_2_101:
+004A            455            ds 4
+004E            456   ;--------------------------------------------------------
+004E            457   ; overlayable items in internal ram 
+004E            458   ;--------------------------------------------------------
+0000            459            rseg R_OSEG
 0000            460   ;--------------------------------------------------------
-0000            461   ; bit data
+0000            461   ; indirectly addressable internal ram data
 0000            462   ;--------------------------------------------------------
-0000            463            rseg R_BSEG
-0000            464   _time_update_flag:
-0000            465            DBIT    1
-0001            466   _LCDprint_PARM_3:
-0001            467            DBIT    1
-0002            468   ;--------------------------------------------------------
-0002            469   ; paged external ram data
-0002            470   ;--------------------------------------------------------
-0000            471            rseg R_PSEG
-0000            472   ;--------------------------------------------------------
-0000            473   ; external ram data
-0000            474   ;--------------------------------------------------------
-0000            475            rseg R_XSEG
-FFC8            476            XSEG at 0xffc8
-FFC8            477   _BODCFG: ds 1
-FFC9            478            public _BODCFG
-0000            479            rseg R_XSEG
-FFDE            480            XSEG at 0xffde
-FFDE            481   _CLKCON: ds 1
-FFDF            482            public _CLKCON
+0000            463            rseg R_ISEG
+0000            464   ;--------------------------------------------------------
+0000            465   ; absolute internal ram data
+0000            466   ;--------------------------------------------------------
+0000            467            DSEG
+0000            468   ;--------------------------------------------------------
+0000            469   ; bit data
+0000            470   ;--------------------------------------------------------
+0000            471            rseg R_BSEG
+0000            472   _time_update_flag:
+0000            473            DBIT    1
+0001            474   _LCDprint_PARM_3:
+0001            475            DBIT    1
+0002            476   ;--------------------------------------------------------
+0002            477   ; paged external ram data
+0002            478   ;--------------------------------------------------------
+0000            479            rseg R_PSEG
+0000            480   ;--------------------------------------------------------
+0000            481   ; external ram data
+0000            482   ;--------------------------------------------------------
 0000            483            rseg R_XSEG
-FFE1            484            XSEG at 0xffe1
-FFE1            485   _PGACON1: ds 1
-FFE2            486            public _PGACON1
+FFC8            484            XSEG at 0xffc8
+FFC8            485   _BODCFG: ds 1
+FFC9            486            public _BODCFG
 0000            487            rseg R_XSEG
-FFE4            488            XSEG at 0xffe4
-FFE4            489   _PGACON1B: ds 1
-FFE5            490            public _PGACON1B
+FFDE            488            XSEG at 0xffde
+FFDE            489   _CLKCON: ds 1
+FFDF            490            public _CLKCON
 0000            491            rseg R_XSEG
-FFE3            492            XSEG at 0xffe3
-FFE3            493   _PGA1TRIM8X16X: ds 1
-FFE4            494            public _PGA1TRIM8X16X
+FFE1            492            XSEG at 0xffe1
+FFE1            493   _PGACON1: ds 1
+FFE2            494            public _PGACON1
 0000            495            rseg R_XSEG
-FFE2            496            XSEG at 0xffe2
-FFE2            497   _PGA1TRIM2X4X: ds 1
-FFE3            498            public _PGA1TRIM2X4X
+FFE4            496            XSEG at 0xffe4
+FFE4            497   _PGACON1B: ds 1
+FFE5            498            public _PGACON1B
 0000            499            rseg R_XSEG
-FFCA            500            XSEG at 0xffca
-FFCA            501   _PGACON0: ds 1
-FFCB            502            public _PGACON0
+FFE3            500            XSEG at 0xffe3
+FFE3            501   _PGA1TRIM8X16X: ds 1
+FFE4            502            public _PGA1TRIM8X16X
 0000            503            rseg R_XSEG
-FFCE            504            XSEG at 0xffce
-FFCE            505   _PGACON0B: ds 1
-FFCF            506            public _PGACON0B
+FFE2            504            XSEG at 0xffe2
+FFE2            505   _PGA1TRIM2X4X: ds 1
+FFE3            506            public _PGA1TRIM2X4X
 0000            507            rseg R_XSEG
-FFCD            508            XSEG at 0xffcd
-FFCD            509   _PGA0TRIM8X16X: ds 1
-FFCE            510            public _PGA0TRIM8X16X
+FFCA            508            XSEG at 0xffca
+FFCA            509   _PGACON0: ds 1
+FFCB            510            public _PGACON0
 0000            511            rseg R_XSEG
-FFCC            512            XSEG at 0xffcc
-FFCC            513   _PGA0TRIM2X4X: ds 1
-FFCD            514            public _PGA0TRIM2X4X
+FFCE            512            XSEG at 0xffce
+FFCE            513   _PGACON0B: ds 1
+FFCF            514            public _PGACON0B
 0000            515            rseg R_XSEG
-FFBF            516            XSEG at 0xffbf
-FFBF            517   _RTCDATH: ds 1
-FFC0            518            public _RTCDATH
+FFCD            516            XSEG at 0xffcd
+FFCD            517   _PGA0TRIM8X16X: ds 1
+FFCE            518            public _PGA0TRIM8X16X
 0000            519            rseg R_XSEG
-FFBE            520            XSEG at 0xffbe
-FFBE            521   _RTCDATL: ds 1
-FFBF            522            public _RTCDATL
+FFCC            520            XSEG at 0xffcc
+FFCC            521   _PGA0TRIM2X4X: ds 1
+FFCD            522            public _PGA0TRIM2X4X
 0000            523            rseg R_XSEG
-0000            524   ;--------------------------------------------------------
-0000            525   ; absolute external ram data
-0000            526   ;--------------------------------------------------------
-FFBF            527            XSEG
-FFBF            528   ;--------------------------------------------------------
-FFBF            529   ; external initialized ram data
-FFBF            530   ;--------------------------------------------------------
-0000            531            rseg R_IXSEG
-0000            532            rseg R_HOME
-0000            533            rseg R_GSINIT
-0000            534            rseg R_CSEG
-0000            535   ;--------------------------------------------------------
-0000            536   ; Reset entry point and interrupt vectors
-0000            537   ;--------------------------------------------------------
-0000            538            CSEG at 0x0000
-0000 020100     539            ljmp    _crt0
-000B            540            CSEG at 0x000b
-000B 020100     541            ljmp    _Timer0ISR
-000E            542   ;--------------------------------------------------------
-000E            543   ; global & static initialisations
-000E            544   ;--------------------------------------------------------
-0000            545            rseg R_HOME
-0000            546            rseg R_GSINIT
-0000            547            rseg R_GSINIT
-0000            548   ;--------------------------------------------------------
-0000            549   ; data variables initialization
-0000            550   ;--------------------------------------------------------
-0000            551            rseg R_DINIT
-0000            552   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:34: volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
-0000 E4         553            clr     a
-0001 F5E0       554            mov     _msCount,a
-0003 F5E1       555            mov     (_msCount + 1),a
-0005            556   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:35: volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
-0005 75A000     557            mov     _secs,#0x00
-0008            558   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:35: volatile bit time_update_flag=0;
-0008 756000     559            mov     _mins,#0x00
-000B            560   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:36: volatile unsigned char pwmcount;
-000B C210       561            clr     _time_update_flag
-000D            562            ; The linker places a 'ret' at the end of segment R_DINIT.
-000D            563   ;--------------------------------------------------------
-000D            564   ; code
-000D            565   ;--------------------------------------------------------
-0000            566            rseg R_CSEG
-0000            567   ;------------------------------------------------------------
-0000            568   ;Allocation info for local variables in function 'InitPorts'
-0000            569   ;------------------------------------------------------------
-0000            570   ;------------------------------------------------------------
-0000            571   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:41: void InitPorts(void)
-0000            572   ;        -----------------------------------------
-0000            573   ;         function InitPorts
-0000            574   ;        -----------------------------------------
-0000            575   _InitPorts:
-0000            576            using   0
-0000            577   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:43: P0M1=0x1E;
-0000 75841E     578            mov     _P0M1,#0x1E
-0003            579   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:44: P0M2=0x00;
-0003 758500     580            mov     _P0M2,#0x00
-0006            581   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:45: P1M1=0;
-0006 759100     582            mov     _P1M1,#0x00
-0009            583   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:46: P1M2=0;
-0009 759200     584            mov     _P1M2,#0x00
-000C            585   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:47: P2M1=0;
-000C 75A400     586            mov     _P2M1,#0x00
-000F            587   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:48: P2M2=0;
-000F 75A500     588            mov     _P2M2,#0x00
-0012            589   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:49: P3M1=0;
-0012 75B100     590            mov     _P3M1,#0x00
-0015            591   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:50: P3M2=0;
-0015 75B200     592            mov     _P3M2,#0x00
-0018 22         593            ret
-0019            594   ;------------------------------------------------------------
-0019            595   ;Allocation info for local variables in function 'Wait50us'
-0019            596   ;------------------------------------------------------------
-0019            597   ;------------------------------------------------------------
-0019            598   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:53: void Wait50us (void)
-0019            599   ;        -----------------------------------------
-0019            600   ;         function Wait50us
-0019            601   ;        -----------------------------------------
-0019            602   _Wait50us:
-0019            603   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:58: _endasm;
-0019            604            
-0019 7852       605                mov R0, #82
-001B            606            L0:
-001B D8F0       607            djnz R0, L0 ; 2 machine cycles-> 2*0.27126us*92=50us
-001D            608                
-001D 22         609            ret
-001E            610   ;------------------------------------------------------------
-001E            611   ;Allocation info for local variables in function 'waitms'
-001E            612   ;------------------------------------------------------------
-001E            613   ;ms                        Allocated to registers r2 r3 
-001E            614   ;j                         Allocated to registers r4 r5 
-001E            615   ;k                         Allocated to registers r6 
-001E            616   ;------------------------------------------------------------
-001E            617   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:61: void waitms (unsigned int ms)
-001E            618   ;        -----------------------------------------
-001E            619   ;         function waitms
-001E            620   ;        -----------------------------------------
-001E            621   _waitms:
-001E AA82       622            mov     r2,dpl
-0020 AB83       623            mov     r3,dph
-0022            624   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:67: for(j=0; j<ms; j++)
-0022 7C00       625            mov     r4,#0x00
-0024 7D00       626            mov     r5,#0x00
-0026            627   L004004?:
-0026 C3         628            clr     c
-0027 EC         629            mov     a,r4
-0028 9A         630            subb    a,r2
-0029 ED         631            mov     a,r5
-002A 9B         632            subb    a,r3
-002B 5001       633            jnc     L004008?
-002D            634   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:68: for (k=0; k<20; k++) Wait50us();
-002D 7E14       635            mov     r6,#0x14
-002F            636   L004003?:
-002F C002       637            push    ar2
-0031 C003       638            push    ar3
-0033 C004       639            push    ar4
-0035 C005       640            push    ar5
-0037 C006       641            push    ar6
-0039 120100     642            lcall   _Wait50us
-003C D006       643            pop     ar6
-003E D005       644            pop     ar5
-0040 D004       645            pop     ar4
-0042 D003       646            pop     ar3
-0044 D002       647            pop     ar2
-0046 DE30       648            djnz    r6,L004003?
-0048            649   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:67: for(j=0; j<ms; j++)
-0048 0C         650            inc     r4
-0049 BC00B0     651            cjne    r4,#0x00,L004004?
-004C 0D         652            inc     r5
-004D 8001       653            sjmp    L004004?
-004F            654   L004008?:
-004F 22         655            ret
-0050            656   ;------------------------------------------------------------
-0050            657   ;Allocation info for local variables in function 'LCD_pulse'
-0050            658   ;------------------------------------------------------------
-0050            659   ;------------------------------------------------------------
-0050            660   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:71: void LCD_pulse (void)
-0050            661   ;        -----------------------------------------
-0050            662   ;         function LCD_pulse
-0050            663   ;        -----------------------------------------
-0050            664   _LCD_pulse:
-0050            665   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:73: LCD_E=1;
-0050 D2A5       666            setb    _P2_5
-0052            667   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:74: Wait50us();
-0052 120100     668            lcall   _Wait50us
-0055            669   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:75: LCD_E=0;
-0055 C2A5       670            clr     _P2_5
-0057 22         671            ret
-0058            672   ;------------------------------------------------------------
-0058            673   ;Allocation info for local variables in function 'LCD_byte'
-0058            674   ;------------------------------------------------------------
-0058            675   ;x                         Allocated to registers 
-0058            676   ;------------------------------------------------------------
-0058            677   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:78: void LCD_byte (unsigned char x)
-0058            678   ;        -----------------------------------------
-0058            679   ;         function LCD_byte
-0058            680   ;        -----------------------------------------
-0058            681   _LCD_byte:
-0058 8582E0     682            mov     _ACC,dpl
-005B            683   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:82: LCD_D7=ACC_7;
-005B A2E7       684            mov     c,_ACC_7
-005D 9294       685            mov     _P1_4,c
-005F            686   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:83: LCD_D6=ACC_6;
-005F A2E6       687            mov     c,_ACC_6
-0061 9296       688            mov     _P1_6,c
-0063            689   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:84: LCD_D5=ACC_5;
-0063 A2E5       690            mov     c,_ACC_5
-0065 9297       691            mov     _P1_7,c
-0067            692   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:85: LCD_D4=ACC_4;
-0067 A2E4       693            mov     c,_ACC_4
-0069 92A0       694            mov     _P2_0,c
-006B            695   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:86: LCD_D3=ACC_3;
-006B A2E3       696            mov     c,_ACC_3
-006D 92A1       697            mov     _P2_1,c
-006F            698   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:87: LCD_D2=ACC_2;
-006F A2E2       699            mov     c,_ACC_2
-0071 92A2       700            mov     _P2_2,c
-0073            701   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:88: LCD_D1=ACC_1;
-0073 A2E1       702            mov     c,_ACC_1
-0075 92A3       703            mov     _P2_3,c
-0077            704   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:89: LCD_D0=ACC_0;
-0077 A2E0       705            mov     c,_ACC_0
-0079 92A4       706            mov     _P2_4,c
-007B            707   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:90: LCD_pulse();
-007B 020100     708            ljmp    _LCD_pulse
-007E            709   ;------------------------------------------------------------
-007E            710   ;Allocation info for local variables in function 'WriteData'
-007E            711   ;------------------------------------------------------------
-007E            712   ;x                         Allocated to registers r2 
-007E            713   ;------------------------------------------------------------
-007E            714   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:93: void WriteData (unsigned char x)
-007E            715   ;        -----------------------------------------
-007E            716   ;         function WriteData
-007E            717   ;        -----------------------------------------
-007E            718   _WriteData:
-007E AA82       719            mov     r2,dpl
-0080            720   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:95: LCD_RS=1;
-0080 D2A7       721            setb    _P2_7
-0082            722   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:96: LCD_byte(x);
-0082 8A82       723            mov     dpl,r2
-0084 120100     724            lcall   _LCD_byte
-0087            725   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:97: waitms(2);
-0087 900002     726            mov     dptr,#0x0002
-008A 020100     727            ljmp    _waitms
-008D            728   ;------------------------------------------------------------
-008D            729   ;Allocation info for local variables in function 'WriteCommand'
-008D            730   ;------------------------------------------------------------
-008D            731   ;x                         Allocated to registers r2 
-008D            732   ;------------------------------------------------------------
-008D            733   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:100: void WriteCommand (unsigned char x)
-008D            734   ;        -----------------------------------------
-008D            735   ;         function WriteCommand
-008D            736   ;        -----------------------------------------
-008D            737   _WriteCommand:
-008D AA82       738            mov     r2,dpl
-008F            739   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:102: LCD_RS=0;
-008F C2A7       740            clr     _P2_7
-0091            741   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:103: LCD_byte(x);
-0091 8A82       742            mov     dpl,r2
-0093 120100     743            lcall   _LCD_byte
-0096            744   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:104: waitms(5);
-0096 900005     745            mov     dptr,#0x0005
-0099 020100     746            ljmp    _waitms
-009C            747   ;------------------------------------------------------------
-009C            748   ;Allocation info for local variables in function 'LCD_8BIT'
-009C            749   ;------------------------------------------------------------
-009C            750   ;------------------------------------------------------------
-009C            751   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:107: void LCD_8BIT (void)
-009C            752   ;        -----------------------------------------
-009C            753   ;         function LCD_8BIT
-009C            754   ;        -----------------------------------------
-009C            755   _LCD_8BIT:
-009C            756   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:109: LCD_E=0;  // Resting state of LCD's enable is zero
-009C C2A5       757            clr     _P2_5
-009E            758   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:110: LCD_RW=0; // We are only writing to the LCD in this program
-009E C2A6       759            clr     _P2_6
-00A0            760   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:111: waitms(20);
-00A0 900014     761            mov     dptr,#0x0014
-00A3 120100     762            lcall   _waitms
-00A6            763   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:113: WriteCommand(0x33);
-00A6 758233     764            mov     dpl,#0x33
-00A9 120100     765            lcall   _WriteCommand
-00AC            766   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:114: WriteCommand(0x33);
-00AC 758233     767            mov     dpl,#0x33
-00AF 120100     768            lcall   _WriteCommand
-00B2            769   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:115: WriteCommand(0x33); // Stay in 8-bit mode
-00B2 758233     770            mov     dpl,#0x33
-00B5 120100     771            lcall   _WriteCommand
-00B8            772   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:118: WriteCommand(0x38);
-00B8 758238     773            mov     dpl,#0x38
-00BB 120100     774            lcall   _WriteCommand
-00BE            775   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:119: WriteCommand(0x0c);
-00BE 75820C     776            mov     dpl,#0x0C
-00C1 120100     777            lcall   _WriteCommand
-00C4            778   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:120: WriteCommand(0x01); // Clear screen command (takes some time)
-00C4 758201     779            mov     dpl,#0x01
-00C7 120100     780            lcall   _WriteCommand
-00CA            781   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:121: waitms(20); // Wait for clear screen command to finsih.
-00CA 900014     782            mov     dptr,#0x0014
-00CD 020100     783            ljmp    _waitms
-00D0            784   ;------------------------------------------------------------
-00D0            785   ;Allocation info for local variables in function 'LCDprint'
-00D0            786   ;------------------------------------------------------------
-00D0            787   ;line                      Allocated with name '_LCDprint_PARM_2'
-00D0            788   ;string                    Allocated to registers r2 r3 r4 
-00D0            789   ;j                         Allocated to registers r5 
-00D0            790   ;------------------------------------------------------------
-00D0            791   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:124: void LCDprint(char * string, unsigned char line, bit clear)
-00D0            792   ;        -----------------------------------------
-00D0            793   ;         function LCDprint
-00D0            794   ;        -----------------------------------------
-00D0            795   _LCDprint:
-00D0 AA82       796            mov     r2,dpl
-00D2 AB83       797            mov     r3,dph
-00D4 ACF0       798            mov     r4,b
-00D6            799   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:128: WriteCommand(line==2?0xc0:0x80);
-00D6 7402       800            mov     a,#0x02
-00D8 B560B0     801            cjne    a,_LCDprint_PARM_2,L010013?
-00DB 7DC0       802            mov     r5,#0xC0
-00DD 8001       803            sjmp    L010014?
-00DF            804   L010013?:
-00DF 7D80       805            mov     r5,#0x80
-00E1            806   L010014?:
-00E1 8D82       807            mov     dpl,r5
-00E3 C002       808            push    ar2
-00E5 C003       809            push    ar3
-00E7 C004       810            push    ar4
-00E9 120100     811            lcall   _WriteCommand
-00EC            812   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:129: waitms(5);
-00EC 900005     813            mov     dptr,#0x0005
-00EF 120100     814            lcall   _waitms
-00F2 D004       815            pop     ar4
-00F4 D003       816            pop     ar3
-00F6 D002       817            pop     ar2
-00F8            818   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:130: for(j=0; string[j]!=0; j++)       WriteData(string[j]);// Write the message
-00F8 7D00       819            mov     r5,#0x00
-00FA            820   L010003?:
-00FA ED         821            mov     a,r5
-00FB 2A         822            add     a,r2
-00FC FE         823            mov     r6,a
-00FD E4         824            clr     a
-00FE 3B         825            addc    a,r3
-00FF FF         826            mov     r7,a
-0100 8C00       827            mov     ar0,r4
-0102 8E82       828            mov     dpl,r6
-0104 8F83       829            mov     dph,r7
-0106 88F0       830            mov     b,r0
-0108 120100     831            lcall   __gptrget
-010B FE         832            mov     r6,a
-010C 6001       833            jz      L010006?
-010E 8E82       834            mov     dpl,r6
-0110 C002       835            push    ar2
-0112 C003       836            push    ar3
-0114 C004       837            push    ar4
-0116 C005       838            push    ar5
-0118 120100     839            lcall   _WriteData
-011B D005       840            pop     ar5
-011D D004       841            pop     ar4
-011F D003       842            pop     ar3
-0121 D002       843            pop     ar2
-0123 0D         844            inc     r5
-0124 8001       845            sjmp    L010003?
-0126            846   L010006?:
-0126            847   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:131: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
-0126 30C0F0     848            jnb     _LCDprint_PARM_3,L010011?
-0129 8D02       849            mov     ar2,r5
-012B            850   L010007?:
-012B BA1070     851            cjne    r2,#0x10,L010026?
-012E            852   L010026?:
-012E 5001       853            jnc     L010011?
-0130 758220     854            mov     dpl,#0x20
-0133 C002       855            push    ar2
-0135 120100     856            lcall   _WriteData
-0138 D002       857            pop     ar2
-013A 0A         858            inc     r2
-013B 8001       859            sjmp    L010007?
-013D            860   L010011?:
-013D 22         861            ret
-013E            862   ;------------------------------------------------------------
-013E            863   ;Allocation info for local variables in function 'LCDport_print'
-013E            864   ;------------------------------------------------------------
-013E            865   ;string                    Allocated with name '_LCDport_print_string_2_81'
-013E            866   ;------------------------------------------------------------
-013E            867   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:134: void LCDport_print(void){
-013E            868   ;        -----------------------------------------
-013E            869   ;         function LCDport_print
-013E            870   ;        -----------------------------------------
-013E            871   _LCDport_print:
-013E            872   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:135: while(1){
-013E            873   L011002?:
-013E            874   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:137: char string[20]  = "something";
-013E 75E073     875            mov     _LCDport_print_string_2_81,#0x73
-0141 75E16F     876            mov     (_LCDport_print_string_2_81 + 0x0001),#0x6F
-0144 75E26D     877            mov     (_LCDport_print_string_2_81 + 0x0002),#0x6D
-0147 75E365     878            mov     (_LCDport_print_string_2_81 + 0x0003),#0x65
-014A 75E474     879            mov     (_LCDport_print_string_2_81 + 0x0004),#0x74
-014D 75E568     880            mov     (_LCDport_print_string_2_81 + 0x0005),#0x68
-0150 75E669     881            mov     (_LCDport_print_string_2_81 + 0x0006),#0x69
-0153 75E76E     882            mov     (_LCDport_print_string_2_81 + 0x0007),#0x6E
-0156 75E867     883            mov     (_LCDport_print_string_2_81 + 0x0008),#0x67
-0159 75E900     884            mov     (_LCDport_print_string_2_81 + 0x0009),#0x00
-015C            885   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:141: LCDprint(string, 2,1);
-015C 756002     886            mov     _LCDprint_PARM_2,#0x02
-015F D2C0       887            setb    _LCDprint_PARM_3
-0161 90A3E0     888            mov     dptr,#_LCDport_print_string_2_81
-0164 75F040     889            mov     b,#0x40
-0167 120100     890            lcall   _LCDprint
-016A 8001       891            sjmp    L011002?
-016C            892   ;------------------------------------------------------------
-016C            893   ;Allocation info for local variables in function 'Wait1S'
-016C            894   ;------------------------------------------------------------
-016C            895   ;------------------------------------------------------------
-016C            896   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:145: void Wait1S (void)
-016C            897   ;        -----------------------------------------
-016C            898   ;         function Wait1S
-016C            899   ;        -----------------------------------------
-016C            900   _Wait1S:
-016C            901   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:154: _endasm;
-016C            902            
-016C 7A28       903             mov R2, #40
-016E            904            L3:
-016E 79FA       905            mov R1, #250
-0170            906            L2:
-0170 78B8       907            mov R0, #184
-0172            908            L1:
-0172 D870       909            djnz R0, L1 ; 2 machine cycles-> 2*0.27126us*184=100us
-0174 D930       910                djnz R1, L2 ; 100us*250=0.025s
-0176 DAF0       911                djnz R2, L3 ; 0.025s*40=1s
-0178            912                
-0178 22         913            ret
-0179            914   ;------------------------------------------------------------
-0179            915   ;Allocation info for local variables in function 'InitSerialPort'
-0179            916   ;------------------------------------------------------------
-0179            917   ;------------------------------------------------------------
-0179            918   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:157: void InitSerialPort(void)
-0179            919   ;        -----------------------------------------
-0179            920   ;         function InitSerialPort
-0179            921   ;        -----------------------------------------
-0179            922   _InitSerialPort:
-0179            923   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:159: BRGCON=0x00; //Make sure the baud rate generator is off
-0179 75BD00     924            mov     _BRGCON,#0x00
-017C            925   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:160: BRGR1=((XTAL/BAUD)-16)/0x100;
-017C 75BF00     926            mov     _BRGR1,#0x00
-017F            927   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:161: BRGR0=((XTAL/BAUD)-16)%0x100;
-017F 75BE30     928            mov     _BRGR0,#0x30
-0182            929   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:162: BRGCON=0x03; //Turn-on the baud rate generator
-0182 75BD03     930            mov     _BRGCON,#0x03
-0185            931   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:163: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
-0185 759852     932            mov     _SCON,#0x52
-0188            933   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:164: P1M1=0x00; //Enable pins RxD and Txd
-0188 759100     934            mov     _P1M1,#0x00
-018B            935   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:165: P1M2=0x00; //Enable pins RxD and Txd
-018B 759200     936            mov     _P1M2,#0x00
-018E 22         937            ret
-018F            938   ;------------------------------------------------------------
-018F            939   ;Allocation info for local variables in function 'InitADC'
-018F            940   ;------------------------------------------------------------
-018F            941   ;------------------------------------------------------------
-018F            942   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:168: void InitADC(void)
-018F            943   ;        -----------------------------------------
-018F            944   ;         function InitADC
-018F            945   ;        -----------------------------------------
-018F            946   _InitADC:
-018F            947   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:172: P0M1 |= (P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
-018F 43841E     948            orl     _P0M1,#0x1E
-0192            949   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:173: P0M2 &= ~(P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
-0192 5385E1     950            anl     _P0M2,#0xE1
-0195            951   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:176: BURST1=1; //Autoscan continuous conversion mode
-0195 D2C6       952            setb    _BURST1
-0197            953   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:177: ADMODB = CLK0; //ADC1 clock is 7.3728MHz/2
-0197 75A120     954            mov     _ADMODB,#0x20
-019A            955   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:178: ADINS  = (ADI13|ADI12|ADI11|ADI10); // Select the four channels for conversion
-019A 75A3F0     956            mov     _ADINS,#0xF0
-019D            957   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:179: ADCON1 = (ENADC1|ADCS10); //Enable the converter and start immediately
-019D 759705     958            mov     _ADCON1,#0x05
-01A0            959   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:180: while((ADCI1&ADCON1)==0); //Wait for first conversion to complete
-01A0            960   L014001?:
-01A0 E597       961            mov     a,_ADCON1
-01A2 30E3B0     962            jnb     acc.3,L014001?
-01A5 22         963            ret
-01A6            964   ;------------------------------------------------------------
-01A6            965   ;Allocation info for local variables in function 'InitTimer0'
-01A6            966   ;------------------------------------------------------------
-01A6            967   ;------------------------------------------------------------
-01A6            968   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:183: void InitTimer0 (void)
-01A6            969   ;        -----------------------------------------
-01A6            970   ;         function InitTimer0
-01A6            971   ;        -----------------------------------------
-01A6            972   _InitTimer0:
-01A6            973   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:187: TR0=0; // Stop timer 0
-01A6 C28C       974            clr     _TR0
-01A8            975   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:188: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
-01A8 74F0       976            mov     a,#0xF0
-01AA 5589       977            anl     a,_TMOD
-01AC 4401       978            orl     a,#0x01
-01AE F589       979            mov     _TMOD,a
-01B0            980   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:189: TH0=TIMER0_RELOAD_VALUE/0x100; // I think the RHS is 0001 0000 0000, are we dividing?
-01B0 758CFE     981            mov     _TH0,#0xFE
-01B3            982   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:190: TL0=TIMER0_RELOAD_VALUE%0x100; // % means modulo, apparently? ...are we modulo-ing?
-01B3 758A90     983            mov     _TL0,#0x90
-01B6            984   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:191: TR0=1; // Start timer 0 (bit 4 in TCON)
-01B6 D28C       985            setb    _TR0
-01B8            986   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:192: ET0=1; // Enable timer 0 interrupt - the interrupt controller IEN0 is bit-adressable, so we change only the bit we need
-01B8 D2A9       987            setb    _ET0
-01BA            988   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:193: EA=1;  // Enable global interrupts
-01BA D2AF       989            setb    _EA
-01BC 22         990            ret
-01BD            991   ;------------------------------------------------------------
-01BD            992   ;Allocation info for local variables in function 'Timer0ISR'
-01BD            993   ;------------------------------------------------------------
-01BD            994   ;------------------------------------------------------------
-01BD            995   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:197: void Timer0ISR (void) interrupt 1
-01BD            996   ;        -----------------------------------------
-01BD            997   ;         function Timer0ISR
-01BD            998   ;        -----------------------------------------
-01BD            999   _Timer0ISR:
-01BD C0E0      1000            push    acc
-01BF C0D0      1001            push    psw
-01C1 75D000    1002            mov     psw,#0x00
-01C4           1003   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:200: TR0=0; // Stop timer 0
-01C4 C28C      1004            clr     _TR0
-01C6           1005   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:201: TH0=TIMER0_RELOAD_VALUE/0x100;
-01C6 758CFE    1006            mov     _TH0,#0xFE
-01C9           1007   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:202: TL0=TIMER0_RELOAD_VALUE%0x100;
-01C9 758A90    1008            mov     _TL0,#0x90
-01CC           1009   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:203: TR0=1; // Start timer 0
-01CC D28C      1010            setb    _TR0
-01CE           1011   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:205: if(++pwmcount>99) pwmcount=0;
-01CE 0520      1012            inc     _pwmcount
-01D0 E520      1013            mov     a,_pwmcount
-01D2 249C      1014            add     a,#0xff - 0x63
-01D4 5001      1015            jnc     L016002?
-01D6 752000    1016            mov     _pwmcount,#0x00
-01D9           1017   L016002?:
-01D9           1018   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:206: P0_5=(pwm_left>pwmcount)?1:0;
-01D9 C3        1019            clr     c
-01DA E520      1020            mov     a,_pwmcount
-01DC 95E0      1021            subb    a,_pwm_left
-01DE 9285      1022            mov     _P0_5,c
-01E0           1023   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:207: P0_6=(pwm_right>pwmcount)?1:0;
-01E0 C3        1024            clr     c
-01E1 E520      1025            mov     a,_pwmcount
-01E3 95A0      1026            subb    a,_pwm_right
-01E5 9286      1027            mov     _P0_6,c
-01E7           1028   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:209: msCount++;
-01E7 7401      1029            mov     a,#0x01
-01E9 25E0      1030            add     a,_msCount
-01EB F5E0      1031            mov     _msCount,a
-01ED E4        1032            clr     a
-01EE 35E1      1033            addc    a,(_msCount + 1)
-01F0 F5E1      1034            mov     (_msCount + 1),a
-01F2           1035   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:210: if(msCount==10000)
-01F2 7410      1036            mov     a,#0x10
-01F4 B5E0B0    1037            cjne    a,_msCount,L016009?
-01F7 7427      1038            mov     a,#0x27
-01F9 B5E1B0    1039            cjne    a,(_msCount + 1),L016009?
-01FC           1040   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:212: time_update_flag=1;
-01FC D210      1041            setb    _time_update_flag
-01FE           1042   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:213: msCount=0;
-01FE E4        1043            clr     a
-01FF F5E0      1044            mov     _msCount,a
-0201 F5E1      1045            mov     (_msCount + 1),a
-0203           1046   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:214: secs++;
-0203 05A0      1047            inc     _secs
-0205           1048   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:215: if(secs==60)
-0205 743C      1049            mov     a,#0x3C
-0207 B5A0B0    1050            cjne    a,_secs,L016009?
-020A           1051   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:217: secs=0;
-020A 75A000    1052            mov     _secs,#0x00
-020D           1053   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:218: mins++;
-020D 0560      1054            inc     _mins
-020F           1055   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:219: if(mins==60)
-020F 743C      1056            mov     a,#0x3C
-0211 B560B0    1057            cjne    a,_mins,L016009?
-0214           1058   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:221: mins=0;
-0214 756000    1059            mov     _mins,#0x00
-0217           1060   L016009?:
-0217 D0D0      1061            pop     psw
-0219 D0E0      1062            pop     acc
-021B 32        1063            reti
-021C           1064   ;        eliminated unneeded push/pop dpl
-021C           1065   ;        eliminated unneeded push/pop dph
-021C           1066   ;        eliminated unneeded push/pop b
-021C           1067   ;------------------------------------------------------------
-021C           1068   ;Allocation info for local variables in function 'display_LCD'
-021C           1069   ;------------------------------------------------------------
-021C           1070   ;buff                      Allocated with name '_display_LCD_buff_1_96'
-021C           1071   ;------------------------------------------------------------
-021C           1072   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:228: void display_LCD(void){
-021C           1073   ;        -----------------------------------------
-021C           1074   ;         function display_LCD
-021C           1075   ;        -----------------------------------------
-021C           1076   _display_LCD:
-021C           1077   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:231: sprintf (buff, "V0: %4.2fV", (AD1DAT0*3.3)/255.0); // Prints 4 digits with 2 decimals, appended by V
-021C 85D582    1078            mov     dpl,_AD1DAT0
-021F 120100    1079            lcall   ___uchar2fs
-0222 AA82      1080            mov     r2,dpl
-0224 AB83      1081            mov     r3,dph
-0226 ACF0      1082            mov     r4,b
-0228 FD        1083            mov     r5,a
-0229 C002      1084            push    ar2
-022B C003      1085            push    ar3
-022D C004      1086            push    ar4
-022F C005      1087            push    ar5
-0231 903333    1088            mov     dptr,#0x3333
-0234 75F053    1089            mov     b,#0x53
-0237 7440      1090            mov     a,#0x40
-0239 120100    1091            lcall   ___fsmul
-023C AA82      1092            mov     r2,dpl
-023E AB83      1093            mov     r3,dph
-0240 ACF0      1094            mov     r4,b
-0242 FD        1095            mov     r5,a
-0243 E581      1096            mov     a,sp
-0245 24FC      1097            add     a,#0xfc
-0247 F581      1098            mov     sp,a
-0249 E4        1099            clr     a
-024A C0E0      1100            push    acc
-024C C0E0      1101            push    acc
-024E 747F      1102            mov     a,#0x7F
-0250 C0E0      1103            push    acc
-0252 7443      1104            mov     a,#0x43
-0254 C0E0      1105            push    acc
-0256 8A82      1106            mov     dpl,r2
-0258 8B83      1107            mov     dph,r3
-025A 8CF0      1108            mov     b,r4
-025C ED        1109            mov     a,r5
-025D 120100    1110            lcall   ___fsdiv
-0260 AA82      1111            mov     r2,dpl
-0262 AB83      1112            mov     r3,dph
-0264 ACF0      1113            mov     r4,b
-0266 FD        1114            mov     r5,a
-0267 E581      1115            mov     a,sp
-0269 24FC      1116            add     a,#0xfc
-026B F581      1117            mov     sp,a
-026D C002      1118            push    ar2
-026F C003      1119            push    ar3
-0271 C004      1120            push    ar4
-0273 C005      1121            push    ar5
-0275 74F0      1122            mov     a,#__str_1
-0277 C0E0      1123            push    acc
-0279 74AE      1124            mov     a,#(__str_1 >> 8)
-027B C0E0      1125            push    acc
-027D 7480      1126            mov     a,#0x80
-027F C0E0      1127            push    acc
-0281 7430      1128            mov     a,#_display_LCD_buff_1_96
-0283 C0E0      1129            push    acc
-0285 74A4      1130            mov     a,#(_display_LCD_buff_1_96 >> 8)
-0287 C0E0      1131            push    acc
-0289 7440      1132            mov     a,#0x40
-028B C0E0      1133            push    acc
-028D 120100    1134            lcall   _sprintf
-0290 E581      1135            mov     a,sp
-0292 24F6      1136            add     a,#0xf6
-0294 F581      1137            mov     sp,a
-0296           1138   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:232: LCDprint(buff, 1, 1);
-0296 756001    1139            mov     _LCDprint_PARM_2,#0x01
-0299 D2C0      1140            setb    _LCDprint_PARM_3
-029B 90A430    1141            mov     dptr,#_display_LCD_buff_1_96
-029E 75F040    1142            mov     b,#0x40
-02A1 120100    1143            lcall   _LCDprint
-02A4           1144   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:234: sprintf (buff, "V1: %4.2fV", (AD1DAT1*3.3)/255.0);
-02A4 85D682    1145            mov     dpl,_AD1DAT1
-02A7 120100    1146            lcall   ___uchar2fs
-02AA AA82      1147            mov     r2,dpl
-02AC AB83      1148            mov     r3,dph
-02AE ACF0      1149            mov     r4,b
-02B0 FD        1150            mov     r5,a
-02B1 C002      1151            push    ar2
-02B3 C003      1152            push    ar3
-02B5 C004      1153            push    ar4
-02B7 C005      1154            push    ar5
-02B9 903333    1155            mov     dptr,#0x3333
-02BC 75F053    1156            mov     b,#0x53
-02BF 7440      1157            mov     a,#0x40
-02C1 120100    1158            lcall   ___fsmul
-02C4 AA82      1159            mov     r2,dpl
-02C6 AB83      1160            mov     r3,dph
-02C8 ACF0      1161            mov     r4,b
-02CA FD        1162            mov     r5,a
-02CB E581      1163            mov     a,sp
-02CD 24FC      1164            add     a,#0xfc
-02CF F581      1165            mov     sp,a
-02D1 E4        1166            clr     a
-02D2 C0E0      1167            push    acc
-02D4 C0E0      1168            push    acc
-02D6 747F      1169            mov     a,#0x7F
-02D8 C0E0      1170            push    acc
-02DA 7443      1171            mov     a,#0x43
-02DC C0E0      1172            push    acc
-02DE 8A82      1173            mov     dpl,r2
-02E0 8B83      1174            mov     dph,r3
-02E2 8CF0      1175            mov     b,r4
-02E4 ED        1176            mov     a,r5
-02E5 120100    1177            lcall   ___fsdiv
-02E8 AA82      1178            mov     r2,dpl
-02EA AB83      1179            mov     r3,dph
-02EC ACF0      1180            mov     r4,b
-02EE FD        1181            mov     r5,a
-02EF E581      1182            mov     a,sp
-02F1 24FC      1183            add     a,#0xfc
-02F3 F581      1184            mov     sp,a
-02F5 C002      1185            push    ar2
-02F7 C003      1186            push    ar3
-02F9 C004      1187            push    ar4
-02FB C005      1188            push    ar5
-02FD 7470      1189            mov     a,#__str_2
-02FF C0E0      1190            push    acc
-0301 74AF      1191            mov     a,#(__str_2 >> 8)
-0303 C0E0      1192            push    acc
-0305 7480      1193            mov     a,#0x80
-0307 C0E0      1194            push    acc
-0309 7430      1195            mov     a,#_display_LCD_buff_1_96
-030B C0E0      1196            push    acc
-030D 74A4      1197            mov     a,#(_display_LCD_buff_1_96 >> 8)
-030F C0E0      1198            push    acc
-0311 7440      1199            mov     a,#0x40
-0313 C0E0      1200            push    acc
-0315 120100    1201            lcall   _sprintf
-0318 E581      1202            mov     a,sp
-031A 24F6      1203            add     a,#0xf6
-031C F581      1204            mov     sp,a
-031E           1205   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:235: LCDprint(buff, 2, 1);
-031E 756002    1206            mov     _LCDprint_PARM_2,#0x02
-0321 D2C0      1207            setb    _LCDprint_PARM_3
-0323 90A430    1208            mov     dptr,#_display_LCD_buff_1_96
-0326 75F040    1209            mov     b,#0x40
-0329 020100    1210            ljmp    _LCDprint
-032C           1211   ;------------------------------------------------------------
-032C           1212   ;Allocation info for local variables in function 'motor_control'
-032C           1213   ;------------------------------------------------------------
-032C           1214   ;------------------------------------------------------------
-032C           1215   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:240: void motor_control(void){
-032C           1216   ;        -----------------------------------------
-032C           1217   ;         function motor_control
-032C           1218   ;        -----------------------------------------
-032C           1219   _motor_control:
-032C           1220   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:241: }
-032C 22        1221            ret
-032D           1222   ;------------------------------------------------------------
-032D           1223   ;Allocation info for local variables in function 'main'
-032D           1224   ;------------------------------------------------------------
-032D           1225   ;str                       Allocated with name '_main_str_1_100'
-032D           1226   ;threshold                 Allocated to registers 
-032D           1227   ;left_sensor               Allocated to registers 
-032D           1228   ;right_sensor              Allocated to registers 
-032D           1229   ;voltage                   Allocated to registers r2 r3 r4 r5 
-032D           1230   ;k_p                       Allocated with name '_main_k_p_2_101'
-032D           1231   ;k_d                       Allocated with name '_main_k_d_2_101'
-032D           1232   ;error                     Allocated with name '_main_error_2_101'
-032D           1233   ;pre_error                 Allocated with name '_main_pre_error_2_101'
-032D           1234   ;------------------------------------------------------------
-032D           1235   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:244: void main (void)
-032D           1236   ;        -----------------------------------------
-032D           1237   ;         function main
-032D           1238   ;        -----------------------------------------
-032D           1239   _main:
-032D           1240   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:249: InitPorts();
-032D 120100    1241            lcall   _InitPorts
-0330           1242   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:250: LCD_8BIT();
-0330 120100    1243            lcall   _LCD_8BIT
-0333           1244   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:251: InitSerialPort();
-0333 120100    1245            lcall   _InitSerialPort
-0336           1246   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:252: InitADC();
-0336 120100    1247            lcall   _InitADC
-0339           1248   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:253: InitTimer0();
-0339 120100    1249            lcall   _InitTimer0
-033C           1250   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:255: while(1)
-033C           1251   L019004?:
-033C           1252   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:258: double left_sensor = (AD1DAT1/255.0)*3.3;
-033C E5D6      1253            mov     a,_AD1DAT1
-033E           1254   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:259: double right_sensor = (AD1DAT2/255.0)*3.3;
-033E E5D7      1255            mov     a,_AD1DAT2
-0340           1256   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:260: double voltage = (AD1DAT0/255.0)*3.3;
-0340 85D582    1257            mov     dpl,_AD1DAT0
-0343 120100    1258            lcall   ___uchar2fs
-0346 AA82      1259            mov     r2,dpl
-0348 AB83      1260            mov     r3,dph
-034A ACF0      1261            mov     r4,b
-034C FD        1262            mov     r5,a
-034D E4        1263            clr     a
-034E C0E0      1264            push    acc
-0350 C0E0      1265            push    acc
-0352 747F      1266            mov     a,#0x7F
-0354 C0E0      1267            push    acc
-0356 7443      1268            mov     a,#0x43
-0358 C0E0      1269            push    acc
-035A 8A82      1270            mov     dpl,r2
-035C 8B83      1271            mov     dph,r3
-035E 8CF0      1272            mov     b,r4
-0360 ED        1273            mov     a,r5
-0361 120100    1274            lcall   ___fsdiv
-0364 AA82      1275            mov     r2,dpl
-0366 AB83      1276            mov     r3,dph
-0368 ACF0      1277            mov     r4,b
-036A FD        1278            mov     r5,a
-036B E581      1279            mov     a,sp
-036D 24FC      1280            add     a,#0xfc
-036F F581      1281            mov     sp,a
-0371 C002      1282            push    ar2
-0373 C003      1283            push    ar3
-0375 C004      1284            push    ar4
-0377 C005      1285            push    ar5
-0379 903333    1286            mov     dptr,#0x3333
-037C 75F053    1287            mov     b,#0x53
-037F 7440      1288            mov     a,#0x40
-0381 120100    1289            lcall   ___fsmul
-0384 AA82      1290            mov     r2,dpl
-0386 AB83      1291            mov     r3,dph
-0388 ACF0      1292            mov     r4,b
-038A FD        1293            mov     r5,a
-038B E581      1294            mov     a,sp
-038D 24FC      1295            add     a,#0xfc
-038F F581      1296            mov     sp,a
-0391           1297   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:269: if(time_update_flag==1) // If the clock has been updated, refresh the display
-0391           1298   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:271: time_update_flag=0;
-0391 1010F0    1299            jbc     _time_update_flag,L019010?
-0394 8001      1300            sjmp    L019004?
-0396           1301   L019010?:
-0396           1302   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:272: sprintf(str, "V=%5.2f", voltage); // Display the voltage at pin P0.1
-0396 C002      1303            push    ar2
-0398 C003      1304            push    ar3
-039A C004      1305            push    ar4
-039C C005      1306            push    ar5
-039E 7430      1307            mov     a,#__str_3
-03A0 C0E0      1308            push    acc
-03A2 74B0      1309            mov     a,#(__str_3 >> 8)
-03A4 C0E0      1310            push    acc
-03A6 7480      1311            mov     a,#0x80
-03A8 C0E0      1312            push    acc
-03AA 7470      1313            mov     a,#_main_str_1_100
-03AC C0E0      1314            push    acc
-03AE 74A4      1315            mov     a,#(_main_str_1_100 >> 8)
-03B0 C0E0      1316            push    acc
-03B2 7440      1317            mov     a,#0x40
-03B4 C0E0      1318            push    acc
-03B6 120100    1319            lcall   _sprintf
-03B9 E581      1320            mov     a,sp
-03BB 24F6      1321            add     a,#0xf6
-03BD F581      1322            mov     sp,a
-03BF           1323   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:273: LCDprint(str, 1, 1);
-03BF 756001    1324            mov     _LCDprint_PARM_2,#0x01
-03C2 D2C0      1325            setb    _LCDprint_PARM_3
-03C4 90A470    1326            mov     dptr,#_main_str_1_100
-03C7 75F040    1327            mov     b,#0x40
-03CA 120100    1328            lcall   _LCDprint
-03CD           1329   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:274: sprintf(str, "%02d:%02d", mins, secs); // Display the clock
-03CD AAA0      1330            mov     r2,_secs
-03CF 7B00      1331            mov     r3,#0x00
-03D1 AC60      1332            mov     r4,_mins
-03D3 7D00      1333            mov     r5,#0x00
-03D5 C002      1334            push    ar2
-03D7 C003      1335            push    ar3
-03D9 C004      1336            push    ar4
-03DB C005      1337            push    ar5
-03DD 7470      1338            mov     a,#__str_4
-03DF C0E0      1339            push    acc
-03E1 74B0      1340            mov     a,#(__str_4 >> 8)
-03E3 C0E0      1341            push    acc
-03E5 7480      1342            mov     a,#0x80
-03E7 C0E0      1343            push    acc
-03E9 7470      1344            mov     a,#_main_str_1_100
-03EB C0E0      1345            push    acc
-03ED 74A4      1346            mov     a,#(_main_str_1_100 >> 8)
-03EF C0E0      1347            push    acc
-03F1 7440      1348            mov     a,#0x40
-03F3 C0E0      1349            push    acc
-03F5 120100    1350            lcall   _sprintf
-03F8 E581      1351            mov     a,sp
-03FA 24F6      1352            add     a,#0xf6
-03FC F581      1353            mov     sp,a
-03FE           1354   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:275: LCDprint(str, 2, 1);
-03FE 756002    1355            mov     _LCDprint_PARM_2,#0x02
-0401 D2C0      1356            setb    _LCDprint_PARM_3
-0403 90A470    1357            mov     dptr,#_main_str_1_100
-0406 75F040    1358            mov     b,#0x40
-0409 120100    1359            lcall   _LCDprint
-040C 020100    1360            ljmp    L019004?
-040F           1361            rseg R_CSEG
-040F           1362   
-0000           1363            rseg R_XINIT
-0000           1364   
-0000           1365            rseg R_CONST
-0000           1366   __str_1:
-0000 56303A20  1367            db 'V0: %4.2fV'
+FFBF            524            XSEG at 0xffbf
+FFBF            525   _RTCDATH: ds 1
+FFC0            526            public _RTCDATH
+0000            527            rseg R_XSEG
+FFBE            528            XSEG at 0xffbe
+FFBE            529   _RTCDATL: ds 1
+FFBF            530            public _RTCDATL
+0000            531            rseg R_XSEG
+0000            532   ;--------------------------------------------------------
+0000            533   ; absolute external ram data
+0000            534   ;--------------------------------------------------------
+FFBF            535            XSEG
+FFBF            536   ;--------------------------------------------------------
+FFBF            537   ; external initialized ram data
+FFBF            538   ;--------------------------------------------------------
+0000            539            rseg R_IXSEG
+0000            540            rseg R_HOME
+0000            541            rseg R_GSINIT
+0000            542            rseg R_CSEG
+0000            543   ;--------------------------------------------------------
+0000            544   ; Reset entry point and interrupt vectors
+0000            545   ;--------------------------------------------------------
+0000            546            CSEG at 0x0000
+0000 020100     547            ljmp    _crt0
+000B            548            CSEG at 0x000b
+000B 020100     549            ljmp    _Timer0ISR
+000E            550   ;--------------------------------------------------------
+000E            551   ; global & static initialisations
+000E            552   ;--------------------------------------------------------
+0000            553            rseg R_HOME
+0000            554            rseg R_GSINIT
+0000            555            rseg R_GSINIT
+0000            556   ;--------------------------------------------------------
+0000            557   ; data variables initialization
+0000            558   ;--------------------------------------------------------
+0000            559            rseg R_DINIT
+0000            560   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:34: volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
+0000 E4         561            clr     a
+0001 F5E0       562            mov     _msCount,a
+0003 F5E1       563            mov     (_msCount + 1),a
+0005            564   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:35: volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
+0005 75A000     565            mov     _secs,#0x00
+0008            566   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:35: volatile bit time_update_flag=0;
+0008 756000     567            mov     _mins,#0x00
+000B            568   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:36: volatile unsigned char pwmcount;
+000B C210       569            clr     _time_update_flag
+000D            570            ; The linker places a 'ret' at the end of segment R_DINIT.
+000D            571   ;--------------------------------------------------------
+000D            572   ; code
+000D            573   ;--------------------------------------------------------
+0000            574            rseg R_CSEG
+0000            575   ;------------------------------------------------------------
+0000            576   ;Allocation info for local variables in function 'InitPorts'
+0000            577   ;------------------------------------------------------------
+0000            578   ;------------------------------------------------------------
+0000            579   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:41: void InitPorts(void)
+0000            580   ;        -----------------------------------------
+0000            581   ;         function InitPorts
+0000            582   ;        -----------------------------------------
+0000            583   _InitPorts:
+0000            584            using   0
+0000            585   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:43: P0M1=0x1E;
+0000 75841E     586            mov     _P0M1,#0x1E
+0003            587   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:44: P0M2=0x00;
+0003 758500     588            mov     _P0M2,#0x00
+0006            589   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:45: P1M1=0;
+0006 759100     590            mov     _P1M1,#0x00
+0009            591   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:46: P1M2=0;
+0009 759200     592            mov     _P1M2,#0x00
+000C            593   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:47: P2M1=0;
+000C 75A400     594            mov     _P2M1,#0x00
+000F            595   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:48: P2M2=0;
+000F 75A500     596            mov     _P2M2,#0x00
+0012            597   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:49: P3M1=0;
+0012 75B100     598            mov     _P3M1,#0x00
+0015            599   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:50: P3M2=0;
+0015 75B200     600            mov     _P3M2,#0x00
+0018 22         601            ret
+0019            602   ;------------------------------------------------------------
+0019            603   ;Allocation info for local variables in function 'Wait50us'
+0019            604   ;------------------------------------------------------------
+0019            605   ;------------------------------------------------------------
+0019            606   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:53: void Wait50us (void)
+0019            607   ;        -----------------------------------------
+0019            608   ;         function Wait50us
+0019            609   ;        -----------------------------------------
+0019            610   _Wait50us:
+0019            611   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:58: _endasm;
+0019            612            
+0019 7852       613                mov R0, #82
+001B            614            L0:
+001B D820       615            djnz R0, L0 ; 2 machine cycles-> 2*0.27126us*92=50us
+001D            616                
+001D 22         617            ret
+001E            618   ;------------------------------------------------------------
+001E            619   ;Allocation info for local variables in function 'waitms'
+001E            620   ;------------------------------------------------------------
+001E            621   ;ms                        Allocated to registers r2 r3 
+001E            622   ;j                         Allocated to registers r4 r5 
+001E            623   ;k                         Allocated to registers r6 
+001E            624   ;------------------------------------------------------------
+001E            625   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:61: void waitms (unsigned int ms)
+001E            626   ;        -----------------------------------------
+001E            627   ;         function waitms
+001E            628   ;        -----------------------------------------
+001E            629   _waitms:
+001E AA82       630            mov     r2,dpl
+0020 AB83       631            mov     r3,dph
+0022            632   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:67: for(j=0; j<ms; j++)
+0022 7C00       633            mov     r4,#0x00
+0024 7D00       634            mov     r5,#0x00
+0026            635   L004004?:
+0026 C3         636            clr     c
+0027 EC         637            mov     a,r4
+0028 9A         638            subb    a,r2
+0029 ED         639            mov     a,r5
+002A 9B         640            subb    a,r3
+002B 5001       641            jnc     L004008?
+002D            642   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:68: for (k=0; k<20; k++) Wait50us();
+002D 7E14       643            mov     r6,#0x14
+002F            644   L004003?:
+002F C002       645            push    ar2
+0031 C003       646            push    ar3
+0033 C004       647            push    ar4
+0035 C005       648            push    ar5
+0037 C006       649            push    ar6
+0039 120100     650            lcall   _Wait50us
+003C D006       651            pop     ar6
+003E D005       652            pop     ar5
+0040 D004       653            pop     ar4
+0042 D003       654            pop     ar3
+0044 D002       655            pop     ar2
+0046 DE60       656            djnz    r6,L004003?
+0048            657   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:67: for(j=0; j<ms; j++)
+0048 0C         658            inc     r4
+0049 BC00E0     659            cjne    r4,#0x00,L004004?
+004C 0D         660            inc     r5
+004D 8001       661            sjmp    L004004?
+004F            662   L004008?:
+004F 22         663            ret
+0050            664   ;------------------------------------------------------------
+0050            665   ;Allocation info for local variables in function 'LCD_pulse'
+0050            666   ;------------------------------------------------------------
+0050            667   ;------------------------------------------------------------
+0050            668   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:71: void LCD_pulse (void)
+0050            669   ;        -----------------------------------------
+0050            670   ;         function LCD_pulse
+0050            671   ;        -----------------------------------------
+0050            672   _LCD_pulse:
+0050            673   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:73: LCD_E=1;
+0050 D2A5       674            setb    _P2_5
+0052            675   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:74: Wait50us();
+0052 120100     676            lcall   _Wait50us
+0055            677   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:75: LCD_E=0;
+0055 C2A5       678            clr     _P2_5
+0057 22         679            ret
+0058            680   ;------------------------------------------------------------
+0058            681   ;Allocation info for local variables in function 'LCD_byte'
+0058            682   ;------------------------------------------------------------
+0058            683   ;x                         Allocated to registers 
+0058            684   ;------------------------------------------------------------
+0058            685   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:78: void LCD_byte (unsigned char x)
+0058            686   ;        -----------------------------------------
+0058            687   ;         function LCD_byte
+0058            688   ;        -----------------------------------------
+0058            689   _LCD_byte:
+0058 8582E0     690            mov     _ACC,dpl
+005B            691   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:82: LCD_D7=ACC_7;
+005B A2E7       692            mov     c,_ACC_7
+005D 9294       693            mov     _P1_4,c
+005F            694   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:83: LCD_D6=ACC_6;
+005F A2E6       695            mov     c,_ACC_6
+0061 9296       696            mov     _P1_6,c
+0063            697   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:84: LCD_D5=ACC_5;
+0063 A2E5       698            mov     c,_ACC_5
+0065 9297       699            mov     _P1_7,c
+0067            700   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:85: LCD_D4=ACC_4;
+0067 A2E4       701            mov     c,_ACC_4
+0069 92A0       702            mov     _P2_0,c
+006B            703   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:86: LCD_D3=ACC_3;
+006B A2E3       704            mov     c,_ACC_3
+006D 92A1       705            mov     _P2_1,c
+006F            706   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:87: LCD_D2=ACC_2;
+006F A2E2       707            mov     c,_ACC_2
+0071 92A2       708            mov     _P2_2,c
+0073            709   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:88: LCD_D1=ACC_1;
+0073 A2E1       710            mov     c,_ACC_1
+0075 92A3       711            mov     _P2_3,c
+0077            712   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:89: LCD_D0=ACC_0;
+0077 A2E0       713            mov     c,_ACC_0
+0079 92A4       714            mov     _P2_4,c
+007B            715   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:90: LCD_pulse();
+007B 020100     716            ljmp    _LCD_pulse
+007E            717   ;------------------------------------------------------------
+007E            718   ;Allocation info for local variables in function 'WriteData'
+007E            719   ;------------------------------------------------------------
+007E            720   ;x                         Allocated to registers r2 
+007E            721   ;------------------------------------------------------------
+007E            722   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:93: void WriteData (unsigned char x)
+007E            723   ;        -----------------------------------------
+007E            724   ;         function WriteData
+007E            725   ;        -----------------------------------------
+007E            726   _WriteData:
+007E AA82       727            mov     r2,dpl
+0080            728   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:95: LCD_RS=1;
+0080 D2A7       729            setb    _P2_7
+0082            730   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:96: LCD_byte(x);
+0082 8A82       731            mov     dpl,r2
+0084 120100     732            lcall   _LCD_byte
+0087            733   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:97: waitms(2);
+0087 900002     734            mov     dptr,#0x0002
+008A 020100     735            ljmp    _waitms
+008D            736   ;------------------------------------------------------------
+008D            737   ;Allocation info for local variables in function 'WriteCommand'
+008D            738   ;------------------------------------------------------------
+008D            739   ;x                         Allocated to registers r2 
+008D            740   ;------------------------------------------------------------
+008D            741   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:100: void WriteCommand (unsigned char x)
+008D            742   ;        -----------------------------------------
+008D            743   ;         function WriteCommand
+008D            744   ;        -----------------------------------------
+008D            745   _WriteCommand:
+008D AA82       746            mov     r2,dpl
+008F            747   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:102: LCD_RS=0;
+008F C2A7       748            clr     _P2_7
+0091            749   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:103: LCD_byte(x);
+0091 8A82       750            mov     dpl,r2
+0093 120100     751            lcall   _LCD_byte
+0096            752   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:104: waitms(5);
+0096 900005     753            mov     dptr,#0x0005
+0099 020100     754            ljmp    _waitms
+009C            755   ;------------------------------------------------------------
+009C            756   ;Allocation info for local variables in function 'LCD_8BIT'
+009C            757   ;------------------------------------------------------------
+009C            758   ;------------------------------------------------------------
+009C            759   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:107: void LCD_8BIT (void)
+009C            760   ;        -----------------------------------------
+009C            761   ;         function LCD_8BIT
+009C            762   ;        -----------------------------------------
+009C            763   _LCD_8BIT:
+009C            764   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:109: LCD_E=0;  // Resting state of LCD's enable is zero
+009C C2A5       765            clr     _P2_5
+009E            766   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:110: LCD_RW=0; // We are only writing to the LCD in this program
+009E C2A6       767            clr     _P2_6
+00A0            768   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:111: waitms(20);
+00A0 900014     769            mov     dptr,#0x0014
+00A3 120100     770            lcall   _waitms
+00A6            771   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:113: WriteCommand(0x33);
+00A6 758233     772            mov     dpl,#0x33
+00A9 120100     773            lcall   _WriteCommand
+00AC            774   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:114: WriteCommand(0x33);
+00AC 758233     775            mov     dpl,#0x33
+00AF 120100     776            lcall   _WriteCommand
+00B2            777   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:115: WriteCommand(0x33); // Stay in 8-bit mode
+00B2 758233     778            mov     dpl,#0x33
+00B5 120100     779            lcall   _WriteCommand
+00B8            780   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:118: WriteCommand(0x38);
+00B8 758238     781            mov     dpl,#0x38
+00BB 120100     782            lcall   _WriteCommand
+00BE            783   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:119: WriteCommand(0x0c);
+00BE 75820C     784            mov     dpl,#0x0C
+00C1 120100     785            lcall   _WriteCommand
+00C4            786   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:120: WriteCommand(0x01); // Clear screen command (takes some time)
+00C4 758201     787            mov     dpl,#0x01
+00C7 120100     788            lcall   _WriteCommand
+00CA            789   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:121: waitms(20); // Wait for clear screen command to finsih.
+00CA 900014     790            mov     dptr,#0x0014
+00CD 020100     791            ljmp    _waitms
+00D0            792   ;------------------------------------------------------------
+00D0            793   ;Allocation info for local variables in function 'LCDprint'
+00D0            794   ;------------------------------------------------------------
+00D0            795   ;line                      Allocated with name '_LCDprint_PARM_2'
+00D0            796   ;string                    Allocated to registers r2 r3 r4 
+00D0            797   ;j                         Allocated to registers r5 
+00D0            798   ;------------------------------------------------------------
+00D0            799   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:124: void LCDprint(char * string, unsigned char line, bit clear)
+00D0            800   ;        -----------------------------------------
+00D0            801   ;         function LCDprint
+00D0            802   ;        -----------------------------------------
+00D0            803   _LCDprint:
+00D0 AA82       804            mov     r2,dpl
+00D2 AB83       805            mov     r3,dph
+00D4 ACF0       806            mov     r4,b
+00D6            807   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:128: WriteCommand(line==2?0xc0:0x80);
+00D6 7402       808            mov     a,#0x02
+00D8 B560E0     809            cjne    a,_LCDprint_PARM_2,L010013?
+00DB 7DC0       810            mov     r5,#0xC0
+00DD 8001       811            sjmp    L010014?
+00DF            812   L010013?:
+00DF 7D80       813            mov     r5,#0x80
+00E1            814   L010014?:
+00E1 8D82       815            mov     dpl,r5
+00E3 C002       816            push    ar2
+00E5 C003       817            push    ar3
+00E7 C004       818            push    ar4
+00E9 120100     819            lcall   _WriteCommand
+00EC            820   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:129: waitms(5);
+00EC 900005     821            mov     dptr,#0x0005
+00EF 120100     822            lcall   _waitms
+00F2 D004       823            pop     ar4
+00F4 D003       824            pop     ar3
+00F6 D002       825            pop     ar2
+00F8            826   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:130: for(j=0; string[j]!=0; j++)       WriteData(string[j]);// Write the message
+00F8 7D00       827            mov     r5,#0x00
+00FA            828   L010003?:
+00FA ED         829            mov     a,r5
+00FB 2A         830            add     a,r2
+00FC FE         831            mov     r6,a
+00FD E4         832            clr     a
+00FE 3B         833            addc    a,r3
+00FF FF         834            mov     r7,a
+0100 8C00       835            mov     ar0,r4
+0102 8E82       836            mov     dpl,r6
+0104 8F83       837            mov     dph,r7
+0106 88F0       838            mov     b,r0
+0108 120100     839            lcall   __gptrget
+010B FE         840            mov     r6,a
+010C 6001       841            jz      L010006?
+010E 8E82       842            mov     dpl,r6
+0110 C002       843            push    ar2
+0112 C003       844            push    ar3
+0114 C004       845            push    ar4
+0116 C005       846            push    ar5
+0118 120100     847            lcall   _WriteData
+011B D005       848            pop     ar5
+011D D004       849            pop     ar4
+011F D003       850            pop     ar3
+0121 D002       851            pop     ar2
+0123 0D         852            inc     r5
+0124 8001       853            sjmp    L010003?
+0126            854   L010006?:
+0126            855   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:131: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+0126 30C020     856            jnb     _LCDprint_PARM_3,L010011?
+0129 8D02       857            mov     ar2,r5
+012B            858   L010007?:
+012B BA10A0     859            cjne    r2,#0x10,L010026?
+012E            860   L010026?:
+012E 5001       861            jnc     L010011?
+0130 758220     862            mov     dpl,#0x20
+0133 C002       863            push    ar2
+0135 120100     864            lcall   _WriteData
+0138 D002       865            pop     ar2
+013A 0A         866            inc     r2
+013B 8001       867            sjmp    L010007?
+013D            868   L010011?:
+013D 22         869            ret
+013E            870   ;------------------------------------------------------------
+013E            871   ;Allocation info for local variables in function 'LCDport_print'
+013E            872   ;------------------------------------------------------------
+013E            873   ;string                    Allocated with name '_LCDport_print_string_2_81'
+013E            874   ;------------------------------------------------------------
+013E            875   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:134: void LCDport_print(void){
+013E            876   ;        -----------------------------------------
+013E            877   ;         function LCDport_print
+013E            878   ;        -----------------------------------------
+013E            879   _LCDport_print:
+013E            880   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:135: while(1){
+013E            881   L011002?:
+013E            882   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:137: char string[20]  = "something";
+013E 75E073     883            mov     _LCDport_print_string_2_81,#0x73
+0141 75E16F     884            mov     (_LCDport_print_string_2_81 + 0x0001),#0x6F
+0144 75E26D     885            mov     (_LCDport_print_string_2_81 + 0x0002),#0x6D
+0147 75E365     886            mov     (_LCDport_print_string_2_81 + 0x0003),#0x65
+014A 75E474     887            mov     (_LCDport_print_string_2_81 + 0x0004),#0x74
+014D 75E568     888            mov     (_LCDport_print_string_2_81 + 0x0005),#0x68
+0150 75E669     889            mov     (_LCDport_print_string_2_81 + 0x0006),#0x69
+0153 75E76E     890            mov     (_LCDport_print_string_2_81 + 0x0007),#0x6E
+0156 75E867     891            mov     (_LCDport_print_string_2_81 + 0x0008),#0x67
+0159 75E900     892            mov     (_LCDport_print_string_2_81 + 0x0009),#0x00
+015C            893   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:141: LCDprint(string, 2,1);
+015C 756002     894            mov     _LCDprint_PARM_2,#0x02
+015F D2C0       895            setb    _LCDprint_PARM_3
+0161 90A3E0     896            mov     dptr,#_LCDport_print_string_2_81
+0164 75F040     897            mov     b,#0x40
+0167 120100     898            lcall   _LCDprint
+016A 8001       899            sjmp    L011002?
+016C            900   ;------------------------------------------------------------
+016C            901   ;Allocation info for local variables in function 'Wait1S'
+016C            902   ;------------------------------------------------------------
+016C            903   ;------------------------------------------------------------
+016C            904   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:145: void Wait1S (void)
+016C            905   ;        -----------------------------------------
+016C            906   ;         function Wait1S
+016C            907   ;        -----------------------------------------
+016C            908   _Wait1S:
+016C            909   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:154: _endasm;
+016C            910            
+016C 7A28       911             mov R2, #40
+016E            912            L3:
+016E 79FA       913            mov R1, #250
+0170            914            L2:
+0170 78B8       915            mov R0, #184
+0172            916            L1:
+0172 D8A0       917            djnz R0, L1 ; 2 machine cycles-> 2*0.27126us*184=100us
+0174 D960       918                djnz R1, L2 ; 100us*250=0.025s
+0176 DA20       919                djnz R2, L3 ; 0.025s*40=1s
+0178            920                
+0178 22         921            ret
+0179            922   ;------------------------------------------------------------
+0179            923   ;Allocation info for local variables in function 'InitSerialPort'
+0179            924   ;------------------------------------------------------------
+0179            925   ;------------------------------------------------------------
+0179            926   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:157: void InitSerialPort(void)
+0179            927   ;        -----------------------------------------
+0179            928   ;         function InitSerialPort
+0179            929   ;        -----------------------------------------
+0179            930   _InitSerialPort:
+0179            931   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:159: BRGCON=0x00; //Make sure the baud rate generator is off
+0179 75BD00     932            mov     _BRGCON,#0x00
+017C            933   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:160: BRGR1=((XTAL/BAUD)-16)/0x100;
+017C 75BF00     934            mov     _BRGR1,#0x00
+017F            935   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:161: BRGR0=((XTAL/BAUD)-16)%0x100;
+017F 75BE30     936            mov     _BRGR0,#0x30
+0182            937   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:162: BRGCON=0x03; //Turn-on the baud rate generator
+0182 75BD03     938            mov     _BRGCON,#0x03
+0185            939   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:163: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
+0185 759852     940            mov     _SCON,#0x52
+0188            941   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:164: P1M1=0x00; //Enable pins RxD and Txd
+0188 759100     942            mov     _P1M1,#0x00
+018B            943   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:165: P1M2=0x00; //Enable pins RxD and Txd
+018B 759200     944            mov     _P1M2,#0x00
+018E 22         945            ret
+018F            946   ;------------------------------------------------------------
+018F            947   ;Allocation info for local variables in function 'InitADC'
+018F            948   ;------------------------------------------------------------
+018F            949   ;------------------------------------------------------------
+018F            950   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:168: void InitADC(void)
+018F            951   ;        -----------------------------------------
+018F            952   ;         function InitADC
+018F            953   ;        -----------------------------------------
+018F            954   _InitADC:
+018F            955   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:172: P0M1 |= (P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
+018F 43841E     956            orl     _P0M1,#0x1E
+0192            957   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:173: P0M2 &= ~(P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
+0192 5385E1     958            anl     _P0M2,#0xE1
+0195            959   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:176: BURST1=1; //Autoscan continuous conversion mode
+0195 D2C6       960            setb    _BURST1
+0197            961   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:177: ADMODB = CLK0; //ADC1 clock is 7.3728MHz/2
+0197 75A120     962            mov     _ADMODB,#0x20
+019A            963   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:178: ADINS  = (ADI13|ADI12|ADI11|ADI10); // Select the four channels for conversion
+019A 75A3F0     964            mov     _ADINS,#0xF0
+019D            965   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:179: ADCON1 = (ENADC1|ADCS10); //Enable the converter and start immediately
+019D 759705     966            mov     _ADCON1,#0x05
+01A0            967   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:180: while((ADCI1&ADCON1)==0); //Wait for first conversion to complete
+01A0            968   L014001?:
+01A0 E597       969            mov     a,_ADCON1
+01A2 30E3E0     970            jnb     acc.3,L014001?
+01A5 22         971            ret
+01A6            972   ;------------------------------------------------------------
+01A6            973   ;Allocation info for local variables in function 'InitTimer0'
+01A6            974   ;------------------------------------------------------------
+01A6            975   ;------------------------------------------------------------
+01A6            976   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:183: void InitTimer0 (void)
+01A6            977   ;        -----------------------------------------
+01A6            978   ;         function InitTimer0
+01A6            979   ;        -----------------------------------------
+01A6            980   _InitTimer0:
+01A6            981   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:187: TR0=0; // Stop timer 0
+01A6 C28C       982            clr     _TR0
+01A8            983   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:188: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
+01A8 74F0       984            mov     a,#0xF0
+01AA 5589       985            anl     a,_TMOD
+01AC 4401       986            orl     a,#0x01
+01AE F589       987            mov     _TMOD,a
+01B0            988   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:189: TH0=TIMER0_RELOAD_VALUE/0x100; // I think the RHS is 0001 0000 0000, are we dividing?
+01B0 758CFE     989            mov     _TH0,#0xFE
+01B3            990   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:190: TL0=TIMER0_RELOAD_VALUE%0x100; // % means modulo, apparently? ...are we modulo-ing?
+01B3 758A90     991            mov     _TL0,#0x90
+01B6            992   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:191: TR0=1; // Start timer 0 (bit 4 in TCON)
+01B6 D28C       993            setb    _TR0
+01B8            994   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:192: ET0=1; // Enable timer 0 interrupt - the interrupt controller IEN0 is bit-adressable, so we change only the bit we need
+01B8 D2A9       995            setb    _ET0
+01BA            996   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:193: EA=1;  // Enable global interrupts
+01BA D2AF       997            setb    _EA
+01BC 22         998            ret
+01BD            999   ;------------------------------------------------------------
+01BD           1000   ;Allocation info for local variables in function 'Timer0ISR'
+01BD           1001   ;------------------------------------------------------------
+01BD           1002   ;------------------------------------------------------------
+01BD           1003   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:197: void Timer0ISR (void) interrupt 1
+01BD           1004   ;        -----------------------------------------
+01BD           1005   ;         function Timer0ISR
+01BD           1006   ;        -----------------------------------------
+01BD           1007   _Timer0ISR:
+01BD C0E0      1008            push    acc
+01BF C0D0      1009            push    psw
+01C1 75D000    1010            mov     psw,#0x00
+01C4           1011   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:200: TR0=0; // Stop timer 0
+01C4 C28C      1012            clr     _TR0
+01C6           1013   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:201: TH0=TIMER0_RELOAD_VALUE/0x100;
+01C6 758CFE    1014            mov     _TH0,#0xFE
+01C9           1015   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:202: TL0=TIMER0_RELOAD_VALUE%0x100;
+01C9 758A90    1016            mov     _TL0,#0x90
+01CC           1017   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:203: TR0=1; // Start timer 0
+01CC D28C      1018            setb    _TR0
+01CE           1019   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:205: if(++pwmcount>99) pwmcount=0;
+01CE 0520      1020            inc     _pwmcount
+01D0 E520      1021            mov     a,_pwmcount
+01D2 249C      1022            add     a,#0xff - 0x63
+01D4 5001      1023            jnc     L016002?
+01D6 752000    1024            mov     _pwmcount,#0x00
+01D9           1025   L016002?:
+01D9           1026   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:206: P0_5=(pwm_left>pwmcount)?1:0;
+01D9 C3        1027            clr     c
+01DA E520      1028            mov     a,_pwmcount
+01DC 95E0      1029            subb    a,_pwm_left
+01DE 9285      1030            mov     _P0_5,c
+01E0           1031   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:207: P0_6=(pwm_right>pwmcount)?1:0;
+01E0 C3        1032            clr     c
+01E1 E520      1033            mov     a,_pwmcount
+01E3 95A0      1034            subb    a,_pwm_right
+01E5 9286      1035            mov     _P0_6,c
+01E7           1036   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:209: msCount++;
+01E7 7401      1037            mov     a,#0x01
+01E9 25E0      1038            add     a,_msCount
+01EB F5E0      1039            mov     _msCount,a
+01ED E4        1040            clr     a
+01EE 35E1      1041            addc    a,(_msCount + 1)
+01F0 F5E1      1042            mov     (_msCount + 1),a
+01F2           1043   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:210: if(msCount==10000)
+01F2 7410      1044            mov     a,#0x10
+01F4 B5E0E0    1045            cjne    a,_msCount,L016009?
+01F7 7427      1046            mov     a,#0x27
+01F9 B5E1E0    1047            cjne    a,(_msCount + 1),L016009?
+01FC           1048   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:212: time_update_flag=1;
+01FC D210      1049            setb    _time_update_flag
+01FE           1050   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:213: msCount=0;
+01FE E4        1051            clr     a
+01FF F5E0      1052            mov     _msCount,a
+0201 F5E1      1053            mov     (_msCount + 1),a
+0203           1054   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:214: secs++;
+0203 05A0      1055            inc     _secs
+0205           1056   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:215: if(secs==60)
+0205 743C      1057            mov     a,#0x3C
+0207 B5A0E0    1058            cjne    a,_secs,L016009?
+020A           1059   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:217: secs=0;
+020A 75A000    1060            mov     _secs,#0x00
+020D           1061   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:218: mins++;
+020D 0560      1062            inc     _mins
+020F           1063   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:219: if(mins==60)
+020F 743C      1064            mov     a,#0x3C
+0211 B560E0    1065            cjne    a,_mins,L016009?
+0214           1066   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:221: mins=0;
+0214 756000    1067            mov     _mins,#0x00
+0217           1068   L016009?:
+0217 D0D0      1069            pop     psw
+0219 D0E0      1070            pop     acc
+021B 32        1071            reti
+021C           1072   ;        eliminated unneeded push/pop dpl
+021C           1073   ;        eliminated unneeded push/pop dph
+021C           1074   ;        eliminated unneeded push/pop b
+021C           1075   ;------------------------------------------------------------
+021C           1076   ;Allocation info for local variables in function 'display_LCD'
+021C           1077   ;------------------------------------------------------------
+021C           1078   ;buff                      Allocated with name '_display_LCD_buff_1_96'
+021C           1079   ;------------------------------------------------------------
+021C           1080   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:228: void display_LCD(void){
+021C           1081   ;        -----------------------------------------
+021C           1082   ;         function display_LCD
+021C           1083   ;        -----------------------------------------
+021C           1084   _display_LCD:
+021C           1085   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:231: sprintf (buff, "V0: %4.2fV", (AD1DAT0*3.3)/255.0); // Prints 4 digits with 2 decimals, appended by V
+021C 85D582    1086            mov     dpl,_AD1DAT0
+021F 120100    1087            lcall   ___uchar2fs
+0222 AA82      1088            mov     r2,dpl
+0224 AB83      1089            mov     r3,dph
+0226 ACF0      1090            mov     r4,b
+0228 FD        1091            mov     r5,a
+0229 C002      1092            push    ar2
+022B C003      1093            push    ar3
+022D C004      1094            push    ar4
+022F C005      1095            push    ar5
+0231 903333    1096            mov     dptr,#0x3333
+0234 75F053    1097            mov     b,#0x53
+0237 7440      1098            mov     a,#0x40
+0239 120100    1099            lcall   ___fsmul
+023C AA82      1100            mov     r2,dpl
+023E AB83      1101            mov     r3,dph
+0240 ACF0      1102            mov     r4,b
+0242 FD        1103            mov     r5,a
+0243 E581      1104            mov     a,sp
+0245 24FC      1105            add     a,#0xfc
+0247 F581      1106            mov     sp,a
+0249 E4        1107            clr     a
+024A C0E0      1108            push    acc
+024C C0E0      1109            push    acc
+024E 747F      1110            mov     a,#0x7F
+0250 C0E0      1111            push    acc
+0252 7443      1112            mov     a,#0x43
+0254 C0E0      1113            push    acc
+0256 8A82      1114            mov     dpl,r2
+0258 8B83      1115            mov     dph,r3
+025A 8CF0      1116            mov     b,r4
+025C ED        1117            mov     a,r5
+025D 120100    1118            lcall   ___fsdiv
+0260 AA82      1119            mov     r2,dpl
+0262 AB83      1120            mov     r3,dph
+0264 ACF0      1121            mov     r4,b
+0266 FD        1122            mov     r5,a
+0267 E581      1123            mov     a,sp
+0269 24FC      1124            add     a,#0xfc
+026B F581      1125            mov     sp,a
+026D C002      1126            push    ar2
+026F C003      1127            push    ar3
+0271 C004      1128            push    ar4
+0273 C005      1129            push    ar5
+0275 7428      1130            mov     a,#__str_1
+0277 C0E0      1131            push    acc
+0279 74B0      1132            mov     a,#(__str_1 >> 8)
+027B C0E0      1133            push    acc
+027D 7480      1134            mov     a,#0x80
+027F C0E0      1135            push    acc
+0281 7430      1136            mov     a,#_display_LCD_buff_1_96
+0283 C0E0      1137            push    acc
+0285 74A4      1138            mov     a,#(_display_LCD_buff_1_96 >> 8)
+0287 C0E0      1139            push    acc
+0289 7440      1140            mov     a,#0x40
+028B C0E0      1141            push    acc
+028D 120100    1142            lcall   _sprintf
+0290 E581      1143            mov     a,sp
+0292 24F6      1144            add     a,#0xf6
+0294 F581      1145            mov     sp,a
+0296           1146   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:232: LCDprint(buff, 1, 1);
+0296 756001    1147            mov     _LCDprint_PARM_2,#0x01
+0299 D2C0      1148            setb    _LCDprint_PARM_3
+029B 90A430    1149            mov     dptr,#_display_LCD_buff_1_96
+029E 75F040    1150            mov     b,#0x40
+02A1 120100    1151            lcall   _LCDprint
+02A4           1152   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:234: sprintf (buff, "V1: %4.2fV", (AD1DAT1*3.3)/255.0);
+02A4 85D682    1153            mov     dpl,_AD1DAT1
+02A7 120100    1154            lcall   ___uchar2fs
+02AA AA82      1155            mov     r2,dpl
+02AC AB83      1156            mov     r3,dph
+02AE ACF0      1157            mov     r4,b
+02B0 FD        1158            mov     r5,a
+02B1 C002      1159            push    ar2
+02B3 C003      1160            push    ar3
+02B5 C004      1161            push    ar4
+02B7 C005      1162            push    ar5
+02B9 903333    1163            mov     dptr,#0x3333
+02BC 75F053    1164            mov     b,#0x53
+02BF 7440      1165            mov     a,#0x40
+02C1 120100    1166            lcall   ___fsmul
+02C4 AA82      1167            mov     r2,dpl
+02C6 AB83      1168            mov     r3,dph
+02C8 ACF0      1169            mov     r4,b
+02CA FD        1170            mov     r5,a
+02CB E581      1171            mov     a,sp
+02CD 24FC      1172            add     a,#0xfc
+02CF F581      1173            mov     sp,a
+02D1 E4        1174            clr     a
+02D2 C0E0      1175            push    acc
+02D4 C0E0      1176            push    acc
+02D6 747F      1177            mov     a,#0x7F
+02D8 C0E0      1178            push    acc
+02DA 7443      1179            mov     a,#0x43
+02DC C0E0      1180            push    acc
+02DE 8A82      1181            mov     dpl,r2
+02E0 8B83      1182            mov     dph,r3
+02E2 8CF0      1183            mov     b,r4
+02E4 ED        1184            mov     a,r5
+02E5 120100    1185            lcall   ___fsdiv
+02E8 AA82      1186            mov     r2,dpl
+02EA AB83      1187            mov     r3,dph
+02EC ACF0      1188            mov     r4,b
+02EE FD        1189            mov     r5,a
+02EF E581      1190            mov     a,sp
+02F1 24FC      1191            add     a,#0xfc
+02F3 F581      1192            mov     sp,a
+02F5 C002      1193            push    ar2
+02F7 C003      1194            push    ar3
+02F9 C004      1195            push    ar4
+02FB C005      1196            push    ar5
+02FD 74A8      1197            mov     a,#__str_2
+02FF C0E0      1198            push    acc
+0301 74B0      1199            mov     a,#(__str_2 >> 8)
+0303 C0E0      1200            push    acc
+0305 7480      1201            mov     a,#0x80
+0307 C0E0      1202            push    acc
+0309 7430      1203            mov     a,#_display_LCD_buff_1_96
+030B C0E0      1204            push    acc
+030D 74A4      1205            mov     a,#(_display_LCD_buff_1_96 >> 8)
+030F C0E0      1206            push    acc
+0311 7440      1207            mov     a,#0x40
+0313 C0E0      1208            push    acc
+0315 120100    1209            lcall   _sprintf
+0318 E581      1210            mov     a,sp
+031A 24F6      1211            add     a,#0xf6
+031C F581      1212            mov     sp,a
+031E           1213   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:235: LCDprint(buff, 2, 1);
+031E 756002    1214            mov     _LCDprint_PARM_2,#0x02
+0321 D2C0      1215            setb    _LCDprint_PARM_3
+0323 90A430    1216            mov     dptr,#_display_LCD_buff_1_96
+0326 75F040    1217            mov     b,#0x40
+0329 020100    1218            ljmp    _LCDprint
+032C           1219   ;------------------------------------------------------------
+032C           1220   ;Allocation info for local variables in function 'motor_control'
+032C           1221   ;------------------------------------------------------------
+032C           1222   ;------------------------------------------------------------
+032C           1223   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:240: void motor_control(void){
+032C           1224   ;        -----------------------------------------
+032C           1225   ;         function motor_control
+032C           1226   ;        -----------------------------------------
+032C           1227   _motor_control:
+032C           1228   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:241: }
+032C 22        1229            ret
+032D           1230   ;------------------------------------------------------------
+032D           1231   ;Allocation info for local variables in function 'main'
+032D           1232   ;------------------------------------------------------------
+032D           1233   ;str                       Allocated with name '_main_str_1_100'
+032D           1234   ;threshold                 Allocated to registers 
+032D           1235   ;p                         Allocated to registers 
+032D           1236   ;d                         Allocated to registers r2 r3 r4 r5 
+032D           1237   ;k_p                       Allocated to registers 
+032D           1238   ;k_d                       Allocated to registers 
+032D           1239   ;cor                       Allocated with name '_main_cor_1_100'
+032D           1240   ;cur_error                 Allocated to registers r6 r7 r0 r1 
+032D           1241   ;pre_error                 Allocated with name '_main_pre_error_1_100'
+032D           1242   ;dt                        Allocated to registers 
+032D           1243   ;def_speed                 Allocated to registers 
+032D           1244   ;new_speed_low             Allocated to registers 
+032D           1245   ;new_speed_high            Allocated to registers 
+032D           1246   ;left                      Allocated with name '_main_left_2_101'
+032D           1247   ;right                     Allocated with name '_main_right_2_101'
+032D           1248   ;voltage                   Allocated to registers r6 r7 r0 r1 
+032D           1249   ;------------------------------------------------------------
+032D           1250   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:244: void main (void)
+032D           1251   ;        -----------------------------------------
+032D           1252   ;         function main
+032D           1253   ;        -----------------------------------------
+032D           1254   _main:
+032D           1255   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:262: InitPorts();
+032D 120100    1256            lcall   _InitPorts
+0330           1257   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:263: LCD_8BIT();
+0330 120100    1258            lcall   _LCD_8BIT
+0333           1259   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:264: InitSerialPort();
+0333 120100    1260            lcall   _InitSerialPort
+0336           1261   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:265: InitADC();
+0336 120100    1262            lcall   _InitADC
+0339           1263   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:266: InitTimer0();
+0339 120100    1264            lcall   _InitTimer0
+033C           1265   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:268: pre_error = 0;
+033C 750000    1266            mov     _main_pre_error_1_100,#0x00
+033F 750100    1267            mov     (_main_pre_error_1_100 + 1),#0x00
+0342 750200    1268            mov     (_main_pre_error_1_100 + 2),#0x00
+0345 750300    1269            mov     (_main_pre_error_1_100 + 3),#0x00
+0348           1270   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:269: while(1)
+0348           1271   L019019?:
+0348           1272   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:272: double left = (AD1DAT1/255.0)*3.3;
+0348 85D682    1273            mov     dpl,_AD1DAT1
+034B 120100    1274            lcall   ___uchar2fs
+034E AE82      1275            mov     r6,dpl
+0350 AF83      1276            mov     r7,dph
+0352 A8F0      1277            mov     r0,b
+0354 F9        1278            mov     r1,a
+0355 E4        1279            clr     a
+0356 C0E0      1280            push    acc
+0358 C0E0      1281            push    acc
+035A 747F      1282            mov     a,#0x7F
+035C C0E0      1283            push    acc
+035E 7443      1284            mov     a,#0x43
+0360 C0E0      1285            push    acc
+0362 8E82      1286            mov     dpl,r6
+0364 8F83      1287            mov     dph,r7
+0366 88F0      1288            mov     b,r0
+0368 E9        1289            mov     a,r1
+0369 120100    1290            lcall   ___fsdiv
+036C AE82      1291            mov     r6,dpl
+036E AF83      1292            mov     r7,dph
+0370 A8F0      1293            mov     r0,b
+0372 F9        1294            mov     r1,a
+0373 E581      1295            mov     a,sp
+0375 24FC      1296            add     a,#0xfc
+0377 F581      1297            mov     sp,a
+0379 C006      1298            push    ar6
+037B C007      1299            push    ar7
+037D C000      1300            push    ar0
+037F C001      1301            push    ar1
+0381 903333    1302            mov     dptr,#0x3333
+0384 75F053    1303            mov     b,#0x53
+0387 7440      1304            mov     a,#0x40
+0389 120100    1305            lcall   ___fsmul
+038C 858250    1306            mov     _main_left_2_101,dpl
+038F 858351    1307            mov     (_main_left_2_101 + 1),dph
+0392 85F052    1308            mov     (_main_left_2_101 + 2),b
+0395 F553      1309            mov     (_main_left_2_101 + 3),a
+0397 E581      1310            mov     a,sp
+0399 24FC      1311            add     a,#0xfc
+039B F581      1312            mov     sp,a
+039D           1313   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:273: double right = (AD1DAT2/255.0)*3.3;
+039D 85D782    1314            mov     dpl,_AD1DAT2
+03A0 120100    1315            lcall   ___uchar2fs
+03A3 AE82      1316            mov     r6,dpl
+03A5 AF83      1317            mov     r7,dph
+03A7 A8F0      1318            mov     r0,b
+03A9 F9        1319            mov     r1,a
+03AA E4        1320            clr     a
+03AB C0E0      1321            push    acc
+03AD C0E0      1322            push    acc
+03AF 747F      1323            mov     a,#0x7F
+03B1 C0E0      1324            push    acc
+03B3 7443      1325            mov     a,#0x43
+03B5 C0E0      1326            push    acc
+03B7 8E82      1327            mov     dpl,r6
+03B9 8F83      1328            mov     dph,r7
+03BB 88F0      1329            mov     b,r0
+03BD E9        1330            mov     a,r1
+03BE 120100    1331            lcall   ___fsdiv
+03C1 AE82      1332            mov     r6,dpl
+03C3 AF83      1333            mov     r7,dph
+03C5 A8F0      1334            mov     r0,b
+03C7 F9        1335            mov     r1,a
+03C8 E581      1336            mov     a,sp
+03CA 24FC      1337            add     a,#0xfc
+03CC F581      1338            mov     sp,a
+03CE C006      1339            push    ar6
+03D0 C007      1340            push    ar7
+03D2 C000      1341            push    ar0
+03D4 C001      1342            push    ar1
+03D6 903333    1343            mov     dptr,#0x3333
+03D9 75F053    1344            mov     b,#0x53
+03DC 7440      1345            mov     a,#0x40
+03DE 120100    1346            lcall   ___fsmul
+03E1 8582A0    1347            mov     _main_right_2_101,dpl
+03E4 8583A1    1348            mov     (_main_right_2_101 + 1),dph
+03E7 85F0A2    1349            mov     (_main_right_2_101 + 2),b
+03EA F5A3      1350            mov     (_main_right_2_101 + 3),a
+03EC E581      1351            mov     a,sp
+03EE 24FC      1352            add     a,#0xfc
+03F0 F581      1353            mov     sp,a
+03F2           1354   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:274: double voltage = (AD1DAT0/255.0)*3.3;
+03F2 85D582    1355            mov     dpl,_AD1DAT0
+03F5 120100    1356            lcall   ___uchar2fs
+03F8 AE82      1357            mov     r6,dpl
+03FA AF83      1358            mov     r7,dph
+03FC A8F0      1359            mov     r0,b
+03FE F9        1360            mov     r1,a
+03FF E4        1361            clr     a
+0400 C0E0      1362            push    acc
+0402 C0E0      1363            push    acc
+0404 747F      1364            mov     a,#0x7F
+0406 C0E0      1365            push    acc
+0408 7443      1366            mov     a,#0x43
+040A C0E0      1367            push    acc
+040C 8E82      1368            mov     dpl,r6
+040E 8F83      1369            mov     dph,r7
+0410 88F0      1370            mov     b,r0
+0412 E9        1371            mov     a,r1
+0413 120100    1372            lcall   ___fsdiv
+0416 AE82      1373            mov     r6,dpl
+0418 AF83      1374            mov     r7,dph
+041A A8F0      1375            mov     r0,b
+041C F9        1376            mov     r1,a
+041D E581      1377            mov     a,sp
+041F 24FC      1378            add     a,#0xfc
+0421 F581      1379            mov     sp,a
+0423 C006      1380            push    ar6
+0425 C007      1381            push    ar7
+0427 C000      1382            push    ar0
+0429 C001      1383            push    ar1
+042B 903333    1384            mov     dptr,#0x3333
+042E 75F053    1385            mov     b,#0x53
+0431 7440      1386            mov     a,#0x40
+0433 120100    1387            lcall   ___fsmul
+0436 AE82      1388            mov     r6,dpl
+0438 AF83      1389            mov     r7,dph
+043A A8F0      1390            mov     r0,b
+043C F9        1391            mov     r1,a
+043D E581      1392            mov     a,sp
+043F 24FC      1393            add     a,#0xfc
+0441 F581      1394            mov     sp,a
+0443           1395   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:277: if(time_update_flag==1) // If the clock has been updated, refresh the display
+0443           1396   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:279: time_update_flag=0;
+0443 101028    1397            jbc     _time_update_flag,L019031?
+0446 8001      1398            sjmp    L019002?
+0448           1399   L019031?:
+0448           1400   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:280: sprintf(str, "V=%5.2f", voltage); // Display the voltage at pin P0.1
+0448 C006      1401            push    ar6
+044A C007      1402            push    ar7
+044C C000      1403            push    ar0
+044E C001      1404            push    ar1
+0450 74A8      1405            mov     a,#__str_3
+0452 C0E0      1406            push    acc
+0454 74B1      1407            mov     a,#(__str_3 >> 8)
+0456 C0E0      1408            push    acc
+0458 7480      1409            mov     a,#0x80
+045A C0E0      1410            push    acc
+045C 7470      1411            mov     a,#_main_str_1_100
+045E C0E0      1412            push    acc
+0460 74A4      1413            mov     a,#(_main_str_1_100 >> 8)
+0462 C0E0      1414            push    acc
+0464 7440      1415            mov     a,#0x40
+0466 C0E0      1416            push    acc
+0468 120100    1417            lcall   _sprintf
+046B E581      1418            mov     a,sp
+046D 24F6      1419            add     a,#0xf6
+046F F581      1420            mov     sp,a
+0471           1421   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:281: LCDprint(str, 1, 1);
+0471 756001    1422            mov     _LCDprint_PARM_2,#0x01
+0474 D2C0      1423            setb    _LCDprint_PARM_3
+0476 90A470    1424            mov     dptr,#_main_str_1_100
+0479 75F040    1425            mov     b,#0x40
+047C 120100    1426            lcall   _LCDprint
+047F           1427   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:282: sprintf(str, "%02d:%02d", mins, secs); // Display the clock
+047F AEA0      1428            mov     r6,_secs
+0481 7F00      1429            mov     r7,#0x00
+0483 A860      1430            mov     r0,_mins
+0485 7900      1431            mov     r1,#0x00
+0487 C006      1432            push    ar6
+0489 C007      1433            push    ar7
+048B C000      1434            push    ar0
+048D C001      1435            push    ar1
+048F 74E8      1436            mov     a,#__str_4
+0491 C0E0      1437            push    acc
+0493 74B1      1438            mov     a,#(__str_4 >> 8)
+0495 C0E0      1439            push    acc
+0497 7480      1440            mov     a,#0x80
+0499 C0E0      1441            push    acc
+049B 7470      1442            mov     a,#_main_str_1_100
+049D C0E0      1443            push    acc
+049F 74A4      1444            mov     a,#(_main_str_1_100 >> 8)
+04A1 C0E0      1445            push    acc
+04A3 7440      1446            mov     a,#0x40
+04A5 C0E0      1447            push    acc
+04A7 120100    1448            lcall   _sprintf
+04AA E581      1449            mov     a,sp
+04AC 24F6      1450            add     a,#0xf6
+04AE F581      1451            mov     sp,a
+04B0           1452   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:283: LCDprint(str, 2, 1);
+04B0 756002    1453            mov     _LCDprint_PARM_2,#0x02
+04B3 D2C0      1454            setb    _LCDprint_PARM_3
+04B5 90A470    1455            mov     dptr,#_main_str_1_100
+04B8 75F040    1456            mov     b,#0x40
+04BB 120100    1457            lcall   _LCDprint
+04BE           1458   L019002?:
+04BE           1459   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:310: cur_error = left - right;
+04BE C0A0      1460            push    _main_right_2_101
+04C0 C0A1      1461            push    (_main_right_2_101 + 1)
+04C2 C0A2      1462            push    (_main_right_2_101 + 2)
+04C4 C0A3      1463            push    (_main_right_2_101 + 3)
+04C6 855082    1464            mov     dpl,_main_left_2_101
+04C9 855183    1465            mov     dph,(_main_left_2_101 + 1)
+04CC 8552F0    1466            mov     b,(_main_left_2_101 + 2)
+04CF E553      1467            mov     a,(_main_left_2_101 + 3)
+04D1 120100    1468            lcall   ___fssub
+04D4 AE82      1469            mov     r6,dpl
+04D6 AF83      1470            mov     r7,dph
+04D8 A8F0      1471            mov     r0,b
+04DA F9        1472            mov     r1,a
+04DB E581      1473            mov     a,sp
+04DD 24FC      1474            add     a,#0xfc
+04DF F581      1475            mov     sp,a
+04E1           1476   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:314: d = k_d*(cur_error - pre_error)/dt;
+04E1 C006      1477            push    ar6
+04E3 C007      1478            push    ar7
+04E5 C000      1479            push    ar0
+04E7 C001      1480            push    ar1
+04E9 C000      1481            push    _main_pre_error_1_100
+04EB C001      1482            push    (_main_pre_error_1_100 + 1)
+04ED C002      1483            push    (_main_pre_error_1_100 + 2)
+04EF C003      1484            push    (_main_pre_error_1_100 + 3)
+04F1 8E82      1485            mov     dpl,r6
+04F3 8F83      1486            mov     dph,r7
+04F5 88F0      1487            mov     b,r0
+04F7 E9        1488            mov     a,r1
+04F8 120100    1489            lcall   ___fssub
+04FB AA82      1490            mov     r2,dpl
+04FD AB83      1491            mov     r3,dph
+04FF ACF0      1492            mov     r4,b
+0501 FD        1493            mov     r5,a
+0502 E581      1494            mov     a,sp
+0504 24FC      1495            add     a,#0xfc
+0506 F581      1496            mov     sp,a
+0508 746F      1497            mov     a,#0x6F
+050A C0E0      1498            push    acc
+050C 7412      1499            mov     a,#0x12
+050E C0E0      1500            push    acc
+0510 7483      1501            mov     a,#0x83
+0512 C0E0      1502            push    acc
+0514 743A      1503            mov     a,#0x3A
+0516 C0E0      1504            push    acc
+0518 8A82      1505            mov     dpl,r2
+051A 8B83      1506            mov     dph,r3
+051C 8CF0      1507            mov     b,r4
+051E ED        1508            mov     a,r5
+051F 120100    1509            lcall   ___fsdiv
+0522 AA82      1510            mov     r2,dpl
+0524 AB83      1511            mov     r3,dph
+0526 ACF0      1512            mov     r4,b
+0528 FD        1513            mov     r5,a
+0529 E581      1514            mov     a,sp
+052B 24FC      1515            add     a,#0xfc
+052D F581      1516            mov     sp,a
+052F D001      1517            pop     ar1
+0531 D000      1518            pop     ar0
+0533 D007      1519            pop     ar7
+0535 D006      1520            pop     ar6
+0537           1521   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:316: cor = p + d;
+0537 C006      1522            push    ar6
+0539 C007      1523            push    ar7
+053B C000      1524            push    ar0
+053D C001      1525            push    ar1
+053F C002      1526            push    ar2
+0541 C003      1527            push    ar3
+0543 C004      1528            push    ar4
+0545 C005      1529            push    ar5
+0547 8E82      1530            mov     dpl,r6
+0549 8F83      1531            mov     dph,r7
+054B 88F0      1532            mov     b,r0
+054D E9        1533            mov     a,r1
+054E 120100    1534            lcall   ___fsadd
+0551 8582B0    1535            mov     _main_cor_1_100,dpl
+0554 8583B1    1536            mov     (_main_cor_1_100 + 1),dph
+0557 85F0B2    1537            mov     (_main_cor_1_100 + 2),b
+055A F5B3      1538            mov     (_main_cor_1_100 + 3),a
+055C E581      1539            mov     a,sp
+055E 24FC      1540            add     a,#0xfc
+0560 F581      1541            mov     sp,a
+0562 D001      1542            pop     ar1
+0564 D000      1543            pop     ar0
+0566 D007      1544            pop     ar7
+0568 D006      1545            pop     ar6
+056A           1546   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:333: if(cur_error > 0){                
+056A C006      1547            push    ar6
+056C C007      1548            push    ar7
+056E C000      1549            push    ar0
+0570 C001      1550            push    ar1
+0572 E4        1551            clr     a
+0573 C0E0      1552            push    acc
+0575 C0E0      1553            push    acc
+0577 C0E0      1554            push    acc
+0579 C0E0      1555            push    acc
+057B 8E82      1556            mov     dpl,r6
+057D 8F83      1557            mov     dph,r7
+057F 88F0      1558            mov     b,r0
+0581 E9        1559            mov     a,r1
+0582 120100    1560            lcall   ___fsgt
+0585 AA82      1561            mov     r2,dpl
+0587 E581      1562            mov     a,sp
+0589 24FC      1563            add     a,#0xfc
+058B F581      1564            mov     sp,a
+058D D001      1565            pop     ar1
+058F D000      1566            pop     ar0
+0591 D007      1567            pop     ar7
+0593 D006      1568            pop     ar6
+0595 EA        1569            mov     a,r2
+0596 6001      1570            jz      L019016?
+0598           1571   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:334: pwm_left = def_speed - cor;
+0598 C006      1572            push    ar6
+059A C007      1573            push    ar7
+059C C000      1574            push    ar0
+059E C001      1575            push    ar1
+05A0 C0B0      1576            push    _main_cor_1_100
+05A2 C0B1      1577            push    (_main_cor_1_100 + 1)
+05A4 C0B2      1578            push    (_main_cor_1_100 + 2)
+05A6 C0B3      1579            push    (_main_cor_1_100 + 3)
+05A8 900000    1580            mov     dptr,#0x0000
+05AB 75F0C8    1581            mov     b,#0xC8
+05AE 7442      1582            mov     a,#0x42
+05B0 120100    1583            lcall   ___fssub
+05B3 AA82      1584            mov     r2,dpl
+05B5 AB83      1585            mov     r3,dph
+05B7 ACF0      1586            mov     r4,b
+05B9 FD        1587            mov     r5,a
+05BA E581      1588            mov     a,sp
+05BC 24FC      1589            add     a,#0xfc
+05BE F581      1590            mov     sp,a
+05C0 8A82      1591            mov     dpl,r2
+05C2 8B83      1592            mov     dph,r3
+05C4 8CF0      1593            mov     b,r4
+05C6 ED        1594            mov     a,r5
+05C7 120100    1595            lcall   ___fs2uchar
+05CA 8582E0    1596            mov     _pwm_left,dpl
+05CD           1597   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:335: pwm_right = def_speed + cor;              
+05CD C0B0      1598            push    _main_cor_1_100
+05CF C0B1      1599            push    (_main_cor_1_100 + 1)
+05D1 C0B2      1600            push    (_main_cor_1_100 + 2)
+05D3 C0B3      1601            push    (_main_cor_1_100 + 3)
+05D5 900000    1602            mov     dptr,#0x0000
+05D8 75F0C8    1603            mov     b,#0xC8
+05DB 7442      1604            mov     a,#0x42
+05DD 120100    1605            lcall   ___fsadd
+05E0 AA82      1606            mov     r2,dpl
+05E2 AB83      1607            mov     r3,dph
+05E4 ACF0      1608            mov     r4,b
+05E6 FD        1609            mov     r5,a
+05E7 E581      1610            mov     a,sp
+05E9 24FC      1611            add     a,#0xfc
+05EB F581      1612            mov     sp,a
+05ED 8A82      1613            mov     dpl,r2
+05EF 8B83      1614            mov     dph,r3
+05F1 8CF0      1615            mov     b,r4
+05F3 ED        1616            mov     a,r5
+05F4 120100    1617            lcall   ___fs2uchar
+05F7 8582A0    1618            mov     _pwm_right,dpl
+05FA D001      1619            pop     ar1
+05FC D000      1620            pop     ar0
+05FE D007      1621            pop     ar7
+0600 D006      1622            pop     ar6
+0602 020100    1623            ljmp    L019017?
+0605           1624   L019016?:
+0605           1625   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:337: else if (cur_error < 0){
+0605 C006      1626            push    ar6
+0607 C007      1627            push    ar7
+0609 C000      1628            push    ar0
+060B C001      1629            push    ar1
+060D E4        1630            clr     a
+060E C0E0      1631            push    acc
+0610 C0E0      1632            push    acc
+0612 C0E0      1633            push    acc
+0614 C0E0      1634            push    acc
+0616 8E82      1635            mov     dpl,r6
+0618 8F83      1636            mov     dph,r7
+061A 88F0      1637            mov     b,r0
+061C E9        1638            mov     a,r1
+061D 120100    1639            lcall   ___fslt
+0620 AA82      1640            mov     r2,dpl
+0622 E581      1641            mov     a,sp
+0624 24FC      1642            add     a,#0xfc
+0626 F581      1643            mov     sp,a
+0628 D001      1644            pop     ar1
+062A D000      1645            pop     ar0
+062C D007      1646            pop     ar7
+062E D006      1647            pop     ar6
+0630 EA        1648            mov     a,r2
+0631 6001      1649            jz      L019013?
+0633           1650   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:338: pwm_left = def_speed + cor;
+0633 C006      1651            push    ar6
+0635 C007      1652            push    ar7
+0637 C000      1653            push    ar0
+0639 C001      1654            push    ar1
+063B C0B0      1655            push    _main_cor_1_100
+063D C0B1      1656            push    (_main_cor_1_100 + 1)
+063F C0B2      1657            push    (_main_cor_1_100 + 2)
+0641 C0B3      1658            push    (_main_cor_1_100 + 3)
+0643 900000    1659            mov     dptr,#0x0000
+0646 75F0C8    1660            mov     b,#0xC8
+0649 7442      1661            mov     a,#0x42
+064B 120100    1662            lcall   ___fsadd
+064E AA82      1663            mov     r2,dpl
+0650 AB83      1664            mov     r3,dph
+0652 ACF0      1665            mov     r4,b
+0654 FD        1666            mov     r5,a
+0655 E581      1667            mov     a,sp
+0657 24FC      1668            add     a,#0xfc
+0659 F581      1669            mov     sp,a
+065B 8A82      1670            mov     dpl,r2
+065D 8B83      1671            mov     dph,r3
+065F 8CF0      1672            mov     b,r4
+0661 ED        1673            mov     a,r5
+0662 120100    1674            lcall   ___fs2uchar
+0665 8582E0    1675            mov     _pwm_left,dpl
+0668           1676   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:339: pwm_right = def_speed - cor;
+0668 C0B0      1677            push    _main_cor_1_100
+066A C0B1      1678            push    (_main_cor_1_100 + 1)
+066C C0B2      1679            push    (_main_cor_1_100 + 2)
+066E C0B3      1680            push    (_main_cor_1_100 + 3)
+0670 900000    1681            mov     dptr,#0x0000
+0673 75F0C8    1682            mov     b,#0xC8
+0676 7442      1683            mov     a,#0x42
+0678 120100    1684            lcall   ___fssub
+067B AA82      1685            mov     r2,dpl
+067D AB83      1686            mov     r3,dph
+067F ACF0      1687            mov     r4,b
+0681 FD        1688            mov     r5,a
+0682 E581      1689            mov     a,sp
+0684 24FC      1690            add     a,#0xfc
+0686 F581      1691            mov     sp,a
+0688 8A82      1692            mov     dpl,r2
+068A 8B83      1693            mov     dph,r3
+068C 8CF0      1694            mov     b,r4
+068E ED        1695            mov     a,r5
+068F 120100    1696            lcall   ___fs2uchar
+0692 8582A0    1697            mov     _pwm_right,dpl
+0695 D001      1698            pop     ar1
+0697 D000      1699            pop     ar0
+0699 D007      1700            pop     ar7
+069B D006      1701            pop     ar6
+069D 8001      1702            sjmp    L019017?
+069F           1703   L019013?:
+069F           1704   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:343: if(pre_error > 0){
+069F C006      1705            push    ar6
+06A1 C007      1706            push    ar7
+06A3 C000      1707            push    ar0
+06A5 C001      1708            push    ar1
+06A7 E4        1709            clr     a
+06A8 C0E0      1710            push    acc
+06AA C0E0      1711            push    acc
+06AC C0E0      1712            push    acc
+06AE C0E0      1713            push    acc
+06B0 850082    1714            mov     dpl,_main_pre_error_1_100
+06B3 850183    1715            mov     dph,(_main_pre_error_1_100 + 1)
+06B6 8502F0    1716            mov     b,(_main_pre_error_1_100 + 2)
+06B9 E503      1717            mov     a,(_main_pre_error_1_100 + 3)
+06BB 120100    1718            lcall   ___fsgt
+06BE AA82      1719            mov     r2,dpl
+06C0 E581      1720            mov     a,sp
+06C2 24FC      1721            add     a,#0xfc
+06C4 F581      1722            mov     sp,a
+06C6 D001      1723            pop     ar1
+06C8 D000      1724            pop     ar0
+06CA D007      1725            pop     ar7
+06CC D006      1726            pop     ar6
+06CE EA        1727            mov     a,r2
+06CF 6001      1728            jz      L019010?
+06D1           1729   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:344: pwm_left = 100;
+06D1 75E064    1730            mov     _pwm_left,#0x64
+06D4           1731   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:345: pwm_right = 20;
+06D4 75A014    1732            mov     _pwm_right,#0x14
+06D7 8001      1733            sjmp    L019017?
+06D9           1734   L019010?:
+06D9           1735   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:347: else if (pre_error < 0){
+06D9 C006      1736            push    ar6
+06DB C007      1737            push    ar7
+06DD C000      1738            push    ar0
+06DF C001      1739            push    ar1
+06E1 E4        1740            clr     a
+06E2 C0E0      1741            push    acc
+06E4 C0E0      1742            push    acc
+06E6 C0E0      1743            push    acc
+06E8 C0E0      1744            push    acc
+06EA 850082    1745            mov     dpl,_main_pre_error_1_100
+06ED 850183    1746            mov     dph,(_main_pre_error_1_100 + 1)
+06F0 8502F0    1747            mov     b,(_main_pre_error_1_100 + 2)
+06F3 E503      1748            mov     a,(_main_pre_error_1_100 + 3)
+06F5 120100    1749            lcall   ___fslt
+06F8 AA82      1750            mov     r2,dpl
+06FA E581      1751            mov     a,sp
+06FC 24FC      1752            add     a,#0xfc
+06FE F581      1753            mov     sp,a
+0700 D001      1754            pop     ar1
+0702 D000      1755            pop     ar0
+0704 D007      1756            pop     ar7
+0706 D006      1757            pop     ar6
+0708 EA        1758            mov     a,r2
+0709 6001      1759            jz      L019017?
+070B           1760   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:348: pwm_right = 100;
+070B 75A064    1761            mov     _pwm_right,#0x64
+070E           1762   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:349: pwm_left = 20;
+070E 75E014    1763            mov     _pwm_left,#0x14
+0711           1764   L019017?:
+0711           1765   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:352: pre_error = cur_error;
+0711 8E00      1766            mov     _main_pre_error_1_100,r6
+0713 8F01      1767            mov     (_main_pre_error_1_100 + 1),r7
+0715 8802      1768            mov     (_main_pre_error_1_100 + 2),r0
+0717 8903      1769            mov     (_main_pre_error_1_100 + 3),r1
+0719 020100    1770            ljmp    L019019?
+071C           1771            rseg R_CSEG
+071C           1772   
+0000           1773            rseg R_XINIT
+0000           1774   
+0000           1775            rseg R_CONST
+0000           1776   __str_1:
+0000 56303A20  1777            db 'V0: %4.2fV'
      25342E32
      6656
-000A 00        1368            db 0x00
-000B           1369   __str_2:
-000B 56313A20  1370            db 'V1: %4.2fV'
+000A 00        1778            db 0x00
+000B           1779   __str_2:
+000B 56313A20  1780            db 'V1: %4.2fV'
      25342E32
      6656
-0015 00        1371            db 0x00
-0016           1372   __str_3:
-0016 563D2535  1373            db 'V=%5.2f'
+0015 00        1781            db 0x00
+0016           1782   __str_3:
+0016 563D2535  1783            db 'V=%5.2f'
      2E3266
-001D 00        1374            db 0x00
-001E           1375   __str_4:
-001E 25303264  1376            db '%02d:%02d'
+001D 00        1784            db 0x00
+001E           1785   __str_4:
+001E 25303264  1786            db '%02d:%02d'
      3A253032
      64
-0027 00        1377            db 0x00
-0028           1378   
-000E           1379            CSEG
-000E           1380   
-000E           1381   end
+0027 00        1787            db 0x00
+0028           1788   
+000E           1789            CSEG
+000E           1790   
+000E           1791   end

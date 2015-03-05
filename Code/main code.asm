@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Thu Mar 05 11:20:59 2015
+; This file was generated Thu Mar 05 12:18:21 2015
 ;--------------------------------------------------------
 $name main_code
 $optc51 --model-small
@@ -445,6 +445,14 @@ _display_LCD_buff_1_96:
 	ds 17
 _main_str_1_100:
 	ds 17
+_main_cor_1_100:
+	ds 4
+_main_pre_error_1_100:
+	ds 4
+_main_left_2_101:
+	ds 4
+_main_right_2_101:
+	ds 4
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -1224,42 +1232,50 @@ _motor_control:
 ;------------------------------------------------------------
 ;str                       Allocated with name '_main_str_1_100'
 ;threshold                 Allocated to registers 
-;left_sensor               Allocated to registers 
-;right_sensor              Allocated to registers 
-;voltage                   Allocated to registers r2 r3 r4 r5 
-;k_p                       Allocated with name '_main_k_p_2_101'
-;k_d                       Allocated with name '_main_k_d_2_101'
-;error                     Allocated with name '_main_error_2_101'
-;pre_error                 Allocated with name '_main_pre_error_2_101'
+;p                         Allocated to registers 
+;d                         Allocated to registers r2 r3 r4 r5 
+;k_p                       Allocated to registers 
+;k_d                       Allocated to registers 
+;cor                       Allocated with name '_main_cor_1_100'
+;cur_error                 Allocated to registers r6 r7 r0 r1 
+;pre_error                 Allocated with name '_main_pre_error_1_100'
+;dt                        Allocated to registers 
+;def_speed                 Allocated to registers 
+;new_speed_low             Allocated to registers 
+;new_speed_high            Allocated to registers 
+;left                      Allocated with name '_main_left_2_101'
+;right                     Allocated with name '_main_right_2_101'
+;voltage                   Allocated to registers r6 r7 r0 r1 
 ;------------------------------------------------------------
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:244: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:249: InitPorts();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:262: InitPorts();
 	lcall	_InitPorts
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:250: LCD_8BIT();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:263: LCD_8BIT();
 	lcall	_LCD_8BIT
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:251: InitSerialPort();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:264: InitSerialPort();
 	lcall	_InitSerialPort
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:252: InitADC();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:265: InitADC();
 	lcall	_InitADC
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:253: InitTimer0();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:266: InitTimer0();
 	lcall	_InitTimer0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:255: while(1)
-L019004?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:258: double left_sensor = (AD1DAT1/255.0)*3.3;
-	mov	a,_AD1DAT1
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:259: double right_sensor = (AD1DAT2/255.0)*3.3;
-	mov	a,_AD1DAT2
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:260: double voltage = (AD1DAT0/255.0)*3.3;
-	mov	dpl,_AD1DAT0
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:268: pre_error = 0;
+	mov	_main_pre_error_1_100,#0x00
+	mov	(_main_pre_error_1_100 + 1),#0x00
+	mov	(_main_pre_error_1_100 + 2),#0x00
+	mov	(_main_pre_error_1_100 + 3),#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:269: while(1)
+L019019?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:272: double left = (AD1DAT1/255.0)*3.3;
+	mov	dpl,_AD1DAT1
 	lcall	___uchar2fs
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
 	clr	a
 	push	acc
 	push	acc
@@ -1267,43 +1283,125 @@ L019004?:
 	push	acc
 	mov	a,#0x43
 	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
 	lcall	___fsdiv
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
 	mov	dptr,#0x3333
 	mov	b,#0x53
 	mov	a,#0x40
 	lcall	___fsmul
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
+	mov	_main_left_2_101,dpl
+	mov	(_main_left_2_101 + 1),dph
+	mov	(_main_left_2_101 + 2),b
+	mov	(_main_left_2_101 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:269: if(time_update_flag==1) // If the clock has been updated, refresh the display
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:271: time_update_flag=0;
-	jbc	_time_update_flag,L019010?
-	sjmp	L019004?
-L019010?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:272: sprintf(str, "V=%5.2f", voltage); // Display the voltage at pin P0.1
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:273: double right = (AD1DAT2/255.0)*3.3;
+	mov	dpl,_AD1DAT2
+	lcall	___uchar2fs
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x7F
+	push	acc
+	mov	a,#0x43
+	push	acc
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fsdiv
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	mov	dptr,#0x3333
+	mov	b,#0x53
+	mov	a,#0x40
+	lcall	___fsmul
+	mov	_main_right_2_101,dpl
+	mov	(_main_right_2_101 + 1),dph
+	mov	(_main_right_2_101 + 2),b
+	mov	(_main_right_2_101 + 3),a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:274: double voltage = (AD1DAT0/255.0)*3.3;
+	mov	dpl,_AD1DAT0
+	lcall	___uchar2fs
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x7F
+	push	acc
+	mov	a,#0x43
+	push	acc
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fsdiv
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	mov	dptr,#0x3333
+	mov	b,#0x53
+	mov	a,#0x40
+	lcall	___fsmul
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:277: if(time_update_flag==1) // If the clock has been updated, refresh the display
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:279: time_update_flag=0;
+	jbc	_time_update_flag,L019031?
+	sjmp	L019002?
+L019031?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:280: sprintf(str, "V=%5.2f", voltage); // Display the voltage at pin P0.1
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
 	mov	a,#__str_3
 	push	acc
 	mov	a,#(__str_3 >> 8)
@@ -1320,21 +1418,21 @@ L019010?:
 	mov	a,sp
 	add	a,#0xf6
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:273: LCDprint(str, 1, 1);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:281: LCDprint(str, 1, 1);
 	mov	_LCDprint_PARM_2,#0x01
 	setb	_LCDprint_PARM_3
 	mov	dptr,#_main_str_1_100
 	mov	b,#0x40
 	lcall	_LCDprint
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:274: sprintf(str, "%02d:%02d", mins, secs); // Display the clock
-	mov	r2,_secs
-	mov	r3,#0x00
-	mov	r4,_mins
-	mov	r5,#0x00
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:282: sprintf(str, "%02d:%02d", mins, secs); // Display the clock
+	mov	r6,_secs
+	mov	r7,#0x00
+	mov	r0,_mins
+	mov	r1,#0x00
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
 	mov	a,#__str_4
 	push	acc
 	mov	a,#(__str_4 >> 8)
@@ -1351,13 +1449,325 @@ L019010?:
 	mov	a,sp
 	add	a,#0xf6
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:275: LCDprint(str, 2, 1);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:283: LCDprint(str, 2, 1);
 	mov	_LCDprint_PARM_2,#0x02
 	setb	_LCDprint_PARM_3
 	mov	dptr,#_main_str_1_100
 	mov	b,#0x40
 	lcall	_LCDprint
-	ljmp	L019004?
+L019002?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:310: cur_error = left - right;
+	push	_main_right_2_101
+	push	(_main_right_2_101 + 1)
+	push	(_main_right_2_101 + 2)
+	push	(_main_right_2_101 + 3)
+	mov	dpl,_main_left_2_101
+	mov	dph,(_main_left_2_101 + 1)
+	mov	b,(_main_left_2_101 + 2)
+	mov	a,(_main_left_2_101 + 3)
+	lcall	___fssub
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:314: d = k_d*(cur_error - pre_error)/dt;
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	push	_main_pre_error_1_100
+	push	(_main_pre_error_1_100 + 1)
+	push	(_main_pre_error_1_100 + 2)
+	push	(_main_pre_error_1_100 + 3)
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fssub
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,#0x6F
+	push	acc
+	mov	a,#0x12
+	push	acc
+	mov	a,#0x83
+	push	acc
+	mov	a,#0x3A
+	push	acc
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fsdiv
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:316: cor = p + d;
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fsadd
+	mov	_main_cor_1_100,dpl
+	mov	(_main_cor_1_100 + 1),dph
+	mov	(_main_cor_1_100 + 2),b
+	mov	(_main_cor_1_100 + 3),a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:333: if(cur_error > 0){  		
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	push	acc
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	mov	a,r2
+	jz	L019016?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:334: pwm_left = def_speed - cor;
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	push	_main_cor_1_100
+	push	(_main_cor_1_100 + 1)
+	push	(_main_cor_1_100 + 2)
+	push	(_main_cor_1_100 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0xC8
+	mov	a,#0x42
+	lcall	___fssub
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fs2uchar
+	mov	_pwm_left,dpl
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:335: pwm_right = def_speed + cor;  		
+	push	_main_cor_1_100
+	push	(_main_cor_1_100 + 1)
+	push	(_main_cor_1_100 + 2)
+	push	(_main_cor_1_100 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0xC8
+	mov	a,#0x42
+	lcall	___fsadd
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fs2uchar
+	mov	_pwm_right,dpl
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	ljmp	L019017?
+L019016?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:337: else if (cur_error < 0){
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	push	acc
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	mov	a,r2
+	jz	L019013?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:338: pwm_left = def_speed + cor;
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	push	_main_cor_1_100
+	push	(_main_cor_1_100 + 1)
+	push	(_main_cor_1_100 + 2)
+	push	(_main_cor_1_100 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0xC8
+	mov	a,#0x42
+	lcall	___fsadd
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fs2uchar
+	mov	_pwm_left,dpl
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:339: pwm_right = def_speed - cor;
+	push	_main_cor_1_100
+	push	(_main_cor_1_100 + 1)
+	push	(_main_cor_1_100 + 2)
+	push	(_main_cor_1_100 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0xC8
+	mov	a,#0x42
+	lcall	___fssub
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fs2uchar
+	mov	_pwm_right,dpl
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	sjmp	L019017?
+L019013?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:343: if(pre_error > 0){
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	push	acc
+	mov	dpl,_main_pre_error_1_100
+	mov	dph,(_main_pre_error_1_100 + 1)
+	mov	b,(_main_pre_error_1_100 + 2)
+	mov	a,(_main_pre_error_1_100 + 3)
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	mov	a,r2
+	jz	L019010?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:344: pwm_left = 100;
+	mov	_pwm_left,#0x64
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:345: pwm_right = 20;
+	mov	_pwm_right,#0x14
+	sjmp	L019017?
+L019010?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:347: else if (pre_error < 0){
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	push	acc
+	mov	dpl,_main_pre_error_1_100
+	mov	dph,(_main_pre_error_1_100 + 1)
+	mov	b,(_main_pre_error_1_100 + 2)
+	mov	a,(_main_pre_error_1_100 + 3)
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	mov	a,r2
+	jz	L019017?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:348: pwm_right = 100;
+	mov	_pwm_right,#0x64
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:349: pwm_left = 20;
+	mov	_pwm_left,#0x14
+L019017?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:352: pre_error = cur_error;
+	mov	_main_pre_error_1_100,r6
+	mov	(_main_pre_error_1_100 + 1),r7
+	mov	(_main_pre_error_1_100 + 2),r0
+	mov	(_main_pre_error_1_100 + 3),r1
+	ljmp	L019019?
 	rseg R_CSEG
 
 	rseg R_XINIT

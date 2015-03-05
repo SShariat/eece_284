@@ -246,25 +246,33 @@ void main (void)
 	// have to declare variables before you call any functions
 	char str[17];
 	double threshold = 2;
+	
+	//PID Variable
+	double p,d;
+	double k_p=1;
+	double k_d=1;
+	double cor = 0;
+	double cur_error =0;
+	double pre_error;
+	double dt = .001;
+	double def_speed = 100;
+	double new_speed_low;
+	double new_speed_high;
+	
 	InitPorts();
 	LCD_8BIT();
 	InitSerialPort();
 	InitADC();
 	InitTimer0();
 	
+	pre_error = 0;
 	while(1)
 	{
 		//Sensor Values
-		double left_sensor = (AD1DAT1/255.0)*3.3;
-		double right_sensor = (AD1DAT2/255.0)*3.3;
+		double left = (AD1DAT1/255.0)*3.3;
+		double right = (AD1DAT2/255.0)*3.3;
 		double voltage = (AD1DAT0/255.0)*3.3;
-		
-		//PID Variable
-		double k_p;
-		double k_d;
-		double error;
-		double pre_error;
-		
+				
 		//Timer Functionality
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
 		{
@@ -278,13 +286,13 @@ void main (void)
 		/*
 		//these comparison statements might not work with...are AD1DAT0 etc. ints?
 		//read voltage 0.2, 0.3
-		if ( (left_sensor)>2 && (right_sensor)<2 )
+		if ( (left)>2 && (right)<2 )
   		{ //left high, right low - turn left, so make right motor go faster
     		printf("turn left     \r");
     		pwm_left = 50;
     		pwm_right = 75;
   		}
-		else if( (left_sensor)<2 && (right_sensor)>2 )
+		else if( (left)<2 && (right)>2 )
   		{ //left low, right high - turn right, so make left motor go faster
     		printf("turn right     \r");
     		pwm_left = 75;
@@ -298,9 +306,50 @@ void main (void)
   		}*/
   		
   		//P-D Controller
-  				
-		
-			
+  		//Calculating Current error
+  		cur_error = left - right;
+  		
+  		//Calc. Prop. and Der. Values
+  		p = k_p * cur_error;
+  		d = k_d*(cur_error - pre_error)/dt;
+  		
+  		cor = p + d;
+  		
+  		//Selecting New Motor Speeds
+  		new_speed_low = def_speed - cor;
+		new_speed_high = def_speed + cor;
+  		
+  		//Speed Maximum and Minimum Settings
+  		if(new_speed_low<0){
+  			new_speed_low = 0;
+  		}
+  		
+  		if(new_speed_high>100){
+  			new_speed_high = 100;
+  		}		
+  	  	
+  	  	
+  	  	//If error is (+) turn left	
+  		if(cur_error > 0){  		
+  			pwm_left = def_speed - cor;
+  			pwm_right = def_speed + cor;  		
+  		}
+  		else if (cur_error < 0){
+  			pwm_left = def_speed + cor;
+  			pwm_right = def_speed - cor;
+  		}
+  		else{
+  		
+  			if(pre_error > 0){
+  				pwm_left = 100;
+  				pwm_right = 20;
+  			}
+  			else if (pre_error < 0){
+  				pwm_right = 100;
+  				pwm_left = 20;
+  			}
+  		}
+  		pre_error = cur_error;
 	}
 }
 	
