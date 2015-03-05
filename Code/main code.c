@@ -35,7 +35,8 @@ volatile int msCount=0; // Volatiles can be changed by stuff outside our program
 volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
 volatile bit time_update_flag=0;
 volatile unsigned char pwmcount;
-volatile unsigned char pwm1;
+volatile unsigned char pwm_left;
+volatile unsigned char pwm_right;
 
 void InitPorts(void)
 {
@@ -202,8 +203,8 @@ void Timer0ISR (void) interrupt 1
 	TR0=1; // Start timer 0
 	
 	if(++pwmcount>99) pwmcount=0;
-	P0_5=(pwm1>pwmcount)?1:0;
-	P0_6=(pwm1>pwmcount)?1:0;
+	P0_5=(pwm_left>pwmcount)?1:0;
+	P0_6=(pwm_right>pwmcount)?1:0;
 	
 	msCount++;
 	if(msCount==10000)
@@ -245,7 +246,6 @@ void main (void)
 	// have to declare variables before you call any functions
 	char str[17];
 	double threshold = 2;
-	pwm1=50;
 	InitPorts();
 	LCD_8BIT();
 	InitSerialPort();
@@ -262,7 +262,25 @@ void main (void)
 			LCDprint(str, 1, 1);
 			sprintf(str, "%02d:%02d", mins, secs); // Display the clock
 			LCDprint(str, 2, 1);
-		}	
+		}
+		
+		
+		//these comparison statements might not work with...are AD1DAT0 etc. ints?
+		//read voltage 0.2, 0.3
+		if ( ((AD1DAT1/255.0)*3.3)>2 && ((AD1DAT2/255.0)*3.3)<2 )
+  		{ //left high, right low - turn left
+    		printf("turn left     \r");
+  		}
+		else if( ((AD1DAT1/255.0)*3.3)<2 && ((AD1DAT2/255.0)*3.3)>2 )
+  		{ //left low, right high - turn right
+    		printf("turn right     \r");
+  		}
+		else
+  		{ //both low (I know, we need a different statement here) or both high - go straight
+    		printf("go straight    \r");
+  		}
+		
+			
 	}
 }
 	
