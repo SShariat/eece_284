@@ -17,7 +17,6 @@
 
 #define LCD_RW P2_6
 #define LCD_E  P2_5
-
 #define LCD_D0 P2_4
 #define LCD_D1 P2_3
 #define LCD_D2 P2_2
@@ -128,16 +127,6 @@ void LCDprint(char * string, unsigned char line, bit clear)
 	for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
 	if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 }
-
-//ADDS A TIME TIME DELAY
-//void delay(int k)
-//{
-//    int j; 
-  //  for(j=0; j<100; j++)
-    //{
-      //  for(k=0; k<1000; k++);
-    //}
-//}
 
 void LCDport_print(void){
 	while(1){

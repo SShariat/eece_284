@@ -1,9 +1,9 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Thu Mar 05 09:52:37 2015
+; This file was generated Thu Mar 05 10:08:36 2015
 ;--------------------------------------------------------
-$name square_p89lpc9351
+$name pwm_pins_5_and_6
 $optc51 --model-small
 	R_DSEG    segment data
 	R_CSEG    segment code
@@ -516,59 +516,63 @@ _RTCDATL: ds 1
 ;Allocation info for local variables in function 'InitSerialPort'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:17: void InitSerialPort(void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:17: void InitSerialPort(void)
 ;	-----------------------------------------
 ;	 function InitSerialPort
 ;	-----------------------------------------
 _InitSerialPort:
 	using	0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:19: BRGCON=0x00; //Make sure the baud rate generator is off
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:19: BRGCON=0x00; //Make sure the baud rate generator is off
 	mov	_BRGCON,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:20: BRGR1=((XTAL/BAUD)-16)/0x100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:20: BRGR1=((XTAL/BAUD)-16)/0x100;
 	mov	_BRGR1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:21: BRGR0=((XTAL/BAUD)-16)%0x100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:21: BRGR0=((XTAL/BAUD)-16)%0x100;
 	mov	_BRGR0,#0x30
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:22: BRGCON=0x03; //Turn-on the baud rate generator
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:22: BRGCON=0x03; //Turn-on the baud rate generator
 	mov	_BRGCON,#0x03
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:23: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:23: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
 	mov	_SCON,#0x52
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:24: P1M1=0x00; //Enable pins RxD and Txd
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:24: P1M1=0x00; //Enable pins RxD and Txd
 	mov	_P1M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:25: P1M2=0x00; //Enable pins RxD and Txd
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:25: P1M2=0x00; //Enable pins RxD and Txd
 	mov	_P1M2,#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:26: P0M1 = 0;
+	mov	_P0M1,#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:27: P0M2 = 0;
+	mov	_P0M2,#0x00
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'InitTimer0'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:28: void InitTimer0 (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:30: void InitTimer0 (void)
 ;	-----------------------------------------
 ;	 function InitTimer0
 ;	-----------------------------------------
 _InitTimer0:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:31: TR0=0; // Stop timer 0
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:33: TR0=0; // Stop timer 0
 	clr	_TR0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:32: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:34: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
 	mov	a,#0xF0
 	anl	a,_TMOD
 	orl	a,#0x01
 	mov	_TMOD,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:33: TH0=TIMER0_RELOAD_VALUE/0x100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:35: TH0=TIMER0_RELOAD_VALUE/0x100;
 	mov	_TH0,#0xFE
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:34: TL0=TIMER0_RELOAD_VALUE%0x100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:36: TL0=TIMER0_RELOAD_VALUE%0x100;
 	mov	_TL0,#0x90
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:35: TR0=1; // Start timer 0 (bit 4 in TCON)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:37: TR0=1; // Start timer 0 (bit 4 in TCON)
 	setb	_TR0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:36: ET0=1; // Enable timer 0 interrupt
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:38: ET0=1; // Enable timer 0 interrupt
 	setb	_ET0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:37: EA=1;  // Enable global interrupts
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:39: EA=1;  // Enable global interrupts
 	setb	_EA
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'pwmcounter'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:41: void pwmcounter (void) interrupt 1
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:43: void pwmcounter (void) interrupt 1
 ;	-----------------------------------------
 ;	 function pwmcounter
 ;	-----------------------------------------
@@ -576,26 +580,31 @@ _pwmcounter:
 	push	acc
 	push	psw
 	mov	psw,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:44: TR0=0; // Stop timer 0
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:46: TR0=0; // Stop timer 0
 	clr	_TR0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:45: TH0=TIMER0_RELOAD_VALUE/0x100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:47: TH0=TIMER0_RELOAD_VALUE/0x100;
 	mov	_TH0,#0xFE
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:46: TL0=TIMER0_RELOAD_VALUE%0x100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:48: TL0=TIMER0_RELOAD_VALUE%0x100;
 	mov	_TL0,#0x90
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:47: TR0=1; // Start timer 0
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:49: TR0=1; // Start timer 0
 	setb	_TR0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:48: if(++pwmcount>99) pwmcount=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:50: if(++pwmcount>99) pwmcount=0;
 	inc	_pwmcount
 	mov	a,_pwmcount
 	add	a,#0xff - 0x63
 	jnc	L004002?
 	mov	_pwmcount,#0x00
 L004002?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:49: P0_4=(pwm1>pwmcount)?1:0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:51: P0_5=(pwm1>pwmcount)?1:0;
 	clr	c
 	mov	a,_pwmcount
 	subb	a,_pwm1
-	mov	_P0_4,c
+	mov	_P0_5,c
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:52: P0_6=(pwm1>pwmcount)?1:0;
+	clr	c
+	mov	a,_pwmcount
+	subb	a,_pwm1
+	mov	_P0_6,c
 	pop	psw
 	pop	acc
 	reti
@@ -606,18 +615,18 @@ L004002?:
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:52: void main (void)
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:55: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:54: InitSerialPort();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:57: InitSerialPort();
 	lcall	_InitSerialPort
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:55: InitTimer0();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:58: InitTimer0();
 	lcall	_InitTimer0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:56: pwm1=50; //50% duty cycle wave at 100Hz
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:59: pwm1=50; //50% duty cycle wave at 100Hz
 	mov	_pwm1,#0x32
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\square_p89lpc9351.c:57: printf("Hello!\n\rPlease check pin 3 (P0.4) with the oscilloscope!\n\r");
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\pwm_pins_5_and_6.c:60: printf("Hello!\n\rPlease check pin 3 (P1_6) with the oscilloscope!\n\r");
 	mov	a,#__str_0
 	push	acc
 	mov	a,#(__str_0 >> 8)
@@ -638,7 +647,7 @@ __str_0:
 	db 'Hello!'
 	db 0x0A
 	db 0x0D
-	db 'Please check pin 3 (P0.4) with the oscilloscope!'
+	db 'Please check pin 3 (P1_6) with the oscilloscope!'
 	db 0x0A
 	db 0x0D
 	db 0x00

@@ -3,4 +3,4 @@ lib=libc51.lib
 lib=libint.lib
 lib=liblong.lib
 lib=libfloat.lib
-obj=main code.obj
+obj=pwm_pins_5_and_6.obj

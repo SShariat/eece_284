@@ -23,6 +23,8 @@ void InitSerialPort(void)
 	SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
 	P1M1=0x00; //Enable pins RxD and Txd
 	P1M2=0x00; //Enable pins RxD and Txd
+	P0M1 = 0;
+	P0M2 = 0;
 }
 
 void InitTimer0 (void)
@@ -46,7 +48,8 @@ void pwmcounter (void) interrupt 1
 	TL0=TIMER0_RELOAD_VALUE%0x100;
 	TR0=1; // Start timer 0
 	if(++pwmcount>99) pwmcount=0;
-	P1_6=(pwm1>pwmcount)?1:0;
+	P0_5=(pwm1>pwmcount)?1:0;
+	P0_6=(pwm1>pwmcount)?1:0;
 }
 
 void main (void)
