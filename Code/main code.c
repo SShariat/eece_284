@@ -331,12 +331,12 @@ void main (void)
   	  	
   	  	//If error is (+) turn left	
   		if(cur_error > 0){  		
-  			pwm_left = def_speed - cor;
-  			pwm_right = def_speed + cor;  		
+  			pwm_left = new_speed_low;
+  			pwm_right = new_speed_high;  		
   		}
   		else if (cur_error < 0){
-  			pwm_left = def_speed + cor;
-  			pwm_right = def_speed - cor;
+  			pwm_left = new_speed_high;
+  			pwm_right = new_speed_low;
   		}
   		else{
   		

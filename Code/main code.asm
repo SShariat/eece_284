@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Thu Mar 05 12:18:21 2015
+; This file was generated Thu Mar 05 12:26:26 2015
 ;--------------------------------------------------------
 $name main_code
 $optc51 --model-small
@@ -448,6 +448,10 @@ _main_str_1_100:
 _main_cor_1_100:
 	ds 4
 _main_pre_error_1_100:
+	ds 4
+_main_new_speed_low_1_100:
+	ds 4
+_main_new_speed_high_1_100:
 	ds 4
 _main_left_2_101:
 	ds 4
@@ -1241,8 +1245,8 @@ _motor_control:
 ;pre_error                 Allocated with name '_main_pre_error_1_100'
 ;dt                        Allocated to registers 
 ;def_speed                 Allocated to registers 
-;new_speed_low             Allocated to registers 
-;new_speed_high            Allocated to registers 
+;new_speed_low             Allocated with name '_main_new_speed_low_1_100'
+;new_speed_high            Allocated with name '_main_new_speed_high_1_100'
 ;left                      Allocated with name '_main_left_2_101'
 ;right                     Allocated with name '_main_right_2_101'
 ;voltage                   Allocated to registers r6 r7 r0 r1 
@@ -1539,10 +1543,98 @@ L019002?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:319: new_speed_low = def_speed - cor;
+	push	_main_cor_1_100
+	push	(_main_cor_1_100 + 1)
+	push	(_main_cor_1_100 + 2)
+	push	(_main_cor_1_100 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0xC8
+	mov	a,#0x42
+	lcall	___fssub
+	mov	_main_new_speed_low_1_100,dpl
+	mov	(_main_new_speed_low_1_100 + 1),dph
+	mov	(_main_new_speed_low_1_100 + 2),b
+	mov	(_main_new_speed_low_1_100 + 3),a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:320: new_speed_high = def_speed + cor;
+	push	_main_cor_1_100
+	push	(_main_cor_1_100 + 1)
+	push	(_main_cor_1_100 + 2)
+	push	(_main_cor_1_100 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0xC8
+	mov	a,#0x42
+	lcall	___fsadd
+	mov	_main_new_speed_high_1_100,dpl
+	mov	(_main_new_speed_high_1_100 + 1),dph
+	mov	(_main_new_speed_high_1_100 + 2),b
+	mov	(_main_new_speed_high_1_100 + 3),a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:323: if(new_speed_low<0){
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	push	acc
+	mov	dpl,_main_new_speed_low_1_100
+	mov	dph,(_main_new_speed_low_1_100 + 1)
+	mov	b,(_main_new_speed_low_1_100 + 2)
+	mov	a,(_main_new_speed_low_1_100 + 3)
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
 	pop	ar1
 	pop	ar0
 	pop	ar7
 	pop	ar6
+	mov	a,r2
+	jz	L019004?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:324: new_speed_low = 0;
+	mov	_main_new_speed_low_1_100,#0x00
+	mov	(_main_new_speed_low_1_100 + 1),#0x00
+	mov	(_main_new_speed_low_1_100 + 2),#0x00
+	mov	(_main_new_speed_low_1_100 + 3),#0x00
+L019004?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:327: if(new_speed_high>100){
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0xC8
+	push	acc
+	mov	a,#0x42
+	push	acc
+	mov	dpl,_main_new_speed_high_1_100
+	mov	dph,(_main_new_speed_high_1_100 + 1)
+	mov	b,(_main_new_speed_high_1_100 + 2)
+	mov	a,(_main_new_speed_high_1_100 + 3)
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar1
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	mov	a,r2
+	jz	L019006?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:328: new_speed_high = 100;
+	mov	_main_new_speed_high_1_100,#0x00
+	mov	(_main_new_speed_high_1_100 + 1),#0x00
+	mov	(_main_new_speed_high_1_100 + 2),#0xC8
+	mov	(_main_new_speed_high_1_100 + 3),#0x42
+L019006?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:333: if(cur_error > 0){  		
 	push	ar6
 	push	ar7
@@ -1568,52 +1660,22 @@ L019002?:
 	pop	ar6
 	mov	a,r2
 	jz	L019016?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:334: pwm_left = def_speed - cor;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:334: pwm_left = new_speed_low;
+	mov	dpl,_main_new_speed_low_1_100
+	mov	dph,(_main_new_speed_low_1_100 + 1)
+	mov	b,(_main_new_speed_low_1_100 + 2)
+	mov	a,(_main_new_speed_low_1_100 + 3)
 	push	ar6
 	push	ar7
 	push	ar0
 	push	ar1
-	push	_main_cor_1_100
-	push	(_main_cor_1_100 + 1)
-	push	(_main_cor_1_100 + 2)
-	push	(_main_cor_1_100 + 3)
-	mov	dptr,#0x0000
-	mov	b,#0xC8
-	mov	a,#0x42
-	lcall	___fssub
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
 	lcall	___fs2uchar
 	mov	_pwm_left,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:335: pwm_right = def_speed + cor;  		
-	push	_main_cor_1_100
-	push	(_main_cor_1_100 + 1)
-	push	(_main_cor_1_100 + 2)
-	push	(_main_cor_1_100 + 3)
-	mov	dptr,#0x0000
-	mov	b,#0xC8
-	mov	a,#0x42
-	lcall	___fsadd
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:335: pwm_right = new_speed_high;  		
+	mov	dpl,_main_new_speed_high_1_100
+	mov	dph,(_main_new_speed_high_1_100 + 1)
+	mov	b,(_main_new_speed_high_1_100 + 2)
+	mov	a,(_main_new_speed_high_1_100 + 3)
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
 	pop	ar1
@@ -1647,52 +1709,22 @@ L019016?:
 	pop	ar6
 	mov	a,r2
 	jz	L019013?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:338: pwm_left = def_speed + cor;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:338: pwm_left = new_speed_high;
+	mov	dpl,_main_new_speed_high_1_100
+	mov	dph,(_main_new_speed_high_1_100 + 1)
+	mov	b,(_main_new_speed_high_1_100 + 2)
+	mov	a,(_main_new_speed_high_1_100 + 3)
 	push	ar6
 	push	ar7
 	push	ar0
 	push	ar1
-	push	_main_cor_1_100
-	push	(_main_cor_1_100 + 1)
-	push	(_main_cor_1_100 + 2)
-	push	(_main_cor_1_100 + 3)
-	mov	dptr,#0x0000
-	mov	b,#0xC8
-	mov	a,#0x42
-	lcall	___fsadd
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
 	lcall	___fs2uchar
 	mov	_pwm_left,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:339: pwm_right = def_speed - cor;
-	push	_main_cor_1_100
-	push	(_main_cor_1_100 + 1)
-	push	(_main_cor_1_100 + 2)
-	push	(_main_cor_1_100 + 3)
-	mov	dptr,#0x0000
-	mov	b,#0xC8
-	mov	a,#0x42
-	lcall	___fssub
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:339: pwm_right = new_speed_low;
+	mov	dpl,_main_new_speed_low_1_100
+	mov	dph,(_main_new_speed_low_1_100 + 1)
+	mov	b,(_main_new_speed_low_1_100 + 2)
+	mov	a,(_main_new_speed_low_1_100 + 3)
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
 	pop	ar1
