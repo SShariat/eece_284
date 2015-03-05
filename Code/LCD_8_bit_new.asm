@@ -1,7 +1,11 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
+<<<<<<< HEAD
 ; This file was generated Thu Feb 26 11:05:05 2015
+=======
+; This file was generated Mon Mar 02 16:20:37 2015
+>>>>>>> origin/zachs_branch
 ;--------------------------------------------------------
 $name LCD_8_bit_new
 $optc51 --model-small
@@ -819,14 +823,24 @@ L010011?:
 ;------------------------------------------------------------
 ;string                    Allocated with name '_LCDport_print_string_2_62'
 ;------------------------------------------------------------
+<<<<<<< HEAD
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:128: void LCDport_print(void){
+=======
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:128: void LCDport_print(void){
+>>>>>>> origin/zachs_branch
 ;	-----------------------------------------
 ;	 function LCDport_print
 ;	-----------------------------------------
 _LCDport_print:
+<<<<<<< HEAD
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: while(1){
 L011002?:
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:131: char string[20]  = "something";
+=======
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: while(1){
+L011002?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:131: char string[20]  = "something";
+>>>>>>> origin/zachs_branch
 	mov	_LCDport_print_string_2_62,#0x73
 	mov	(_LCDport_print_string_2_62 + 0x0001),#0x6F
 	mov	(_LCDport_print_string_2_62 + 0x0002),#0x6D
@@ -837,7 +851,11 @@ L011002?:
 	mov	(_LCDport_print_string_2_62 + 0x0007),#0x6E
 	mov	(_LCDport_print_string_2_62 + 0x0008),#0x67
 	mov	(_LCDport_print_string_2_62 + 0x0009),#0x00
+<<<<<<< HEAD
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:135: LCDprint(string, 2,1);
+=======
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:135: LCDprint(string, 2,1);
+>>>>>>> origin/zachs_branch
 	mov	_LCDprint_PARM_2,#0x02
 	setb	_LCDprint_PARM_3
 	mov	dptr,#_LCDport_print_string_2_62
@@ -848,22 +866,38 @@ L011002?:
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
+<<<<<<< HEAD
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:139: void main (void)
+=======
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:139: void main (void)
+>>>>>>> origin/zachs_branch
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
+<<<<<<< HEAD
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: InitPorts();
 	lcall	_InitPorts
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:144: LCD_8BIT(); 
 	lcall	_LCD_8BIT
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:147: LCDprint("Print Value Test", 1,1);
+=======
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:142: InitPorts();
+	lcall	_InitPorts
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: LCD_8BIT(); 
+	lcall	_LCD_8BIT
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:146: LCDprint("Print Value Test", 1,1);
+>>>>>>> origin/zachs_branch
 	mov	_LCDprint_PARM_2,#0x01
 	setb	_LCDprint_PARM_3
 	mov	dptr,#__str_1
 	mov	b,#0x80
 	lcall	_LCDprint
+<<<<<<< HEAD
 ;	Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:148: LCDport_print();
+=======
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:147: LCDport_print();
+>>>>>>> origin/zachs_branch
 	ljmp	_LCDport_print
 	rseg R_CSEG
 

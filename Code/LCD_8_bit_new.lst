@@ -1,7 +1,11 @@
 0000              1   ;--------------------------------------------------------
 0000              2   ; File Created by C51
 0000              3   ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
+<<<<<<< HEAD
 0000              4   ; This file was generated Thu Feb 26 11:05:05 2015
+=======
+0000              4   ; This file was generated Mon Mar 02 16:20:37 2015
+>>>>>>> origin/zachs_branch
 0000              5   ;--------------------------------------------------------
                   5   $name LCD_8_bit_new
                   6   $optc51 --model-small
@@ -523,12 +527,17 @@ FFBF            497   ;--------------------------------------------------------
 0000            523   ;Allocation info for local variables in function 'InitPorts'
 0000            524   ;------------------------------------------------------------
 0000            525   ;------------------------------------------------------------
+<<<<<<< HEAD
 0000            526   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:25: void InitPorts(void)
+=======
+0000            526   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:25: void InitPorts(void)
+>>>>>>> origin/zachs_branch
 0000            527   ;        -----------------------------------------
 0000            528   ;         function InitPorts
 0000            529   ;        -----------------------------------------
 0000            530   _InitPorts:
 0000            531            using   0
+<<<<<<< HEAD
 0000            532   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:27: P0M1=0;
 0000 758400     533            mov     _P0M1,#0x00
 0003            534   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:28: P0M2=0;
@@ -544,22 +553,51 @@ FFBF            497   ;--------------------------------------------------------
 0012            544   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:33: P3M1=0;
 0012 75B100     545            mov     _P3M1,#0x00
 0015            546   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:34: P3M2=0;
+=======
+0000            532   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:27: P0M1=0;
+0000 758400     533            mov     _P0M1,#0x00
+0003            534   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:28: P0M2=0;
+0003 758500     535            mov     _P0M2,#0x00
+0006            536   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:29: P1M1=0;
+0006 759100     537            mov     _P1M1,#0x00
+0009            538   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:30: P1M2=0;
+0009 759200     539            mov     _P1M2,#0x00
+000C            540   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:31: P2M1=0;
+000C 75A400     541            mov     _P2M1,#0x00
+000F            542   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:32: P2M2=0;
+000F 75A500     543            mov     _P2M2,#0x00
+0012            544   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:33: P3M1=0;
+0012 75B100     545            mov     _P3M1,#0x00
+0015            546   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:34: P3M2=0;
+>>>>>>> origin/zachs_branch
 0015 75B200     547            mov     _P3M2,#0x00
 0018 22         548            ret
 0019            549   ;------------------------------------------------------------
 0019            550   ;Allocation info for local variables in function 'Wait50us'
 0019            551   ;------------------------------------------------------------
 0019            552   ;------------------------------------------------------------
+<<<<<<< HEAD
 0019            553   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:37: void Wait50us (void)
+=======
+0019            553   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:37: void Wait50us (void)
+>>>>>>> origin/zachs_branch
 0019            554   ;        -----------------------------------------
 0019            555   ;         function Wait50us
 0019            556   ;        -----------------------------------------
 0019            557   _Wait50us:
+<<<<<<< HEAD
 0019            558   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:42: _endasm;
 0019            559            
 0019 7852       560                mov R0, #82
 001B            561            L0:
 001B D8D0       562            djnz R0, L0 ; 2 machine cycles-> 2*0.27126us*92=50us
+=======
+0019            558   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:42: _endasm;
+0019            559            
+0019 7852       560                mov R0, #82
+001B            561            L0:
+001B D8A8       562            djnz R0, L0 ; 2 machine cycles-> 2*0.27126us*92=50us
+>>>>>>> origin/zachs_branch
 001D            563                
 001D 22         564            ret
 001E            565   ;------------------------------------------------------------
@@ -569,14 +607,22 @@ FFBF            497   ;--------------------------------------------------------
 001E            569   ;j                         Allocated to registers r4 r5 
 001E            570   ;k                         Allocated to registers r6 
 001E            571   ;------------------------------------------------------------
+<<<<<<< HEAD
 001E            572   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:45: void waitms (unsigned int ms)
+=======
+001E            572   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:45: void waitms (unsigned int ms)
+>>>>>>> origin/zachs_branch
 001E            573   ;        -----------------------------------------
 001E            574   ;         function waitms
 001E            575   ;        -----------------------------------------
 001E            576   _waitms:
 001E AA82       577            mov     r2,dpl
 0020 AB83       578            mov     r3,dph
+<<<<<<< HEAD
 0022            579   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
+=======
+0022            579   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
+>>>>>>> origin/zachs_branch
 0022 7C00       580            mov     r4,#0x00
 0024 7D00       581            mov     r5,#0x00
 0026            582   L004004?:
@@ -586,7 +632,11 @@ FFBF            497   ;--------------------------------------------------------
 0029 ED         586            mov     a,r5
 002A 9B         587            subb    a,r3
 002B 5001       588            jnc     L004008?
+<<<<<<< HEAD
 002D            589   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:52: for (k=0; k<20; k++) Wait50us();
+=======
+002D            589   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:52: for (k=0; k<20; k++) Wait50us();
+>>>>>>> origin/zachs_branch
 002D 7E14       590            mov     r6,#0x14
 002F            591   L004003?:
 002F C002       592            push    ar2
@@ -600,10 +650,17 @@ FFBF            497   ;--------------------------------------------------------
 0040 D004       600            pop     ar4
 0042 D003       601            pop     ar3
 0044 D002       602            pop     ar2
+<<<<<<< HEAD
 0046 DE10       603            djnz    r6,L004003?
 0048            604   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
 0048 0C         605            inc     r4
 0049 BC0090     606            cjne    r4,#0x00,L004004?
+=======
+0046 DEE8       603            djnz    r6,L004003?
+0048            604   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:51: for(j=0; j<ms; j++)
+0048 0C         605            inc     r4
+0049 BC0068     606            cjne    r4,#0x00,L004004?
+>>>>>>> origin/zachs_branch
 004C 0D         607            inc     r5
 004D 8001       608            sjmp    L004004?
 004F            609   L004008?:
@@ -612,16 +669,28 @@ FFBF            497   ;--------------------------------------------------------
 0050            612   ;Allocation info for local variables in function 'LCD_pulse'
 0050            613   ;------------------------------------------------------------
 0050            614   ;------------------------------------------------------------
+<<<<<<< HEAD
 0050            615   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:55: void LCD_pulse (void)
+=======
+0050            615   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:55: void LCD_pulse (void)
+>>>>>>> origin/zachs_branch
 0050            616   ;        -----------------------------------------
 0050            617   ;         function LCD_pulse
 0050            618   ;        -----------------------------------------
 0050            619   _LCD_pulse:
+<<<<<<< HEAD
 0050            620   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:57: LCD_E=1;
 0050 D2A5       621            setb    _P2_5
 0052            622   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:58: Wait50us();
 0052 120100     623            lcall   _Wait50us
 0055            624   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:59: LCD_E=0;
+=======
+0050            620   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:57: LCD_E=1;
+0050 D2A5       621            setb    _P2_5
+0052            622   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:58: Wait50us();
+0052 120100     623            lcall   _Wait50us
+0055            624   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:59: LCD_E=0;
+>>>>>>> origin/zachs_branch
 0055 C2A5       625            clr     _P2_5
 0057 22         626            ret
 0058            627   ;------------------------------------------------------------
@@ -629,12 +698,17 @@ FFBF            497   ;--------------------------------------------------------
 0058            629   ;------------------------------------------------------------
 0058            630   ;x                         Allocated to registers 
 0058            631   ;------------------------------------------------------------
+<<<<<<< HEAD
 0058            632   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:62: void LCD_byte (unsigned char x)
+=======
+0058            632   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:62: void LCD_byte (unsigned char x)
+>>>>>>> origin/zachs_branch
 0058            633   ;        -----------------------------------------
 0058            634   ;         function LCD_byte
 0058            635   ;        -----------------------------------------
 0058            636   _LCD_byte:
 0058 8582E0     637            mov     _ACC,dpl
+<<<<<<< HEAD
 005B            638   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:66: LCD_D7=ACC_7;
 005B A2E7       639            mov     c,_ACC_7
 005D 9294       640            mov     _P1_4,c
@@ -660,24 +734,64 @@ FFBF            497   ;--------------------------------------------------------
 0077 A2E0       660            mov     c,_ACC_0
 0079 92A4       661            mov     _P2_4,c
 007B            662   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:74: LCD_pulse();
+=======
+005B            638   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:66: LCD_D7=ACC_7;
+005B A2E7       639            mov     c,_ACC_7
+005D 9294       640            mov     _P1_4,c
+005F            641   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:67: LCD_D6=ACC_6;
+005F A2E6       642            mov     c,_ACC_6
+0061 9296       643            mov     _P1_6,c
+0063            644   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:68: LCD_D5=ACC_5;
+0063 A2E5       645            mov     c,_ACC_5
+0065 9297       646            mov     _P1_7,c
+0067            647   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:69: LCD_D4=ACC_4;
+0067 A2E4       648            mov     c,_ACC_4
+0069 92A0       649            mov     _P2_0,c
+006B            650   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:70: LCD_D3=ACC_3;
+006B A2E3       651            mov     c,_ACC_3
+006D 92A1       652            mov     _P2_1,c
+006F            653   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:71: LCD_D2=ACC_2;
+006F A2E2       654            mov     c,_ACC_2
+0071 92A2       655            mov     _P2_2,c
+0073            656   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:72: LCD_D1=ACC_1;
+0073 A2E1       657            mov     c,_ACC_1
+0075 92A3       658            mov     _P2_3,c
+0077            659   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:73: LCD_D0=ACC_0;
+0077 A2E0       660            mov     c,_ACC_0
+0079 92A4       661            mov     _P2_4,c
+007B            662   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:74: LCD_pulse();
+>>>>>>> origin/zachs_branch
 007B 020100     663            ljmp    _LCD_pulse
 007E            664   ;------------------------------------------------------------
 007E            665   ;Allocation info for local variables in function 'WriteData'
 007E            666   ;------------------------------------------------------------
 007E            667   ;x                         Allocated to registers r2 
 007E            668   ;------------------------------------------------------------
+<<<<<<< HEAD
 007E            669   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:77: void WriteData (unsigned char x)
+=======
+007E            669   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:77: void WriteData (unsigned char x)
+>>>>>>> origin/zachs_branch
 007E            670   ;        -----------------------------------------
 007E            671   ;         function WriteData
 007E            672   ;        -----------------------------------------
 007E            673   _WriteData:
 007E AA82       674            mov     r2,dpl
+<<<<<<< HEAD
 0080            675   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:79: LCD_RS=1;
 0080 D2A7       676            setb    _P2_7
 0082            677   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:80: LCD_byte(x);
 0082 8A82       678            mov     dpl,r2
 0084 120100     679            lcall   _LCD_byte
 0087            680   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:81: waitms(2);
+=======
+0080            675   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:79: LCD_RS=1;
+0080 D2A7       676            setb    _P2_7
+0082            677   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:80: LCD_byte(x);
+0082 8A82       678            mov     dpl,r2
+0084 120100     679            lcall   _LCD_byte
+0087            680   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:81: waitms(2);
+>>>>>>> origin/zachs_branch
 0087 900002     681            mov     dptr,#0x0002
 008A 020100     682            ljmp    _waitms
 008D            683   ;------------------------------------------------------------
@@ -685,29 +799,47 @@ FFBF            497   ;--------------------------------------------------------
 008D            685   ;------------------------------------------------------------
 008D            686   ;x                         Allocated to registers r2 
 008D            687   ;------------------------------------------------------------
+<<<<<<< HEAD
 008D            688   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:84: void WriteCommand (unsigned char x)
+=======
+008D            688   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:84: void WriteCommand (unsigned char x)
+>>>>>>> origin/zachs_branch
 008D            689   ;        -----------------------------------------
 008D            690   ;         function WriteCommand
 008D            691   ;        -----------------------------------------
 008D            692   _WriteCommand:
 008D AA82       693            mov     r2,dpl
+<<<<<<< HEAD
 008F            694   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:86: LCD_RS=0;
 008F C2A7       695            clr     _P2_7
 0091            696   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:87: LCD_byte(x);
 0091 8A82       697            mov     dpl,r2
 0093 120100     698            lcall   _LCD_byte
 0096            699   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:88: waitms(5);
+=======
+008F            694   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:86: LCD_RS=0;
+008F C2A7       695            clr     _P2_7
+0091            696   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:87: LCD_byte(x);
+0091 8A82       697            mov     dpl,r2
+0093 120100     698            lcall   _LCD_byte
+0096            699   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:88: waitms(5);
+>>>>>>> origin/zachs_branch
 0096 900005     700            mov     dptr,#0x0005
 0099 020100     701            ljmp    _waitms
 009C            702   ;------------------------------------------------------------
 009C            703   ;Allocation info for local variables in function 'LCD_8BIT'
 009C            704   ;------------------------------------------------------------
 009C            705   ;------------------------------------------------------------
+<<<<<<< HEAD
 009C            706   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:91: void LCD_8BIT (void)
+=======
+009C            706   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:91: void LCD_8BIT (void)
+>>>>>>> origin/zachs_branch
 009C            707   ;        -----------------------------------------
 009C            708   ;         function LCD_8BIT
 009C            709   ;        -----------------------------------------
 009C            710   _LCD_8BIT:
+<<<<<<< HEAD
 009C            711   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:93: LCD_E=0;  // Resting state of LCD's enable is zero
 009C C2A5       712            clr     _P2_5
 009E            713   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:94: LCD_RW=0; // We are only writing to the LCD in this program
@@ -734,6 +866,34 @@ FFBF            497   ;--------------------------------------------------------
 00C4 758201     734            mov     dpl,#0x01
 00C7 120100     735            lcall   _WriteCommand
 00CA            736   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:105: waitms(20); // Wait for clear screen command to finsih.
+=======
+009C            711   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:93: LCD_E=0;  // Resting state of LCD's enable is zero
+009C C2A5       712            clr     _P2_5
+009E            713   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:94: LCD_RW=0; // We are only writing to the LCD in this program
+009E C2A6       714            clr     _P2_6
+00A0            715   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:95: waitms(20);
+00A0 900014     716            mov     dptr,#0x0014
+00A3 120100     717            lcall   _waitms
+00A6            718   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:97: WriteCommand(0x33);
+00A6 758233     719            mov     dpl,#0x33
+00A9 120100     720            lcall   _WriteCommand
+00AC            721   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:98: WriteCommand(0x33);
+00AC 758233     722            mov     dpl,#0x33
+00AF 120100     723            lcall   _WriteCommand
+00B2            724   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:99: WriteCommand(0x33); // Stay in 8-bit mode
+00B2 758233     725            mov     dpl,#0x33
+00B5 120100     726            lcall   _WriteCommand
+00B8            727   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:102: WriteCommand(0x38);
+00B8 758238     728            mov     dpl,#0x38
+00BB 120100     729            lcall   _WriteCommand
+00BE            730   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:103: WriteCommand(0x0c);
+00BE 75820C     731            mov     dpl,#0x0C
+00C1 120100     732            lcall   _WriteCommand
+00C4            733   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:104: WriteCommand(0x01); // Clear screen command (takes some time)
+00C4 758201     734            mov     dpl,#0x01
+00C7 120100     735            lcall   _WriteCommand
+00CA            736   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:105: waitms(20); // Wait for clear screen command to finsih.
+>>>>>>> origin/zachs_branch
 00CA 900014     737            mov     dptr,#0x0014
 00CD 020100     738            ljmp    _waitms
 00D0            739   ;------------------------------------------------------------
@@ -743,7 +903,11 @@ FFBF            497   ;--------------------------------------------------------
 00D0            743   ;string                    Allocated to registers r2 r3 r4 
 00D0            744   ;j                         Allocated to registers r5 
 00D0            745   ;------------------------------------------------------------
+<<<<<<< HEAD
 00D0            746   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:108: void LCDprint(char * string, unsigned char line, bit clear)
+=======
+00D0            746   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:108: void LCDprint(char * string, unsigned char line, bit clear)
+>>>>>>> origin/zachs_branch
 00D0            747   ;        -----------------------------------------
 00D0            748   ;         function LCDprint
 00D0            749   ;        -----------------------------------------
@@ -751,9 +915,15 @@ FFBF            497   ;--------------------------------------------------------
 00D0 AA82       751            mov     r2,dpl
 00D2 AB83       752            mov     r3,dph
 00D4 ACF0       753            mov     r4,b
+<<<<<<< HEAD
 00D6            754   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:112: WriteCommand(line==2?0xc0:0x80);
 00D6 7402       755            mov     a,#0x02
 00D8 B55090     756            cjne    a,_LCDprint_PARM_2,L010013?
+=======
+00D6            754   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:112: WriteCommand(line==2?0xc0:0x80);
+00D6 7402       755            mov     a,#0x02
+00D8 B55068     756            cjne    a,_LCDprint_PARM_2,L010013?
+>>>>>>> origin/zachs_branch
 00DB 7DC0       757            mov     r5,#0xC0
 00DD 8001       758            sjmp    L010014?
 00DF            759   L010013?:
@@ -764,13 +934,21 @@ FFBF            497   ;--------------------------------------------------------
 00E5 C003       764            push    ar3
 00E7 C004       765            push    ar4
 00E9 120100     766            lcall   _WriteCommand
+<<<<<<< HEAD
 00EC            767   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:113: waitms(5);
+=======
+00EC            767   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:113: waitms(5);
+>>>>>>> origin/zachs_branch
 00EC 900005     768            mov     dptr,#0x0005
 00EF 120100     769            lcall   _waitms
 00F2 D004       770            pop     ar4
 00F4 D003       771            pop     ar3
 00F6 D002       772            pop     ar2
+<<<<<<< HEAD
 00F8            773   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:114: for(j=0; string[j]!=0; j++)   WriteData(string[j]);// Write the message
+=======
+00F8            773   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:114: for(j=0; string[j]!=0; j++)   WriteData(string[j]);// Write the message
+>>>>>>> origin/zachs_branch
 00F8 7D00       774            mov     r5,#0x00
 00FA            775   L010003?:
 00FA ED         776            mov     a,r5
@@ -799,11 +977,19 @@ FFBF            497   ;--------------------------------------------------------
 0123 0D         799            inc     r5
 0124 8001       800            sjmp    L010003?
 0126            801   L010006?:
+<<<<<<< HEAD
 0126            802   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:115: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 0126 3000D0     803            jnb     _LCDprint_PARM_3,L010011?
 0129 8D02       804            mov     ar2,r5
 012B            805   L010007?:
 012B BA1050     806            cjne    r2,#0x10,L010026?
+=======
+0126            802   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:115: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+0126 3000A8     803            jnb     _LCDprint_PARM_3,L010011?
+0129 8D02       804            mov     ar2,r5
+012B            805   L010007?:
+012B BA1028     806            cjne    r2,#0x10,L010026?
+>>>>>>> origin/zachs_branch
 012E            807   L010026?:
 012E 5001       808            jnc     L010011?
 0130 758220     809            mov     dpl,#0x20
@@ -819,11 +1005,16 @@ FFBF            497   ;--------------------------------------------------------
 013E            819   ;------------------------------------------------------------
 013E            820   ;string                    Allocated with name '_LCDport_print_string_2_62'
 013E            821   ;------------------------------------------------------------
+<<<<<<< HEAD
 013E            822   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:128: void LCDport_print(void){
+=======
+013E            822   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:128: void LCDport_print(void){
+>>>>>>> origin/zachs_branch
 013E            823   ;        -----------------------------------------
 013E            824   ;         function LCDport_print
 013E            825   ;        -----------------------------------------
 013E            826   _LCDport_print:
+<<<<<<< HEAD
 013E            827   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: while(1){
 013E            828   L011002?:
 013E            829   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:131: char string[20]  = "something";
@@ -841,6 +1032,25 @@ FFBF            497   ;--------------------------------------------------------
 015C 755002     841            mov     _LCDprint_PARM_2,#0x02
 015F D200       842            setb    _LCDprint_PARM_3
 0161 90A050     843            mov     dptr,#_LCDport_print_string_2_62
+=======
+013E            827   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:129: while(1){
+013E            828   L011002?:
+013E            829   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:131: char string[20]  = "something";
+013E 752873     830            mov     _LCDport_print_string_2_62,#0x73
+0141 75296F     831            mov     (_LCDport_print_string_2_62 + 0x0001),#0x6F
+0144 752A6D     832            mov     (_LCDport_print_string_2_62 + 0x0002),#0x6D
+0147 752B65     833            mov     (_LCDport_print_string_2_62 + 0x0003),#0x65
+014A 752C74     834            mov     (_LCDport_print_string_2_62 + 0x0004),#0x74
+014D 752D68     835            mov     (_LCDport_print_string_2_62 + 0x0005),#0x68
+0150 752E69     836            mov     (_LCDport_print_string_2_62 + 0x0006),#0x69
+0153 752F6E     837            mov     (_LCDport_print_string_2_62 + 0x0007),#0x6E
+0156 753067     838            mov     (_LCDport_print_string_2_62 + 0x0008),#0x67
+0159 753100     839            mov     (_LCDport_print_string_2_62 + 0x0009),#0x00
+015C            840   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:135: LCDprint(string, 2,1);
+015C 755002     841            mov     _LCDprint_PARM_2,#0x02
+015F D200       842            setb    _LCDprint_PARM_3
+0161 90A028     843            mov     dptr,#_LCDport_print_string_2_62
+>>>>>>> origin/zachs_branch
 0164 75F040     844            mov     b,#0x40
 0167 120100     845            lcall   _LCDprint
 016A 8001       846            sjmp    L011002?
@@ -848,11 +1058,16 @@ FFBF            497   ;--------------------------------------------------------
 016C            848   ;Allocation info for local variables in function 'main'
 016C            849   ;------------------------------------------------------------
 016C            850   ;------------------------------------------------------------
+<<<<<<< HEAD
 016C            851   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:139: void main (void)
+=======
+016C            851   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:139: void main (void)
+>>>>>>> origin/zachs_branch
 016C            852   ;        -----------------------------------------
 016C            853   ;         function main
 016C            854   ;        -----------------------------------------
 016C            855   _main:
+<<<<<<< HEAD
 016C            856   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: InitPorts();
 016C 120100     857            lcall   _InitPorts
 016F            858   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:144: LCD_8BIT(); 
@@ -864,6 +1079,19 @@ FFBF            497   ;--------------------------------------------------------
 017A 75F080     864            mov     b,#0x80
 017D 120100     865            lcall   _LCDprint
 0180            866   ;        Z:\profile.V2\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:148: LCDport_print();
+=======
+016C            856   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:142: InitPorts();
+016C 120100     857            lcall   _InitPorts
+016F            858   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:143: LCD_8BIT(); 
+016F 120100     859            lcall   _LCD_8BIT
+0172            860   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:146: LCDprint("Print Value Test", 1,1);
+0172 755001     861            mov     _LCDprint_PARM_2,#0x01
+0175 D200       862            setb    _LCDprint_PARM_3
+0177 90A7A8     863            mov     dptr,#__str_1
+017A 75F080     864            mov     b,#0x80
+017D 120100     865            lcall   _LCDprint
+0180            866   ;        C:\Users\r6z8\Documents\GitHub\eece_284\Code\LCD_8_bit_new.c:147: LCDport_print();
+>>>>>>> origin/zachs_branch
 0180 020100     867            ljmp    _LCDport_print
 0183            868            rseg R_CSEG
 0183            869   
