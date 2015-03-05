@@ -174,9 +174,9 @@ void InitADC(void)
 }
 
 void display_LCD(void){
-	unsigned char buff[17];
+	unsigned char buff[17]; // Need to have enough space in the string for a null character
 	
-	sprintf (buff, "V0: %4.2fV", (AD1DAT0*3.3)/255.0);
+	sprintf (buff, "V0: %4.2fV", (AD1DAT0*3.3)/255.0); // Prints 4 digits with 2 decimals, appended by V
 	LCDprint(buff, 1, 1);
 
 	sprintf (buff, "V1: %4.2fV", (AD1DAT1*3.3)/255.0);
@@ -186,6 +186,11 @@ void display_LCD(void){
 }
 
 void motor_control(void){
+}
+
+void timer(void){
+	// How do we run a timer without making our robot wait for 1 second?
+	
 }
 
 void main (void)
