@@ -193,7 +193,7 @@ void InitTimer0 (void)
 	EA=1;  // Enable global interrupts
 }
 
-//Interrupt 1 is for timer 0.  This function is executed every millisecond.
+//Interrupt 1 is for timer 0.  This function is executed every 100 us
 void Timer0ISR (void) interrupt 1
 {
 	//Reload the timer
@@ -251,34 +251,54 @@ void main (void)
 	InitSerialPort();
 	InitADC();
 	InitTimer0();
-		
+	
 	while(1)
 	{
+		//Sensor Values
+		double left_sensor = (AD1DAT1/255.0)*3.3;
+		double right_sensor = (AD1DAT2/255.0)*3.3;
+		double voltage = (AD1DAT0/255.0)*3.3;
 		
+		//PID Variable
+		double k_p;
+		double k_d;
+		double error;
+		double pre_error;
+		
+		//Timer Functionality
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
 		{
 			time_update_flag=0;
-			sprintf(str, "V=%5.2f", (AD1DAT0/255.0)*3.3); // Display the voltage at pin P0.1
+			sprintf(str, "V=%5.2f", voltage); // Display the voltage at pin P0.1
 			LCDprint(str, 1, 1);
 			sprintf(str, "%02d:%02d", mins, secs); // Display the clock
 			LCDprint(str, 2, 1);
 		}
 		
-		
+		/*
 		//these comparison statements might not work with...are AD1DAT0 etc. ints?
 		//read voltage 0.2, 0.3
-		if ( ((AD1DAT1/255.0)*3.3)>2 && ((AD1DAT2/255.0)*3.3)<2 )
-  		{ //left high, right low - turn left
+		if ( (left_sensor)>2 && (right_sensor)<2 )
+  		{ //left high, right low - turn left, so make right motor go faster
     		printf("turn left     \r");
+    		pwm_left = 50;
+    		pwm_right = 75;
   		}
-		else if( ((AD1DAT1/255.0)*3.3)<2 && ((AD1DAT2/255.0)*3.3)>2 )
-  		{ //left low, right high - turn right
+		else if( (left_sensor)<2 && (right_sensor)>2 )
+  		{ //left low, right high - turn right, so make left motor go faster
     		printf("turn right     \r");
+    		pwm_left = 75;
+    		pwm_right = 50;
   		}
 		else
   		{ //both low (I know, we need a different statement here) or both high - go straight
     		printf("go straight    \r");
-  		}
+    		pwm_left = 50;
+    		pwm_right = 50;
+  		}*/
+  		
+  		//P-D Controller
+  				
 		
 			
 	}

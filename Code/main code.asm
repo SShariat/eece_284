@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Thu Mar 05 10:41:29 2015
+; This file was generated Thu Mar 05 11:20:59 2015
 ;--------------------------------------------------------
 $name main_code
 $optc51 --model-small
@@ -1224,6 +1224,13 @@ _motor_control:
 ;------------------------------------------------------------
 ;str                       Allocated with name '_main_str_1_100'
 ;threshold                 Allocated to registers 
+;left_sensor               Allocated to registers 
+;right_sensor              Allocated to registers 
+;voltage                   Allocated to registers r2 r3 r4 r5 
+;k_p                       Allocated with name '_main_k_p_2_101'
+;k_d                       Allocated with name '_main_k_d_2_101'
+;error                     Allocated with name '_main_error_2_101'
+;pre_error                 Allocated with name '_main_pre_error_2_101'
 ;------------------------------------------------------------
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:244: void main (void)
 ;	-----------------------------------------
@@ -1241,13 +1248,12 @@ _main:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:253: InitTimer0();
 	lcall	_InitTimer0
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:255: while(1)
-L019012?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:258: if(time_update_flag==1) // If the clock has been updated, refresh the display
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:260: time_update_flag=0;
-	jbc	_time_update_flag,L019022?
-	ljmp	L019002?
-L019022?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:261: sprintf(str, "V=%5.2f", (AD1DAT0/255.0)*3.3); // Display the voltage at pin P0.1
+L019004?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:258: double left_sensor = (AD1DAT1/255.0)*3.3;
+	mov	a,_AD1DAT1
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:259: double right_sensor = (AD1DAT2/255.0)*3.3;
+	mov	a,_AD1DAT2
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:260: double voltage = (AD1DAT0/255.0)*3.3;
 	mov	dpl,_AD1DAT0
 	lcall	___uchar2fs
 	mov	r2,dpl
@@ -1288,6 +1294,12 @@ L019022?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:269: if(time_update_flag==1) // If the clock has been updated, refresh the display
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:271: time_update_flag=0;
+	jbc	_time_update_flag,L019010?
+	sjmp	L019004?
+L019010?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:272: sprintf(str, "V=%5.2f", voltage); // Display the voltage at pin P0.1
 	push	ar2
 	push	ar3
 	push	ar4
@@ -1308,13 +1320,13 @@ L019022?:
 	mov	a,sp
 	add	a,#0xf6
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:262: LCDprint(str, 1, 1);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:273: LCDprint(str, 1, 1);
 	mov	_LCDprint_PARM_2,#0x01
 	setb	_LCDprint_PARM_3
 	mov	dptr,#_main_str_1_100
 	mov	b,#0x40
 	lcall	_LCDprint
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:263: sprintf(str, "%02d:%02d", mins, secs); // Display the clock
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:274: sprintf(str, "%02d:%02d", mins, secs); // Display the clock
 	mov	r2,_secs
 	mov	r3,#0x00
 	mov	r4,_mins
@@ -1339,285 +1351,13 @@ L019022?:
 	mov	a,sp
 	add	a,#0xf6
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:264: LCDprint(str, 2, 1);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:275: LCDprint(str, 2, 1);
 	mov	_LCDprint_PARM_2,#0x02
 	setb	_LCDprint_PARM_3
 	mov	dptr,#_main_str_1_100
 	mov	b,#0x40
 	lcall	_LCDprint
-L019002?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:270: if ( ((AD1DAT1/255.0)*3.3)>2 && ((AD1DAT2/255.0)*3.3)<2 )
-	mov	dpl,_AD1DAT1
-	lcall	___uchar2fs
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x7F
-	push	acc
-	mov	a,#0x43
-	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
-	lcall	___fsdiv
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	mov	dptr,#0x3333
-	mov	b,#0x53
-	mov	a,#0x40
-	lcall	___fsmul
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
-	lcall	___fsgt
-	mov	r2,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r2
-	jnz	L019023?
-	ljmp	L019008?
-L019023?:
-	mov	dpl,_AD1DAT2
-	lcall	___uchar2fs
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x7F
-	push	acc
-	mov	a,#0x43
-	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
-	lcall	___fsdiv
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	mov	dptr,#0x3333
-	mov	b,#0x53
-	mov	a,#0x40
-	lcall	___fsmul
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
-	lcall	___fslt
-	mov	r2,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r2
-	jz	L019008?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:272: printf("turn left     \r");
-	mov	a,#__str_5
-	push	acc
-	mov	a,#(__str_5 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-	ljmp	L019012?
-L019008?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:274: else if( ((AD1DAT1/255.0)*3.3)<2 && ((AD1DAT2/255.0)*3.3)>2 )
-	mov	dpl,_AD1DAT1
-	lcall	___uchar2fs
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x7F
-	push	acc
-	mov	a,#0x43
-	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
-	lcall	___fsdiv
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	mov	dptr,#0x3333
-	mov	b,#0x53
-	mov	a,#0x40
-	lcall	___fsmul
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
-	lcall	___fslt
-	mov	r2,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r2
-	jnz	L019025?
 	ljmp	L019004?
-L019025?:
-	mov	dpl,_AD1DAT2
-	lcall	___uchar2fs
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x7F
-	push	acc
-	mov	a,#0x43
-	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
-	lcall	___fsdiv
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	mov	dptr,#0x3333
-	mov	b,#0x53
-	mov	a,#0x40
-	lcall	___fsmul
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
-	lcall	___fsgt
-	mov	r2,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r2
-	jz	L019004?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:276: printf("turn right     \r");
-	mov	a,#__str_6
-	push	acc
-	mov	a,#(__str_6 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-	ljmp	L019012?
-L019004?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:280: printf("go straight    \r");
-	mov	a,#__str_7
-	push	acc
-	mov	a,#(__str_7 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-	ljmp	L019012?
 	rseg R_CSEG
 
 	rseg R_XINIT
@@ -1634,18 +1374,6 @@ __str_3:
 	db 0x00
 __str_4:
 	db '%02d:%02d'
-	db 0x00
-__str_5:
-	db 'turn left     '
-	db 0x0D
-	db 0x00
-__str_6:
-	db 'turn right     '
-	db 0x0D
-	db 0x00
-__str_7:
-	db 'go straight    '
-	db 0x0D
 	db 0x00
 
 	CSEG
