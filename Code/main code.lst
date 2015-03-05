@@ -1,0 +1,1346 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
+0000              4   ; This file was generated Wed Mar 04 22:59:52 2015
+0000              5   ;--------------------------------------------------------
+                  5   $name main_code
+                  6   $optc51 --model-small
+                  7   $printf_float
+0000              9            R_DSEG    segment data
+0000             10            R_CSEG    segment code
+0000             11            R_BSEG    segment bit
+0000             12            R_XSEG    segment xdata
+0000             13            R_PSEG    segment xdata
+0000             14            R_ISEG    segment idata
+0000             15            R_OSEG    segment data overlay
+0000             16            BIT_BANK  segment data overlay
+0000             17            R_HOME    segment code
+0000             18            R_GSINIT  segment code
+0000             19            R_IXSEG   segment xdata
+0000             20            R_CONST   segment code
+0000             21            R_XINIT   segment code
+0000             22            R_DINIT   segment code
+0000             23   
+0000             24   ;--------------------------------------------------------
+0000             25   ; Public variables in this module
+0000             26   ;--------------------------------------------------------
+0000             27            public _main
+0000             28            public _motor_control
+0000             29            public _display_LCD
+0000             30            public _Timer0ISR
+0000             31            public _InitTimer0
+0000             32            public _InitADC
+0000             33            public _InitSerialPort
+0000             34            public _Wait1S
+0000             35            public _LCDport_print
+0000             36            public _LCDprint
+0000             37            public _LCD_8BIT
+0000             38            public _WriteCommand
+0000             39            public _WriteData
+0000             40            public _LCD_byte
+0000             41            public _LCD_pulse
+0000             42            public _waitms
+0000             43            public _Wait50us
+0000             44            public _InitPorts
+0000             45            public _LCDprint_PARM_3
+0000             46            public _time_update_flag
+0000             47            public _LCDprint_PARM_2
+0000             48            public _mins
+0000             49            public _secs
+0000             50            public _msCount
+0000             51   ;--------------------------------------------------------
+0000             52   ; Special Function Registers
+0000             53   ;--------------------------------------------------------
+0000             54   _ACC            DATA 0xe0
+0000             55   _ADCON0         DATA 0x8e
+0000             56   _ADCON1         DATA 0x97
+0000             57   _ADINS          DATA 0xa3
+0000             58   _ADMODA         DATA 0xc0
+0000             59   _ADMODB         DATA 0xa1
+0000             60   _AD0BH          DATA 0xbb
+0000             61   _AD0BL          DATA 0xa6
+0000             62   _AD0DAT0        DATA 0xc5
+0000             63   _AD0DAT1        DATA 0xc6
+0000             64   _AD0DAT2        DATA 0xc7
+0000             65   _AD0DAT3        DATA 0xf4
+0000             66   _AD1BH          DATA 0xc4
+0000             67   _AD1BL          DATA 0xbc
+0000             68   _AD1DAT0        DATA 0xd5
+0000             69   _AD1DAT1        DATA 0xd6
+0000             70   _AD1DAT2        DATA 0xd7
+0000             71   _AD1DAT3        DATA 0xf5
+0000             72   _AUXR1          DATA 0xa2
+0000             73   _B              DATA 0xf0
+0000             74   _BRGR0          DATA 0xbe
+0000             75   _BRGR1          DATA 0xbf
+0000             76   _BRGCON         DATA 0xbd
+0000             77   _CCCRA          DATA 0xea
+0000             78   _CCCRB          DATA 0xeb
+0000             79   _CCCRC          DATA 0xec
+0000             80   _CCCRD          DATA 0xed
+0000             81   _CMP1           DATA 0xac
+0000             82   _CMP2           DATA 0xad
+0000             83   _DEECON         DATA 0xf1
+0000             84   _DEEDAT         DATA 0xf2
+0000             85   _DEEADR         DATA 0xf3
+0000             86   _DIVM           DATA 0x95
+0000             87   _DPH            DATA 0x83
+0000             88   _DPL            DATA 0x82
+0000             89   _FMADRH         DATA 0xe7
+0000             90   _FMADRL         DATA 0xe6
+0000             91   _FMCON          DATA 0xe4
+0000             92   _FMDATA         DATA 0xe5
+0000             93   _I2ADR          DATA 0xdb
+0000             94   _I2CON          DATA 0xd8
+0000             95   _I2DAT          DATA 0xda
+0000             96   _I2SCLH         DATA 0xdd
+0000             97   _I2SCLL         DATA 0xdc
+0000             98   _I2STAT         DATA 0xd9
+0000             99   _ICRAH          DATA 0xab
+0000            100   _ICRAL          DATA 0xaa
+0000            101   _ICRBH          DATA 0xaf
+0000            102   _ICRBL          DATA 0xae
+0000            103   _IEN0           DATA 0xa8
+0000            104   _IEN1           DATA 0xe8
+0000            105   _IP0            DATA 0xb8
+0000            106   _IP0H           DATA 0xb7
+0000            107   _IP1            DATA 0xf8
+0000            108   _IP1H           DATA 0xf7
+0000            109   _KBCON          DATA 0x94
+0000            110   _KBMASK         DATA 0x86
+0000            111   _KBPATN         DATA 0x93
+0000            112   _OCRAH          DATA 0xef
+0000            113   _OCRAL          DATA 0xee
+0000            114   _OCRBH          DATA 0xfb
+0000            115   _OCRBL          DATA 0xfa
+0000            116   _OCRCH          DATA 0xfd
+0000            117   _OCRCL          DATA 0xfc
+0000            118   _OCRDH          DATA 0xff
+0000            119   _OCRDL          DATA 0xfe
+0000            120   _P0             DATA 0x80
+0000            121   _P1             DATA 0x90
+0000            122   _P2             DATA 0xa0
+0000            123   _P3             DATA 0xb0
+0000            124   _P0M1           DATA 0x84
+0000            125   _P0M2           DATA 0x85
+0000            126   _P1M1           DATA 0x91
+0000            127   _P1M2           DATA 0x92
+0000            128   _P2M1           DATA 0xa4
+0000            129   _P2M2           DATA 0xa5
+0000            130   _P3M1           DATA 0xb1
+0000            131   _P3M2           DATA 0xb2
+0000            132   _PCON           DATA 0x87
+0000            133   _PCONA          DATA 0xb5
+0000            134   _PSW            DATA 0xd0
+0000            135   _PT0AD          DATA 0xf6
+0000            136   _RSTSRC         DATA 0xdf
+0000            137   _RTCCON         DATA 0xd1
+0000            138   _RTCH           DATA 0xd2
+0000            139   _RTCL           DATA 0xd3
+0000            140   _SADDR          DATA 0xa9
+0000            141   _SADEN          DATA 0xb9
+0000            142   _SBUF           DATA 0x99
+0000            143   _SCON           DATA 0x98
+0000            144   _SSTAT          DATA 0xba
+0000            145   _SP             DATA 0x81
+0000            146   _SPCTL          DATA 0xe2
+0000            147   _SPSTAT         DATA 0xe1
+0000            148   _SPDAT          DATA 0xe3
+0000            149   _TAMOD          DATA 0x8f
+0000            150   _TCON           DATA 0x88
+0000            151   _TCR20          DATA 0xc8
+0000            152   _TCR21          DATA 0xf9
+0000            153   _TH0            DATA 0x8c
+0000            154   _TH1            DATA 0x8d
+0000            155   _TH2            DATA 0xcd
+0000            156   _TICR2          DATA 0xc9
+0000            157   _TIFR2          DATA 0xe9
+0000            158   _TISE2          DATA 0xde
+0000            159   _TL0            DATA 0x8a
+0000            160   _TL1            DATA 0x8b
+0000            161   _TL2            DATA 0xcc
+0000            162   _TMOD           DATA 0x89
+0000            163   _TOR2H          DATA 0xcf
+0000            164   _TOR2L          DATA 0xce
+0000            165   _TPCR2H         DATA 0xcb
+0000            166   _TPCR2L         DATA 0xca
+0000            167   _TRIM           DATA 0x96
+0000            168   _WDCON          DATA 0xa7
+0000            169   _WDL            DATA 0xc1
+0000            170   _WFEED1         DATA 0xc2
+0000            171   _WFEED2         DATA 0xc3
+0000            172   ;--------------------------------------------------------
+0000            173   ; special function bits
+0000            174   ;--------------------------------------------------------
+0000            175   _ACC_7          BIT 0xe7
+0000            176   _ACC_6          BIT 0xe6
+0000            177   _ACC_5          BIT 0xe5
+0000            178   _ACC_4          BIT 0xe4
+0000            179   _ACC_3          BIT 0xe3
+0000            180   _ACC_2          BIT 0xe2
+0000            181   _ACC_1          BIT 0xe1
+0000            182   _ACC_0          BIT 0xe0
+0000            183   _ADMODA_7       BIT 0xc7
+0000            184   _ADMODA_6       BIT 0xc6
+0000            185   _ADMODA_5       BIT 0xc5
+0000            186   _ADMODA_4       BIT 0xc4
+0000            187   _ADMODA_3       BIT 0xc3
+0000            188   _ADMODA_2       BIT 0xc2
+0000            189   _ADMODA_1       BIT 0xc1
+0000            190   _ADMODA_0       BIT 0xc0
+0000            191   _BNDI1          BIT 0xc7
+0000            192   _BURST1         BIT 0xc6
+0000            193   _SCC1           BIT 0xc5
+0000            194   _SCAN1          BIT 0xc4
+0000            195   _BNDI0          BIT 0xc3
+0000            196   _BURST0         BIT 0xc2
+0000            197   _SCC0           BIT 0xc1
+0000            198   _SCAN0          BIT 0xc0
+0000            199   _B_7            BIT 0xf7
+0000            200   _B_6            BIT 0xf6
+0000            201   _B_5            BIT 0xf5
+0000            202   _B_4            BIT 0xf4
+0000            203   _B_3            BIT 0xf3
+0000            204   _B_2            BIT 0xf2
+0000            205   _B_1            BIT 0xf1
+0000            206   _B_0            BIT 0xf0
+0000            207   _I2CON_7        BIT 0xdf
+0000            208   _I2CON_6        BIT 0xde
+0000            209   _I2CON_5        BIT 0xdd
+0000            210   _I2CON_4        BIT 0xdc
+0000            211   _I2CON_3        BIT 0xdb
+0000            212   _I2CON_2        BIT 0xda
+0000            213   _I2CON_1        BIT 0xd9
+0000            214   _I2CON_0        BIT 0xd8
+0000            215   _I2EN           BIT 0xde
+0000            216   _STA            BIT 0xdd
+0000            217   _STO            BIT 0xdc
+0000            218   _SI             BIT 0xdb
+0000            219   _AA             BIT 0xda
+0000            220   _CRSEL          BIT 0xd8
+0000            221   _IEN0_7         BIT 0xaf
+0000            222   _IEN0_6         BIT 0xae
+0000            223   _IEN0_5         BIT 0xad
+0000            224   _IEN0_4         BIT 0xac
+0000            225   _IEN0_3         BIT 0xab
+0000            226   _IEN0_2         BIT 0xaa
+0000            227   _IEN0_1         BIT 0xa9
+0000            228   _IEN0_0         BIT 0xa8
+0000            229   _EA             BIT 0xaf
+0000            230   _EWDRT          BIT 0xae
+0000            231   _EBO            BIT 0xad
+0000            232   _ES             BIT 0xac
+0000            233   _ESR            BIT 0xac
+0000            234   _ET1            BIT 0xab
+0000            235   _EX1            BIT 0xaa
+0000            236   _ET0            BIT 0xa9
+0000            237   _EX0            BIT 0xa8
+0000            238   _IEN1_7         BIT 0xef
+0000            239   _IEN1_6         BIT 0xee
+0000            240   _IEN1_5         BIT 0xed
+0000            241   _IEN1_4         BIT 0xec
+0000            242   _IEN1_3         BIT 0xeb
+0000            243   _IEN1_2         BIT 0xea
+0000            244   _IEN1_1         BIT 0xe9
+0000            245   _IEN1_0         BIT 0xe8
+0000            246   _EADEE          BIT 0xef
+0000            247   _EST            BIT 0xee
+0000            248   _ECCU           BIT 0xec
+0000            249   _ESPI           BIT 0xeb
+0000            250   _EC             BIT 0xea
+0000            251   _EKBI           BIT 0xe9
+0000            252   _EI2C           BIT 0xe8
+0000            253   _IP0_7          BIT 0xbf
+0000            254   _IP0_6          BIT 0xbe
+0000            255   _IP0_5          BIT 0xbd
+0000            256   _IP0_4          BIT 0xbc
+0000            257   _IP0_3          BIT 0xbb
+0000            258   _IP0_2          BIT 0xba
+0000            259   _IP0_1          BIT 0xb9
+0000            260   _IP0_0          BIT 0xb8
+0000            261   _PWDRT          BIT 0xbe
+0000            262   _PBO            BIT 0xbd
+0000            263   _PS             BIT 0xbc
+0000            264   _PSR            BIT 0xbc
+0000            265   _PT1            BIT 0xbb
+0000            266   _PX1            BIT 0xba
+0000            267   _PT0            BIT 0xb9
+0000            268   _PX0            BIT 0xb8
+0000            269   _IP1_7          BIT 0xff
+0000            270   _IP1_6          BIT 0xfe
+0000            271   _IP1_5          BIT 0xfd
+0000            272   _IP1_4          BIT 0xfc
+0000            273   _IP1_3          BIT 0xfb
+0000            274   _IP1_2          BIT 0xfa
+0000            275   _IP1_1          BIT 0xf9
+0000            276   _IP1_0          BIT 0xf8
+0000            277   _PADEE          BIT 0xff
+0000            278   _PST            BIT 0xfe
+0000            279   _PCCU           BIT 0xfc
+0000            280   _PSPI           BIT 0xfb
+0000            281   _PC             BIT 0xfa
+0000            282   _PKBI           BIT 0xf9
+0000            283   _PI2C           BIT 0xf8
+0000            284   _P0_7           BIT 0x87
+0000            285   _P0_6           BIT 0x86
+0000            286   _P0_5           BIT 0x85
+0000            287   _P0_4           BIT 0x84
+0000            288   _P0_3           BIT 0x83
+0000            289   _P0_2           BIT 0x82
+0000            290   _P0_1           BIT 0x81
+0000            291   _P0_0           BIT 0x80
+0000            292   _T1             BIT 0x87
+0000            293   _KB7            BIT 0x87
+0000            294   _CMP_1          BIT 0x86
+0000            295   _KB6            BIT 0x86
+0000            296   _CMPREF         BIT 0x85
+0000            297   _KB5            BIT 0x85
+0000            298   _CIN1A          BIT 0x84
+0000            299   _KB4            BIT 0x84
+0000            300   _CIN1B          BIT 0x83
+0000            301   _KB3            BIT 0x83
+0000            302   _CIN2A          BIT 0x82
+0000            303   _KB2            BIT 0x82
+0000            304   _CIN2B          BIT 0x81
+0000            305   _KB1            BIT 0x81
+0000            306   _CMP_2          BIT 0x80
+0000            307   _KB0            BIT 0x80
+0000            308   _P1_7           BIT 0x97
+0000            309   _P1_6           BIT 0x96
+0000            310   _P1_5           BIT 0x95
+0000            311   _P1_4           BIT 0x94
+0000            312   _P1_3           BIT 0x93
+0000            313   _P1_2           BIT 0x92
+0000            314   _P1_1           BIT 0x91
+0000            315   _P1_0           BIT 0x90
+0000            316   _OCC            BIT 0x97
+0000            317   _OCB            BIT 0x96
+0000            318   _RST            BIT 0x95
+0000            319   _INT1           BIT 0x94
+0000            320   _INT0           BIT 0x93
+0000            321   _SDA            BIT 0x93
+0000            322   _T0             BIT 0x92
+0000            323   _SCL            BIT 0x92
+0000            324   _RXD            BIT 0x91
+0000            325   _TXD            BIT 0x90
+0000            326   _P2_7           BIT 0xa7
+0000            327   _P2_6           BIT 0xa6
+0000            328   _P2_5           BIT 0xa5
+0000            329   _P2_4           BIT 0xa4
+0000            330   _P2_3           BIT 0xa3
+0000            331   _P2_2           BIT 0xa2
+0000            332   _P2_1           BIT 0xa1
+0000            333   _P2_0           BIT 0xa0
+0000            334   _ICA            BIT 0xa7
+0000            335   _OCA            BIT 0xa6
+0000            336   _SPICLK         BIT 0xa5
+0000            337   _SS             BIT 0xa4
+0000            338   _MISO           BIT 0xa3
+0000            339   _MOSI           BIT 0xa2
+0000            340   _OCD            BIT 0xa1
+0000            341   _ICB            BIT 0xa0
+0000            342   _P3_7           BIT 0xb7
+0000            343   _P3_6           BIT 0xb6
+0000            344   _P3_5           BIT 0xb5
+0000            345   _P3_4           BIT 0xb4
+0000            346   _P3_3           BIT 0xb3
+0000            347   _P3_2           BIT 0xb2
+0000            348   _P3_1           BIT 0xb1
+0000            349   _P3_0           BIT 0xb0
+0000            350   _XTAL1          BIT 0xb1
+0000            351   _XTAL2          BIT 0xb0
+0000            352   _PSW_7          BIT 0xd7
+0000            353   _PSW_6          BIT 0xd6
+0000            354   _PSW_5          BIT 0xd5
+0000            355   _PSW_4          BIT 0xd4
+0000            356   _PSW_3          BIT 0xd3
+0000            357   _PSW_2          BIT 0xd2
+0000            358   _PSW_1          BIT 0xd1
+0000            359   _PSW_0          BIT 0xd0
+0000            360   _CY             BIT 0xd7
+0000            361   _AC             BIT 0xd6
+0000            362   _F0             BIT 0xd5
+0000            363   _RS1            BIT 0xd4
+0000            364   _RS0            BIT 0xd3
+0000            365   _OV             BIT 0xd2
+0000            366   _F1             BIT 0xd1
+0000            367   _P              BIT 0xd0
+0000            368   _SCON_7         BIT 0x9f
+0000            369   _SCON_6         BIT 0x9e
+0000            370   _SCON_5         BIT 0x9d
+0000            371   _SCON_4         BIT 0x9c
+0000            372   _SCON_3         BIT 0x9b
+0000            373   _SCON_2         BIT 0x9a
+0000            374   _SCON_1         BIT 0x99
+0000            375   _SCON_0         BIT 0x98
+0000            376   _SM0            BIT 0x9f
+0000            377   _FE             BIT 0x9f
+0000            378   _SM1            BIT 0x9e
+0000            379   _SM2            BIT 0x9d
+0000            380   _REN            BIT 0x9c
+0000            381   _TB8            BIT 0x9b
+0000            382   _RB8            BIT 0x9a
+0000            383   _TI             BIT 0x99
+0000            384   _RI             BIT 0x98
+0000            385   _TCON_7         BIT 0x8f
+0000            386   _TCON_6         BIT 0x8e
+0000            387   _TCON_5         BIT 0x8d
+0000            388   _TCON_4         BIT 0x8c
+0000            389   _TCON_3         BIT 0x8b
+0000            390   _TCON_2         BIT 0x8a
+0000            391   _TCON_1         BIT 0x89
+0000            392   _TCON_0         BIT 0x88
+0000            393   _TF1            BIT 0x8f
+0000            394   _TR1            BIT 0x8e
+0000            395   _TF0            BIT 0x8d
+0000            396   _TR0            BIT 0x8c
+0000            397   _IE1            BIT 0x8b
+0000            398   _IT1            BIT 0x8a
+0000            399   _IE0            BIT 0x89
+0000            400   _IT0            BIT 0x88
+0000            401   _TCR20_7        BIT 0xcf
+0000            402   _TCR20_6        BIT 0xce
+0000            403   _TCR20_5        BIT 0xcd
+0000            404   _TCR20_4        BIT 0xcc
+0000            405   _TCR20_3        BIT 0xcb
+0000            406   _TCR20_2        BIT 0xca
+0000            407   _TCR20_1        BIT 0xc9
+0000            408   _TCR20_0        BIT 0xc8
+0000            409   _PLEEN          BIT 0xcf
+0000            410   _HLTRN          BIT 0xce
+0000            411   _HLTEN          BIT 0xcd
+0000            412   _ALTCD          BIT 0xcc
+0000            413   _ALTAB          BIT 0xcb
+0000            414   _TDIR2          BIT 0xca
+0000            415   _TMOD21         BIT 0xc9
+0000            416   _TMOD20         BIT 0xc8
+0000            417   ;--------------------------------------------------------
+0000            418   ; overlayable register banks
+0000            419   ;--------------------------------------------------------
+0000            420            rbank0 segment data overlay
+0000            421   ;--------------------------------------------------------
+0000            422   ; internal ram data
+0000            423   ;--------------------------------------------------------
+0000            424            rseg R_DSEG
+0000            425   _msCount:
+0000            426            ds 2
+0002            427   _secs:
+0002            428            ds 1
+0003            429   _mins:
+0003            430            ds 1
+0004            431   _LCDprint_PARM_2:
+0004            432            ds 1
+0005            433   _LCDport_print_string_2_81:
+0005            434            ds 20
+0019            435   _display_LCD_buff_1_96:
+0019            436            ds 17
+002A            437   _main_str_1_100:
+002A            438            ds 17
+003B            439   ;--------------------------------------------------------
+003B            440   ; overlayable items in internal ram 
+003B            441   ;--------------------------------------------------------
+0000            442            rseg R_OSEG
+0000            443   ;--------------------------------------------------------
+0000            444   ; indirectly addressable internal ram data
+0000            445   ;--------------------------------------------------------
+0000            446            rseg R_ISEG
+0000            447   ;--------------------------------------------------------
+0000            448   ; absolute internal ram data
+0000            449   ;--------------------------------------------------------
+0000            450            DSEG
+0000            451   ;--------------------------------------------------------
+0000            452   ; bit data
+0000            453   ;--------------------------------------------------------
+0000            454            rseg R_BSEG
+0000            455   _time_update_flag:
+0000            456            DBIT    1
+0001            457   _LCDprint_PARM_3:
+0001            458            DBIT    1
+0002            459   ;--------------------------------------------------------
+0002            460   ; paged external ram data
+0002            461   ;--------------------------------------------------------
+0000            462            rseg R_PSEG
+0000            463   ;--------------------------------------------------------
+0000            464   ; external ram data
+0000            465   ;--------------------------------------------------------
+0000            466            rseg R_XSEG
+FFC8            467            XSEG at 0xffc8
+FFC8            468   _BODCFG: ds 1
+FFC9            469            public _BODCFG
+0000            470            rseg R_XSEG
+FFDE            471            XSEG at 0xffde
+FFDE            472   _CLKCON: ds 1
+FFDF            473            public _CLKCON
+0000            474            rseg R_XSEG
+FFE1            475            XSEG at 0xffe1
+FFE1            476   _PGACON1: ds 1
+FFE2            477            public _PGACON1
+0000            478            rseg R_XSEG
+FFE4            479            XSEG at 0xffe4
+FFE4            480   _PGACON1B: ds 1
+FFE5            481            public _PGACON1B
+0000            482            rseg R_XSEG
+FFE3            483            XSEG at 0xffe3
+FFE3            484   _PGA1TRIM8X16X: ds 1
+FFE4            485            public _PGA1TRIM8X16X
+0000            486            rseg R_XSEG
+FFE2            487            XSEG at 0xffe2
+FFE2            488   _PGA1TRIM2X4X: ds 1
+FFE3            489            public _PGA1TRIM2X4X
+0000            490            rseg R_XSEG
+FFCA            491            XSEG at 0xffca
+FFCA            492   _PGACON0: ds 1
+FFCB            493            public _PGACON0
+0000            494            rseg R_XSEG
+FFCE            495            XSEG at 0xffce
+FFCE            496   _PGACON0B: ds 1
+FFCF            497            public _PGACON0B
+0000            498            rseg R_XSEG
+FFCD            499            XSEG at 0xffcd
+FFCD            500   _PGA0TRIM8X16X: ds 1
+FFCE            501            public _PGA0TRIM8X16X
+0000            502            rseg R_XSEG
+FFCC            503            XSEG at 0xffcc
+FFCC            504   _PGA0TRIM2X4X: ds 1
+FFCD            505            public _PGA0TRIM2X4X
+0000            506            rseg R_XSEG
+FFBF            507            XSEG at 0xffbf
+FFBF            508   _RTCDATH: ds 1
+FFC0            509            public _RTCDATH
+0000            510            rseg R_XSEG
+FFBE            511            XSEG at 0xffbe
+FFBE            512   _RTCDATL: ds 1
+FFBF            513            public _RTCDATL
+0000            514            rseg R_XSEG
+0000            515   ;--------------------------------------------------------
+0000            516   ; absolute external ram data
+0000            517   ;--------------------------------------------------------
+FFBF            518            XSEG
+FFBF            519   ;--------------------------------------------------------
+FFBF            520   ; external initialized ram data
+FFBF            521   ;--------------------------------------------------------
+0000            522            rseg R_IXSEG
+0000            523            rseg R_HOME
+0000            524            rseg R_GSINIT
+0000            525            rseg R_CSEG
+0000            526   ;--------------------------------------------------------
+0000            527   ; Reset entry point and interrupt vectors
+0000            528   ;--------------------------------------------------------
+0000            529            CSEG at 0x0000
+0000 020100     530            ljmp    _crt0
+000B            531            CSEG at 0x000b
+000B 020100     532            ljmp    _Timer0ISR
+000E            533   ;--------------------------------------------------------
+000E            534   ; global & static initialisations
+000E            535   ;--------------------------------------------------------
+0000            536            rseg R_HOME
+0000            537            rseg R_GSINIT
+0000            538            rseg R_GSINIT
+0000            539   ;--------------------------------------------------------
+0000            540   ; data variables initialization
+0000            541   ;--------------------------------------------------------
+0000            542            rseg R_DINIT
+0000            543   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:33: volatile int msCount=0;
+0000 E4         544            clr     a
+0001 F510       545            mov     _msCount,a
+0003 F511       546            mov     (_msCount + 1),a
+0005            547   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:34: volatile unsigned char secs=0, mins=0;
+0005 75D000     548            mov     _secs,#0x00
+0008            549   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:34: volatile bit time_update_flag=0;
+0008 759000     550            mov     _mins,#0x00
+000B            551   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:35: 
+000B C200       552            clr     _time_update_flag
+000D            553            ; The linker places a 'ret' at the end of segment R_DINIT.
+000D            554   ;--------------------------------------------------------
+000D            555   ; code
+000D            556   ;--------------------------------------------------------
+0000            557            rseg R_CSEG
+0000            558   ;------------------------------------------------------------
+0000            559   ;Allocation info for local variables in function 'InitPorts'
+0000            560   ;------------------------------------------------------------
+0000            561   ;------------------------------------------------------------
+0000            562   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:37: void InitPorts(void)
+0000            563   ;        -----------------------------------------
+0000            564   ;         function InitPorts
+0000            565   ;        -----------------------------------------
+0000            566   _InitPorts:
+0000            567            using   0
+0000            568   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:39: P0M1=0x1E;
+0000 75841E     569            mov     _P0M1,#0x1E
+0003            570   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:40: P0M2=0x00;
+0003 758500     571            mov     _P0M2,#0x00
+0006            572   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:41: P1M1=0;
+0006 759100     573            mov     _P1M1,#0x00
+0009            574   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:42: P1M2=0;
+0009 759200     575            mov     _P1M2,#0x00
+000C            576   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:43: P2M1=0;
+000C 75A400     577            mov     _P2M1,#0x00
+000F            578   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:44: P2M2=0;
+000F 75A500     579            mov     _P2M2,#0x00
+0012            580   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:45: P3M1=0;
+0012 75B100     581            mov     _P3M1,#0x00
+0015            582   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:46: P3M2=0;
+0015 75B200     583            mov     _P3M2,#0x00
+0018 22         584            ret
+0019            585   ;------------------------------------------------------------
+0019            586   ;Allocation info for local variables in function 'Wait50us'
+0019            587   ;------------------------------------------------------------
+0019            588   ;------------------------------------------------------------
+0019            589   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:49: void Wait50us (void)
+0019            590   ;        -----------------------------------------
+0019            591   ;         function Wait50us
+0019            592   ;        -----------------------------------------
+0019            593   _Wait50us:
+0019            594   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:54: _endasm;
+0019            595            
+0019 7852       596                mov R0, #82
+001B            597            L0:
+001B D8B0       598            djnz R0, L0 ; 2 machine cycles-> 2*0.27126us*92=50us
+001D            599                
+001D 22         600            ret
+001E            601   ;------------------------------------------------------------
+001E            602   ;Allocation info for local variables in function 'waitms'
+001E            603   ;------------------------------------------------------------
+001E            604   ;ms                        Allocated to registers r2 r3 
+001E            605   ;j                         Allocated to registers r4 r5 
+001E            606   ;k                         Allocated to registers r6 
+001E            607   ;------------------------------------------------------------
+001E            608   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:57: void waitms (unsigned int ms)
+001E            609   ;        -----------------------------------------
+001E            610   ;         function waitms
+001E            611   ;        -----------------------------------------
+001E            612   _waitms:
+001E AA82       613            mov     r2,dpl
+0020 AB83       614            mov     r3,dph
+0022            615   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:63: for(j=0; j<ms; j++)
+0022 7C00       616            mov     r4,#0x00
+0024 7D00       617            mov     r5,#0x00
+0026            618   L004004?:
+0026 C3         619            clr     c
+0027 EC         620            mov     a,r4
+0028 9A         621            subb    a,r2
+0029 ED         622            mov     a,r5
+002A 9B         623            subb    a,r3
+002B 5001       624            jnc     L004008?
+002D            625   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:64: for (k=0; k<20; k++) Wait50us();
+002D 7E14       626            mov     r6,#0x14
+002F            627   L004003?:
+002F C002       628            push    ar2
+0031 C003       629            push    ar3
+0033 C004       630            push    ar4
+0035 C005       631            push    ar5
+0037 C006       632            push    ar6
+0039 120100     633            lcall   _Wait50us
+003C D006       634            pop     ar6
+003E D005       635            pop     ar5
+0040 D004       636            pop     ar4
+0042 D003       637            pop     ar3
+0044 D002       638            pop     ar2
+0046 DEF0       639            djnz    r6,L004003?
+0048            640   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:63: for(j=0; j<ms; j++)
+0048 0C         641            inc     r4
+0049 BC0070     642            cjne    r4,#0x00,L004004?
+004C 0D         643            inc     r5
+004D 8001       644            sjmp    L004004?
+004F            645   L004008?:
+004F 22         646            ret
+0050            647   ;------------------------------------------------------------
+0050            648   ;Allocation info for local variables in function 'LCD_pulse'
+0050            649   ;------------------------------------------------------------
+0050            650   ;------------------------------------------------------------
+0050            651   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:67: void LCD_pulse (void)
+0050            652   ;        -----------------------------------------
+0050            653   ;         function LCD_pulse
+0050            654   ;        -----------------------------------------
+0050            655   _LCD_pulse:
+0050            656   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:69: LCD_E=1;
+0050 D2A5       657            setb    _P2_5
+0052            658   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:70: Wait50us();
+0052 120100     659            lcall   _Wait50us
+0055            660   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:71: LCD_E=0;
+0055 C2A5       661            clr     _P2_5
+0057 22         662            ret
+0058            663   ;------------------------------------------------------------
+0058            664   ;Allocation info for local variables in function 'LCD_byte'
+0058            665   ;------------------------------------------------------------
+0058            666   ;x                         Allocated to registers 
+0058            667   ;------------------------------------------------------------
+0058            668   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:74: void LCD_byte (unsigned char x)
+0058            669   ;        -----------------------------------------
+0058            670   ;         function LCD_byte
+0058            671   ;        -----------------------------------------
+0058            672   _LCD_byte:
+0058 8582E0     673            mov     _ACC,dpl
+005B            674   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:78: LCD_D7=ACC_7;
+005B A2E7       675            mov     c,_ACC_7
+005D 9294       676            mov     _P1_4,c
+005F            677   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:79: LCD_D6=ACC_6;
+005F A2E6       678            mov     c,_ACC_6
+0061 9296       679            mov     _P1_6,c
+0063            680   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:80: LCD_D5=ACC_5;
+0063 A2E5       681            mov     c,_ACC_5
+0065 9297       682            mov     _P1_7,c
+0067            683   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:81: LCD_D4=ACC_4;
+0067 A2E4       684            mov     c,_ACC_4
+0069 92A0       685            mov     _P2_0,c
+006B            686   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:82: LCD_D3=ACC_3;
+006B A2E3       687            mov     c,_ACC_3
+006D 92A1       688            mov     _P2_1,c
+006F            689   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:83: LCD_D2=ACC_2;
+006F A2E2       690            mov     c,_ACC_2
+0071 92A2       691            mov     _P2_2,c
+0073            692   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:84: LCD_D1=ACC_1;
+0073 A2E1       693            mov     c,_ACC_1
+0075 92A3       694            mov     _P2_3,c
+0077            695   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:85: LCD_D0=ACC_0;
+0077 A2E0       696            mov     c,_ACC_0
+0079 92A4       697            mov     _P2_4,c
+007B            698   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:86: LCD_pulse();
+007B 020100     699            ljmp    _LCD_pulse
+007E            700   ;------------------------------------------------------------
+007E            701   ;Allocation info for local variables in function 'WriteData'
+007E            702   ;------------------------------------------------------------
+007E            703   ;x                         Allocated to registers r2 
+007E            704   ;------------------------------------------------------------
+007E            705   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:89: void WriteData (unsigned char x)
+007E            706   ;        -----------------------------------------
+007E            707   ;         function WriteData
+007E            708   ;        -----------------------------------------
+007E            709   _WriteData:
+007E AA82       710            mov     r2,dpl
+0080            711   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:91: LCD_RS=1;
+0080 D2A7       712            setb    _P2_7
+0082            713   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:92: LCD_byte(x);
+0082 8A82       714            mov     dpl,r2
+0084 120100     715            lcall   _LCD_byte
+0087            716   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:93: waitms(2);
+0087 900002     717            mov     dptr,#0x0002
+008A 020100     718            ljmp    _waitms
+008D            719   ;------------------------------------------------------------
+008D            720   ;Allocation info for local variables in function 'WriteCommand'
+008D            721   ;------------------------------------------------------------
+008D            722   ;x                         Allocated to registers r2 
+008D            723   ;------------------------------------------------------------
+008D            724   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:96: void WriteCommand (unsigned char x)
+008D            725   ;        -----------------------------------------
+008D            726   ;         function WriteCommand
+008D            727   ;        -----------------------------------------
+008D            728   _WriteCommand:
+008D AA82       729            mov     r2,dpl
+008F            730   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:98: LCD_RS=0;
+008F C2A7       731            clr     _P2_7
+0091            732   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:99: LCD_byte(x);
+0091 8A82       733            mov     dpl,r2
+0093 120100     734            lcall   _LCD_byte
+0096            735   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:100: waitms(5);
+0096 900005     736            mov     dptr,#0x0005
+0099 020100     737            ljmp    _waitms
+009C            738   ;------------------------------------------------------------
+009C            739   ;Allocation info for local variables in function 'LCD_8BIT'
+009C            740   ;------------------------------------------------------------
+009C            741   ;------------------------------------------------------------
+009C            742   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:103: void LCD_8BIT (void)
+009C            743   ;        -----------------------------------------
+009C            744   ;         function LCD_8BIT
+009C            745   ;        -----------------------------------------
+009C            746   _LCD_8BIT:
+009C            747   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:105: LCD_E=0;  // Resting state of LCD's enable is zero
+009C C2A5       748            clr     _P2_5
+009E            749   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:106: LCD_RW=0; // We are only writing to the LCD in this program
+009E C2A6       750            clr     _P2_6
+00A0            751   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:107: waitms(20);
+00A0 900014     752            mov     dptr,#0x0014
+00A3 120100     753            lcall   _waitms
+00A6            754   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:109: WriteCommand(0x33);
+00A6 758233     755            mov     dpl,#0x33
+00A9 120100     756            lcall   _WriteCommand
+00AC            757   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:110: WriteCommand(0x33);
+00AC 758233     758            mov     dpl,#0x33
+00AF 120100     759            lcall   _WriteCommand
+00B2            760   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:111: WriteCommand(0x33); // Stay in 8-bit mode
+00B2 758233     761            mov     dpl,#0x33
+00B5 120100     762            lcall   _WriteCommand
+00B8            763   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:114: WriteCommand(0x38);
+00B8 758238     764            mov     dpl,#0x38
+00BB 120100     765            lcall   _WriteCommand
+00BE            766   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:115: WriteCommand(0x0c);
+00BE 75820C     767            mov     dpl,#0x0C
+00C1 120100     768            lcall   _WriteCommand
+00C4            769   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:116: WriteCommand(0x01); // Clear screen command (takes some time)
+00C4 758201     770            mov     dpl,#0x01
+00C7 120100     771            lcall   _WriteCommand
+00CA            772   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:117: waitms(20); // Wait for clear screen command to finsih.
+00CA 900014     773            mov     dptr,#0x0014
+00CD 020100     774            ljmp    _waitms
+00D0            775   ;------------------------------------------------------------
+00D0            776   ;Allocation info for local variables in function 'LCDprint'
+00D0            777   ;------------------------------------------------------------
+00D0            778   ;line                      Allocated with name '_LCDprint_PARM_2'
+00D0            779   ;string                    Allocated to registers r2 r3 r4 
+00D0            780   ;j                         Allocated to registers r5 
+00D0            781   ;------------------------------------------------------------
+00D0            782   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:120: void LCDprint(char * string, unsigned char line, bit clear)
+00D0            783   ;        -----------------------------------------
+00D0            784   ;         function LCDprint
+00D0            785   ;        -----------------------------------------
+00D0            786   _LCDprint:
+00D0 AA82       787            mov     r2,dpl
+00D2 AB83       788            mov     r3,dph
+00D4 ACF0       789            mov     r4,b
+00D6            790   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:124: WriteCommand(line==2?0xc0:0x80);
+00D6 7402       791            mov     a,#0x02
+00D8 B55070     792            cjne    a,_LCDprint_PARM_2,L010013?
+00DB 7DC0       793            mov     r5,#0xC0
+00DD 8001       794            sjmp    L010014?
+00DF            795   L010013?:
+00DF 7D80       796            mov     r5,#0x80
+00E1            797   L010014?:
+00E1 8D82       798            mov     dpl,r5
+00E3 C002       799            push    ar2
+00E5 C003       800            push    ar3
+00E7 C004       801            push    ar4
+00E9 120100     802            lcall   _WriteCommand
+00EC            803   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:125: waitms(5);
+00EC 900005     804            mov     dptr,#0x0005
+00EF 120100     805            lcall   _waitms
+00F2 D004       806            pop     ar4
+00F4 D003       807            pop     ar3
+00F6 D002       808            pop     ar2
+00F8            809   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:126: for(j=0; string[j]!=0; j++)     WriteData(string[j]);// Write the message
+00F8 7D00       810            mov     r5,#0x00
+00FA            811   L010003?:
+00FA ED         812            mov     a,r5
+00FB 2A         813            add     a,r2
+00FC FE         814            mov     r6,a
+00FD E4         815            clr     a
+00FE 3B         816            addc    a,r3
+00FF FF         817            mov     r7,a
+0100 8C00       818            mov     ar0,r4
+0102 8E82       819            mov     dpl,r6
+0104 8F83       820            mov     dph,r7
+0106 88F0       821            mov     b,r0
+0108 120100     822            lcall   __gptrget
+010B FE         823            mov     r6,a
+010C 6001       824            jz      L010006?
+010E 8E82       825            mov     dpl,r6
+0110 C002       826            push    ar2
+0112 C003       827            push    ar3
+0114 C004       828            push    ar4
+0116 C005       829            push    ar5
+0118 120100     830            lcall   _WriteData
+011B D005       831            pop     ar5
+011D D004       832            pop     ar4
+011F D003       833            pop     ar3
+0121 D002       834            pop     ar2
+0123 0D         835            inc     r5
+0124 8001       836            sjmp    L010003?
+0126            837   L010006?:
+0126            838   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:127: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+0126 30B0B0     839            jnb     _LCDprint_PARM_3,L010011?
+0129 8D02       840            mov     ar2,r5
+012B            841   L010007?:
+012B BA1030     842            cjne    r2,#0x10,L010026?
+012E            843   L010026?:
+012E 5001       844            jnc     L010011?
+0130 758220     845            mov     dpl,#0x20
+0133 C002       846            push    ar2
+0135 120100     847            lcall   _WriteData
+0138 D002       848            pop     ar2
+013A 0A         849            inc     r2
+013B 8001       850            sjmp    L010007?
+013D            851   L010011?:
+013D 22         852            ret
+013E            853   ;------------------------------------------------------------
+013E            854   ;Allocation info for local variables in function 'LCDport_print'
+013E            855   ;------------------------------------------------------------
+013E            856   ;string                    Allocated with name '_LCDport_print_string_2_81'
+013E            857   ;------------------------------------------------------------
+013E            858   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:140: void LCDport_print(void){
+013E            859   ;        -----------------------------------------
+013E            860   ;         function LCDport_print
+013E            861   ;        -----------------------------------------
+013E            862   _LCDport_print:
+013E            863   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:141: while(1){
+013E            864   L011002?:
+013E            865   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:143: char string[20]  = "something";
+013E 75A073     866            mov     _LCDport_print_string_2_81,#0x73
+0141 75A16F     867            mov     (_LCDport_print_string_2_81 + 0x0001),#0x6F
+0144 75A26D     868            mov     (_LCDport_print_string_2_81 + 0x0002),#0x6D
+0147 75A365     869            mov     (_LCDport_print_string_2_81 + 0x0003),#0x65
+014A 75A474     870            mov     (_LCDport_print_string_2_81 + 0x0004),#0x74
+014D 75A568     871            mov     (_LCDport_print_string_2_81 + 0x0005),#0x68
+0150 75A669     872            mov     (_LCDport_print_string_2_81 + 0x0006),#0x69
+0153 75A76E     873            mov     (_LCDport_print_string_2_81 + 0x0007),#0x6E
+0156 75A867     874            mov     (_LCDport_print_string_2_81 + 0x0008),#0x67
+0159 75A900     875            mov     (_LCDport_print_string_2_81 + 0x0009),#0x00
+015C            876   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:147: LCDprint(string, 2,1);
+015C 755002     877            mov     _LCDprint_PARM_2,#0x02
+015F D2B0       878            setb    _LCDprint_PARM_3
+0161 90A0A0     879            mov     dptr,#_LCDport_print_string_2_81
+0164 75F040     880            mov     b,#0x40
+0167 120100     881            lcall   _LCDprint
+016A 8001       882            sjmp    L011002?
+016C            883   ;------------------------------------------------------------
+016C            884   ;Allocation info for local variables in function 'Wait1S'
+016C            885   ;------------------------------------------------------------
+016C            886   ;------------------------------------------------------------
+016C            887   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:151: void Wait1S (void)
+016C            888   ;        -----------------------------------------
+016C            889   ;         function Wait1S
+016C            890   ;        -----------------------------------------
+016C            891   _Wait1S:
+016C            892   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:160: _endasm;
+016C            893            
+016C 7A28       894             mov R2, #40
+016E            895            L3:
+016E 79FA       896            mov R1, #250
+0170            897            L2:
+0170 78B8       898            mov R0, #184
+0172            899            L1:
+0172 D830       900            djnz R0, L1 ; 2 machine cycles-> 2*0.27126us*184=100us
+0174 D9F0       901                djnz R1, L2 ; 100us*250=0.025s
+0176 DAB0       902                djnz R2, L3 ; 0.025s*40=1s
+0178            903                
+0178 22         904            ret
+0179            905   ;------------------------------------------------------------
+0179            906   ;Allocation info for local variables in function 'InitSerialPort'
+0179            907   ;------------------------------------------------------------
+0179            908   ;------------------------------------------------------------
+0179            909   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:163: void InitSerialPort(void)
+0179            910   ;        -----------------------------------------
+0179            911   ;         function InitSerialPort
+0179            912   ;        -----------------------------------------
+0179            913   _InitSerialPort:
+0179            914   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:165: BRGCON=0x00; //Make sure the baud rate generator is off
+0179 75BD00     915            mov     _BRGCON,#0x00
+017C            916   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:166: BRGR1=((XTAL/BAUD)-16)/0x100;
+017C 75BF00     917            mov     _BRGR1,#0x00
+017F            918   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:167: BRGR0=((XTAL/BAUD)-16)%0x100;
+017F 75BE30     919            mov     _BRGR0,#0x30
+0182            920   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:168: BRGCON=0x03; //Turn-on the baud rate generator
+0182 75BD03     921            mov     _BRGCON,#0x03
+0185            922   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:169: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
+0185 759852     923            mov     _SCON,#0x52
+0188            924   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:170: P1M1=0x00; //Enable pins RxD and Txd
+0188 759100     925            mov     _P1M1,#0x00
+018B            926   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:171: P1M2=0x00; //Enable pins RxD and Txd
+018B 759200     927            mov     _P1M2,#0x00
+018E 22         928            ret
+018F            929   ;------------------------------------------------------------
+018F            930   ;Allocation info for local variables in function 'InitADC'
+018F            931   ;------------------------------------------------------------
+018F            932   ;------------------------------------------------------------
+018F            933   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:174: void InitADC(void)
+018F            934   ;        -----------------------------------------
+018F            935   ;         function InitADC
+018F            936   ;        -----------------------------------------
+018F            937   _InitADC:
+018F            938   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:180: BURST1=1; //Autoscan continuous conversion mode
+018F D2C6       939            setb    _BURST1
+0191            940   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:181: ADMODB = CLK0; //ADC1 clock is 7.3728MHz/2
+0191 75A120     941            mov     _ADMODB,#0x20
+0194            942   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:182: ADINS  = (ADI13|ADI12|ADI11|ADI10); // Select the four channels for conversion
+0194 75A3F0     943            mov     _ADINS,#0xF0
+0197            944   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:183: ADCON1 = (ENADC1|ADCS10); //Enable the converter and start immediately
+0197 759705     945            mov     _ADCON1,#0x05
+019A            946   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:184: while((ADCI1&ADCON1)==0); //Wait for first conversion to complete
+019A            947   L014001?:
+019A E597       948            mov     a,_ADCON1
+019C 30E370     949            jnb     acc.3,L014001?
+019F 22         950            ret
+01A0            951   ;------------------------------------------------------------
+01A0            952   ;Allocation info for local variables in function 'InitTimer0'
+01A0            953   ;------------------------------------------------------------
+01A0            954   ;------------------------------------------------------------
+01A0            955   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:187: void InitTimer0 (void)
+01A0            956   ;        -----------------------------------------
+01A0            957   ;         function InitTimer0
+01A0            958   ;        -----------------------------------------
+01A0            959   _InitTimer0:
+01A0            960   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:190: TR0=0; // Stop timer 0
+01A0 C28C       961            clr     _TR0
+01A2            962   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:191: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
+01A2 74F0       963            mov     a,#0xF0
+01A4 5589       964            anl     a,_TMOD
+01A6 4401       965            orl     a,#0x01
+01A8 F589       966            mov     _TMOD,a
+01AA            967   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:192: TH0=TIMER0_RELOAD_VALUE/0x100; // I think the RHS is 0001 0000 0000, are we dividing?
+01AA 758CF1     968            mov     _TH0,#0xF1
+01AD            969   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:193: TL0=TIMER0_RELOAD_VALUE%0x100; // % means modulo, apparently?
+01AD 758A9A     970            mov     _TL0,#0x9A
+01B0            971   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:194: TR0=1; // Start timer 0 (bit 4 in TCON)
+01B0 D28C       972            setb    _TR0
+01B2            973   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:195: ET0=1; // Enable timer 0 interrupt
+01B2 D2A9       974            setb    _ET0
+01B4            975   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:196: EA=1;  // Enable global interrupts
+01B4 D2AF       976            setb    _EA
+01B6 22         977            ret
+01B7            978   ;------------------------------------------------------------
+01B7            979   ;Allocation info for local variables in function 'Timer0ISR'
+01B7            980   ;------------------------------------------------------------
+01B7            981   ;------------------------------------------------------------
+01B7            982   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:200: void Timer0ISR (void) interrupt 1
+01B7            983   ;        -----------------------------------------
+01B7            984   ;         function Timer0ISR
+01B7            985   ;        -----------------------------------------
+01B7            986   _Timer0ISR:
+01B7 C0E0       987            push    acc
+01B9 C0D0       988            push    psw
+01BB 75D000     989            mov     psw,#0x00
+01BE            990   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:203: TR0=0; // Stop timer 0
+01BE C28C       991            clr     _TR0
+01C0            992   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:204: TH0=TIMER0_RELOAD_VALUE/0x100;
+01C0 758CF1     993            mov     _TH0,#0xF1
+01C3            994   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:205: TL0=TIMER0_RELOAD_VALUE%0x100;
+01C3 758A9A     995            mov     _TL0,#0x9A
+01C6            996   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:206: TR0=1; // Start timer 0
+01C6 D28C       997            setb    _TR0
+01C8            998   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:208: msCount++;
+01C8 7401       999            mov     a,#0x01
+01CA 2510      1000            add     a,_msCount
+01CC F510      1001            mov     _msCount,a
+01CE E4        1002            clr     a
+01CF 3511      1003            addc    a,(_msCount + 1)
+01D1 F511      1004            mov     (_msCount + 1),a
+01D3           1005   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:209: if(msCount==1000)
+01D3 74E8      1006            mov     a,#0xE8
+01D5 B51030    1007            cjne    a,_msCount,L016007?
+01D8 7403      1008            mov     a,#0x03
+01DA B51130    1009            cjne    a,(_msCount + 1),L016007?
+01DD           1010   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:211: time_update_flag=1;
+01DD D200      1011            setb    _time_update_flag
+01DF           1012   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:212: msCount=0;
+01DF E4        1013            clr     a
+01E0 F510      1014            mov     _msCount,a
+01E2 F511      1015            mov     (_msCount + 1),a
+01E4           1016   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:213: secs++;
+01E4 05D0      1017            inc     _secs
+01E6           1018   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:214: if(secs==60)
+01E6 743C      1019            mov     a,#0x3C
+01E8 B5D030    1020            cjne    a,_secs,L016007?
+01EB           1021   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:216: secs=0;
+01EB 75D000    1022            mov     _secs,#0x00
+01EE           1023   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:217: mins++;
+01EE 0590      1024            inc     _mins
+01F0           1025   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:218: if(mins==60)
+01F0 743C      1026            mov     a,#0x3C
+01F2 B59030    1027            cjne    a,_mins,L016007?
+01F5           1028   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:220: mins=0;
+01F5 759000    1029            mov     _mins,#0x00
+01F8           1030   L016007?:
+01F8 D0D0      1031            pop     psw
+01FA D0E0      1032            pop     acc
+01FC 32        1033            reti
+01FD           1034   ;        eliminated unneeded push/pop dpl
+01FD           1035   ;        eliminated unneeded push/pop dph
+01FD           1036   ;        eliminated unneeded push/pop b
+01FD           1037   ;------------------------------------------------------------
+01FD           1038   ;Allocation info for local variables in function 'display_LCD'
+01FD           1039   ;------------------------------------------------------------
+01FD           1040   ;buff                      Allocated with name '_display_LCD_buff_1_96'
+01FD           1041   ;------------------------------------------------------------
+01FD           1042   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:227: void display_LCD(void){
+01FD           1043   ;        -----------------------------------------
+01FD           1044   ;         function display_LCD
+01FD           1045   ;        -----------------------------------------
+01FD           1046   _display_LCD:
+01FD           1047   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:230: sprintf (buff, "V0: %4.2fV", (AD1DAT0*3.3)/255.0); // Prints 4 digits with 2 decimals, appended by V
+01FD 85D582    1048            mov     dpl,_AD1DAT0
+0200 120100    1049            lcall   ___uchar2fs
+0203 AA82      1050            mov     r2,dpl
+0205 AB83      1051            mov     r3,dph
+0207 ACF0      1052            mov     r4,b
+0209 FD        1053            mov     r5,a
+020A C002      1054            push    ar2
+020C C003      1055            push    ar3
+020E C004      1056            push    ar4
+0210 C005      1057            push    ar5
+0212 903333    1058            mov     dptr,#0x3333
+0215 75F053    1059            mov     b,#0x53
+0218 7440      1060            mov     a,#0x40
+021A 120100    1061            lcall   ___fsmul
+021D AA82      1062            mov     r2,dpl
+021F AB83      1063            mov     r3,dph
+0221 ACF0      1064            mov     r4,b
+0223 FD        1065            mov     r5,a
+0224 E581      1066            mov     a,sp
+0226 24FC      1067            add     a,#0xfc
+0228 F581      1068            mov     sp,a
+022A E4        1069            clr     a
+022B C0E0      1070            push    acc
+022D C0E0      1071            push    acc
+022F 747F      1072            mov     a,#0x7F
+0231 C0E0      1073            push    acc
+0233 7443      1074            mov     a,#0x43
+0235 C0E0      1075            push    acc
+0237 8A82      1076            mov     dpl,r2
+0239 8B83      1077            mov     dph,r3
+023B 8CF0      1078            mov     b,r4
+023D ED        1079            mov     a,r5
+023E 120100    1080            lcall   ___fsdiv
+0241 AA82      1081            mov     r2,dpl
+0243 AB83      1082            mov     r3,dph
+0245 ACF0      1083            mov     r4,b
+0247 FD        1084            mov     r5,a
+0248 E581      1085            mov     a,sp
+024A 24FC      1086            add     a,#0xfc
+024C F581      1087            mov     sp,a
+024E C002      1088            push    ar2
+0250 C003      1089            push    ar3
+0252 C004      1090            push    ar4
+0254 C005      1091            push    ar5
+0256 7470      1092            mov     a,#__str_1
+0258 C0E0      1093            push    acc
+025A 74AB      1094            mov     a,#(__str_1 >> 8)
+025C C0E0      1095            push    acc
+025E 7480      1096            mov     a,#0x80
+0260 C0E0      1097            push    acc
+0262 74F0      1098            mov     a,#_display_LCD_buff_1_96
+0264 C0E0      1099            push    acc
+0266 74A0      1100            mov     a,#(_display_LCD_buff_1_96 >> 8)
+0268 C0E0      1101            push    acc
+026A 7440      1102            mov     a,#0x40
+026C C0E0      1103            push    acc
+026E 120100    1104            lcall   _sprintf
+0271 E581      1105            mov     a,sp
+0273 24F6      1106            add     a,#0xf6
+0275 F581      1107            mov     sp,a
+0277           1108   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:231: LCDprint(buff, 1, 1);
+0277 755001    1109            mov     _LCDprint_PARM_2,#0x01
+027A D2B0      1110            setb    _LCDprint_PARM_3
+027C 90A0F0    1111            mov     dptr,#_display_LCD_buff_1_96
+027F 75F040    1112            mov     b,#0x40
+0282 120100    1113            lcall   _LCDprint
+0285           1114   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:233: sprintf (buff, "V1: %4.2fV", (AD1DAT1*3.3)/255.0);
+0285 85D682    1115            mov     dpl,_AD1DAT1
+0288 120100    1116            lcall   ___uchar2fs
+028B AA82      1117            mov     r2,dpl
+028D AB83      1118            mov     r3,dph
+028F ACF0      1119            mov     r4,b
+0291 FD        1120            mov     r5,a
+0292 C002      1121            push    ar2
+0294 C003      1122            push    ar3
+0296 C004      1123            push    ar4
+0298 C005      1124            push    ar5
+029A 903333    1125            mov     dptr,#0x3333
+029D 75F053    1126            mov     b,#0x53
+02A0 7440      1127            mov     a,#0x40
+02A2 120100    1128            lcall   ___fsmul
+02A5 AA82      1129            mov     r2,dpl
+02A7 AB83      1130            mov     r3,dph
+02A9 ACF0      1131            mov     r4,b
+02AB FD        1132            mov     r5,a
+02AC E581      1133            mov     a,sp
+02AE 24FC      1134            add     a,#0xfc
+02B0 F581      1135            mov     sp,a
+02B2 E4        1136            clr     a
+02B3 C0E0      1137            push    acc
+02B5 C0E0      1138            push    acc
+02B7 747F      1139            mov     a,#0x7F
+02B9 C0E0      1140            push    acc
+02BB 7443      1141            mov     a,#0x43
+02BD C0E0      1142            push    acc
+02BF 8A82      1143            mov     dpl,r2
+02C1 8B83      1144            mov     dph,r3
+02C3 8CF0      1145            mov     b,r4
+02C5 ED        1146            mov     a,r5
+02C6 120100    1147            lcall   ___fsdiv
+02C9 AA82      1148            mov     r2,dpl
+02CB AB83      1149            mov     r3,dph
+02CD ACF0      1150            mov     r4,b
+02CF FD        1151            mov     r5,a
+02D0 E581      1152            mov     a,sp
+02D2 24FC      1153            add     a,#0xfc
+02D4 F581      1154            mov     sp,a
+02D6 C002      1155            push    ar2
+02D8 C003      1156            push    ar3
+02DA C004      1157            push    ar4
+02DC C005      1158            push    ar5
+02DE 74F0      1159            mov     a,#__str_2
+02E0 C0E0      1160            push    acc
+02E2 74AB      1161            mov     a,#(__str_2 >> 8)
+02E4 C0E0      1162            push    acc
+02E6 7480      1163            mov     a,#0x80
+02E8 C0E0      1164            push    acc
+02EA 74F0      1165            mov     a,#_display_LCD_buff_1_96
+02EC C0E0      1166            push    acc
+02EE 74A0      1167            mov     a,#(_display_LCD_buff_1_96 >> 8)
+02F0 C0E0      1168            push    acc
+02F2 7440      1169            mov     a,#0x40
+02F4 C0E0      1170            push    acc
+02F6 120100    1171            lcall   _sprintf
+02F9 E581      1172            mov     a,sp
+02FB 24F6      1173            add     a,#0xf6
+02FD F581      1174            mov     sp,a
+02FF           1175   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:234: LCDprint(buff, 2, 1);
+02FF 755002    1176            mov     _LCDprint_PARM_2,#0x02
+0302 D2B0      1177            setb    _LCDprint_PARM_3
+0304 90A0F0    1178            mov     dptr,#_display_LCD_buff_1_96
+0307 75F040    1179            mov     b,#0x40
+030A 020100    1180            ljmp    _LCDprint
+030D           1181   ;------------------------------------------------------------
+030D           1182   ;Allocation info for local variables in function 'motor_control'
+030D           1183   ;------------------------------------------------------------
+030D           1184   ;------------------------------------------------------------
+030D           1185   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:239: void motor_control(void){
+030D           1186   ;        -----------------------------------------
+030D           1187   ;         function motor_control
+030D           1188   ;        -----------------------------------------
+030D           1189   _motor_control:
+030D           1190   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:240: }
+030D 22        1191            ret
+030E           1192   ;------------------------------------------------------------
+030E           1193   ;Allocation info for local variables in function 'main'
+030E           1194   ;------------------------------------------------------------
+030E           1195   ;str                       Allocated with name '_main_str_1_100'
+030E           1196   ;threshold                 Allocated to registers 
+030E           1197   ;------------------------------------------------------------
+030E           1198   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:243: void main (void)
+030E           1199   ;        -----------------------------------------
+030E           1200   ;         function main
+030E           1201   ;        -----------------------------------------
+030E           1202   _main:
+030E           1203   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:249: InitPorts();
+030E 120100    1204            lcall   _InitPorts
+0311           1205   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:250: LCD_8BIT();
+0311 120100    1206            lcall   _LCD_8BIT
+0314           1207   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:251: InitSerialPort();
+0314 120100    1208            lcall   _InitSerialPort
+0317           1209   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:252: InitADC();
+0317 120100    1210            lcall   _InitADC
+031A           1211   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:253: InitTimer0();
+031A 120100    1212            lcall   _InitTimer0
+031D           1213   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:255: while(1)
+031D           1214   L019004?:
+031D           1215   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:263: if(time_update_flag==1) // If the clock has been updated, refresh the display
+031D           1216   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:265: time_update_flag=0;
+031D 100070    1217            jbc     _time_update_flag,L019010?
+0320 8001      1218            sjmp    L019004?
+0322           1219   L019010?:
+0322           1220   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:266: sprintf(str, "V=%5.2f", (AD1DAT0/255.0)*3.3); // Display the voltage at pin P0.1
+0322 85D582    1221            mov     dpl,_AD1DAT0
+0325 120100    1222            lcall   ___uchar2fs
+0328 AA82      1223            mov     r2,dpl
+032A AB83      1224            mov     r3,dph
+032C ACF0      1225            mov     r4,b
+032E FD        1226            mov     r5,a
+032F E4        1227            clr     a
+0330 C0E0      1228            push    acc
+0332 C0E0      1229            push    acc
+0334 747F      1230            mov     a,#0x7F
+0336 C0E0      1231            push    acc
+0338 7443      1232            mov     a,#0x43
+033A C0E0      1233            push    acc
+033C 8A82      1234            mov     dpl,r2
+033E 8B83      1235            mov     dph,r3
+0340 8CF0      1236            mov     b,r4
+0342 ED        1237            mov     a,r5
+0343 120100    1238            lcall   ___fsdiv
+0346 AA82      1239            mov     r2,dpl
+0348 AB83      1240            mov     r3,dph
+034A ACF0      1241            mov     r4,b
+034C FD        1242            mov     r5,a
+034D E581      1243            mov     a,sp
+034F 24FC      1244            add     a,#0xfc
+0351 F581      1245            mov     sp,a
+0353 C002      1246            push    ar2
+0355 C003      1247            push    ar3
+0357 C004      1248            push    ar4
+0359 C005      1249            push    ar5
+035B 903333    1250            mov     dptr,#0x3333
+035E 75F053    1251            mov     b,#0x53
+0361 7440      1252            mov     a,#0x40
+0363 120100    1253            lcall   ___fsmul
+0366 AA82      1254            mov     r2,dpl
+0368 AB83      1255            mov     r3,dph
+036A ACF0      1256            mov     r4,b
+036C FD        1257            mov     r5,a
+036D E581      1258            mov     a,sp
+036F 24FC      1259            add     a,#0xfc
+0371 F581      1260            mov     sp,a
+0373 C002      1261            push    ar2
+0375 C003      1262            push    ar3
+0377 C004      1263            push    ar4
+0379 C005      1264            push    ar5
+037B 74B0      1265            mov     a,#__str_3
+037D C0E0      1266            push    acc
+037F 74AC      1267            mov     a,#(__str_3 >> 8)
+0381 C0E0      1268            push    acc
+0383 7480      1269            mov     a,#0x80
+0385 C0E0      1270            push    acc
+0387 7430      1271            mov     a,#_main_str_1_100
+0389 C0E0      1272            push    acc
+038B 74A1      1273            mov     a,#(_main_str_1_100 >> 8)
+038D C0E0      1274            push    acc
+038F 7440      1275            mov     a,#0x40
+0391 C0E0      1276            push    acc
+0393 120100    1277            lcall   _sprintf
+0396 E581      1278            mov     a,sp
+0398 24F6      1279            add     a,#0xf6
+039A F581      1280            mov     sp,a
+039C           1281   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:267: LCDprint(str, 1, 1);
+039C 755001    1282            mov     _LCDprint_PARM_2,#0x01
+039F D2B0      1283            setb    _LCDprint_PARM_3
+03A1 90A130    1284            mov     dptr,#_main_str_1_100
+03A4 75F040    1285            mov     b,#0x40
+03A7 120100    1286            lcall   _LCDprint
+03AA           1287   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:268: sprintf(str, "%02d:%02d", mins, secs); // Display the clock
+03AA AAD0      1288            mov     r2,_secs
+03AC 7B00      1289            mov     r3,#0x00
+03AE AC90      1290            mov     r4,_mins
+03B0 7D00      1291            mov     r5,#0x00
+03B2 C002      1292            push    ar2
+03B4 C003      1293            push    ar3
+03B6 C004      1294            push    ar4
+03B8 C005      1295            push    ar5
+03BA 74F0      1296            mov     a,#__str_4
+03BC C0E0      1297            push    acc
+03BE 74AC      1298            mov     a,#(__str_4 >> 8)
+03C0 C0E0      1299            push    acc
+03C2 7480      1300            mov     a,#0x80
+03C4 C0E0      1301            push    acc
+03C6 7430      1302            mov     a,#_main_str_1_100
+03C8 C0E0      1303            push    acc
+03CA 74A1      1304            mov     a,#(_main_str_1_100 >> 8)
+03CC C0E0      1305            push    acc
+03CE 7440      1306            mov     a,#0x40
+03D0 C0E0      1307            push    acc
+03D2 120100    1308            lcall   _sprintf
+03D5 E581      1309            mov     a,sp
+03D7 24F6      1310            add     a,#0xf6
+03D9 F581      1311            mov     sp,a
+03DB           1312   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:269: LCDprint(str, 2, 1);
+03DB 755002    1313            mov     _LCDprint_PARM_2,#0x02
+03DE D2B0      1314            setb    _LCDprint_PARM_3
+03E0 90A130    1315            mov     dptr,#_main_str_1_100
+03E3 75F040    1316            mov     b,#0x40
+03E6 120100    1317            lcall   _LCDprint
+03E9 020100    1318            ljmp    L019004?
+03EC           1319            rseg R_CSEG
+03EC           1320   
+0000           1321            rseg R_XINIT
+0000           1322   
+0000           1323            rseg R_CONST
+0000           1324   __str_1:
+0000 56303A20  1325            db 'V0: %4.2fV'
+     25342E32
+     6656
+000A 00        1326            db 0x00
+000B           1327   __str_2:
+000B 56313A20  1328            db 'V1: %4.2fV'
+     25342E32
+     6656
+0015 00        1329            db 0x00
+0016           1330   __str_3:
+0016 563D2535  1331            db 'V=%5.2f'
+     2E3266
+001D 00        1332            db 0x00
+001E           1333   __str_4:
+001E 25303264  1334            db '%02d:%02d'
+     3A253032
+     64
+0027 00        1335            db 0x00
+0028           1336   
+000E           1337            CSEG
+000E           1338   
+000E           1339   end

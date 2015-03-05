@@ -139,7 +139,6 @@ void LCDport_print(void){
 void main (void)
 {
 	//initializes port
-	// this is the newest comment possible
 	InitPorts();
 	LCD_8BIT(); 
 	//LCDprint("LCD 8-bit test:", 1, 1);
