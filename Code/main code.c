@@ -6,6 +6,11 @@
 #define XTAL 7373000L
 #define BAUD 115200L
 
+//We want timer 0 to interrupt every millisecond ((1/1000Hz)=1 ms)
+#define FREQ 1000L
+//The reload value formula comes from the datasheet...//FUCKING WHERE
+#define TIMER0_RELOAD_VALUE (65536L-((XTAL)/(2*FREQ)))
+
 // Make sure these definitions match your wiring
 #define LCD_RS P2_7 
 
@@ -22,6 +27,12 @@
 #define LCD_D7 P1_4
 
 #define CHARS_PER_LINE 16
+
+// The volatile keyword prevents the compiler from optimizing out these variables
+// that are shared between an interrupt service routine and the main code.
+volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
+volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
+volatile bit time_update_flag=0;
 
 void InitPorts(void)
 {
@@ -173,6 +184,47 @@ void InitADC(void)
 	while((ADCI1&ADCON1)==0); //Wait for first conversion to complete
 }
 
+void InitTimer0 (void)
+{
+	// Initialize timer 0 for ISR 'pwmcounter' below
+	// maybe we don't set TAMOD because it is naturally in the 0 state?
+	TR0=0; // Stop timer 0
+	TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
+	TH0=TIMER0_RELOAD_VALUE/0x100; // I think the RHS is 0001 0000 0000, are we dividing?
+	TL0=TIMER0_RELOAD_VALUE%0x100; // % means modulo, apparently? ...are we modulo-ing?
+	TR0=1; // Start timer 0 (bit 4 in TCON)
+	ET0=1; // Enable timer 0 interrupt - the interrupt controller IEN0 is bit-adressable, so we change only the bit we need
+	EA=1;  // Enable global interrupts
+}
+
+//Interrupt 1 is for timer 0.  This function is executed every millisecond.
+void Timer0ISR (void) interrupt 1
+{
+	//Reload the timer
+	TR0=0; // Stop timer 0
+	TH0=TIMER0_RELOAD_VALUE/0x100;
+	TL0=TIMER0_RELOAD_VALUE%0x100;
+	TR0=1; // Start timer 0
+	
+	msCount++;
+	if(msCount==1000)
+	{
+		time_update_flag=1;
+		msCount=0;
+		secs++;
+		if(secs==60)
+		{
+			secs=0;
+			mins++;
+			if(mins==60)
+			{
+				mins=0;
+			}
+		}
+	}
+	
+}
+
 void display_LCD(void){
 	unsigned char buff[17]; // Need to have enough space in the string for a null character
 	
@@ -188,28 +240,35 @@ void display_LCD(void){
 void motor_control(void){
 }
 
-void timer(void){
-	// How do we run a timer without making our robot wait for 1 second?
-	
-}
 
 void main (void)
 {
+	// have to declare variables before you call any functions
+	char str[17];
+	double threshold = 2;
+	
 	InitPorts();
 	LCD_8BIT();
 	InitSerialPort();
 	InitADC();
-	
-	printf("\r\nADC values:\r\n");
-	
-	P0_6=1;
-	P0_7=1;
-	
+	InitTimer0();
+		
 	while(1)
 	{
-	//note that we still need the adidat0 stuff...
-		display_LCD();
-		Wait1S();
+		// so uh
+		// Jesus just sorta has most things in the main function, so that's cool
+		
+		// gonna need to set another timer and interrupt for the pwm
+		// orrrrrr could just use the pwm timer and every ten times through update the display...
+			// why is the pwm going at 10000 Hz anyways?
+		if(time_update_flag==1) // If the clock has been updated, refresh the display
+		{
+			time_update_flag=0;
+			sprintf(str, "V=%5.2f", (AD1DAT0/255.0)*3.3); // Display the voltage at pin P0.1
+			LCDprint(str, 1, 1);
+			sprintf(str, "%02d:%02d", mins, secs); // Display the clock
+			LCDprint(str, 2, 1);
+		}	
 	}
 }
 	
