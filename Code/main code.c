@@ -131,17 +131,6 @@ void LCDprint(char * string, unsigned char line, bit clear)
 	if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 }
 
-void LCDport_print(void){
-	while(1){
-	//Read From Port
-	char string[20]  = "something";
-	//char string[3];
-	//sprintf(string, "%f", a);
-	//Print String to LCD
-	LCDprint(string, 2,1);
-	}
-}
-
 void Wait1S (void)
 {
 	_asm
@@ -253,11 +242,13 @@ void main (void)
 	double k_d=1;
 	double cor = 0;
 	double cur_error =0;
-	double pre_error;
+	double pre_error =0;
 	double dt = .001;
 	double def_speed = 100;
 	double new_speed_low;
 	double new_speed_high;
+	double counter = 0;
+	double thresh = 0;
 	
 	InitPorts();
 	LCD_8BIT();
@@ -306,9 +297,14 @@ void main (void)
   		}*/
   		
   		//P-D Controller
-  		//Calculating Current error
-  		cur_error = left - right;
-  		
+  		if((left<thresh)&&(right<thresh))cur_error = 0;
+  		if((left<thresh)&&(right>thresh))cur_error = -1;
+  		if((left>thresh)&&(right<thresh))cur_error = 1;
+  		if((left>thresh)&&(right>thresh)){
+  			if(pre_error>0) cur_error = 5;
+  			if(pre_error<=0) cur_error = -5;
+  		}
+  		  			
   		//Calc. Prop. and Der. Values
   		p = k_p * cur_error;
   		d = k_d*(cur_error - pre_error)/dt;
@@ -332,14 +328,13 @@ void main (void)
   	  	//If error is (+) turn left	
   		if(cur_error > 0){  		
   			pwm_left = new_speed_low;
-  			pwm_right = new_speed_high;  		
+  			pwm_right = new_speed_high;		
   		}
   		else if (cur_error < 0){
   			pwm_left = new_speed_high;
   			pwm_right = new_speed_low;
   		}
   		else{
-  		
   			if(pre_error > 0){
   				pwm_left = 100;
   				pwm_right = 20;
@@ -349,7 +344,11 @@ void main (void)
   				pwm_left = 20;
   			}
   		}
+  		counter++;
   		pre_error = cur_error;
+  		if(counter==30){
+  		printf("Error:%5.2f Left:%5.2f Right:%5.2f                 \r", cur_error, left, right, pwm_left, pwm_right);
+  		};
 	}
 }
 	

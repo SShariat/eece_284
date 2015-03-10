@@ -46,13 +46,14 @@ void pwmcounter (void) interrupt 1
 	TL0=TIMER0_RELOAD_VALUE%0x100;
 	TR0=1; // Start timer 0
 	if(++pwmcount>99) pwmcount=0;
-	P1_6=(pwm1>pwmcount)?1:0;
+	P0_4=(pwm1>pwmcount)?1:0;
 }
 
 void main (void)
 {
 	InitSerialPort();
 	InitTimer0();
-	pwm1=50; //50% duty cycle wave at 100Hz
-	printf("Hello!\n\rPlease check pin 3 (P1_6) with the oscilloscope!\n\r");
+	pwm1=100; //100% duty cycle wave at 100Hz
+	//P0_4 = 1;
+	printf("Hello!\n\rPlease check pin 3 (P1.6) with the oscilloscope!\n\r");
 }
