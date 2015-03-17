@@ -14,7 +14,6 @@
 
 // Make sure these definitions match your wiring
 #define LCD_RS P2_7 
-
 #define LCD_RW P2_6
 #define LCD_E  P2_5
 #define LCD_D0 P2_4
@@ -38,8 +37,6 @@ volatile bit line_counter_flag=0;
 volatile unsigned char pwmcount;
 volatile unsigned char pwm_left;
 volatile unsigned char pwm_right;
-volatile int line_counter = 0;
-volatile int exec = 0;
 volatile int line_timer = 0;
 
 void InitPorts(void)
@@ -187,8 +184,7 @@ void InitTimer0 (void)
 }
 
 //Interrupt 1 is for timer 0.  This function is executed every 100 us
-void Timer0ISR (void) interrupt 1
-{
+void Timer0ISR (void) interrupt 1{
 	//Reload the timer
 	TR0=0; // Stop timer 0
 	TH0=TIMER0_RELOAD_VALUE/0x100;
@@ -224,34 +220,37 @@ void Timer0ISR (void) interrupt 1
 void display_LCD(void){
 	unsigned char buff[17]; // Need to have enough space in the string for a null character
 	
-	sprintf (buff, "V0: %4.2fV", (AD1DAT0*3.3)/255.0); // Prints 4 digits with 2 decimals, appended by V
-	LCDprint(buff, 1, 1);
+	// sprintf (buff, "V0: %4.2fV", (AD1DAT0*3.3)/255.0); // Prints 4 digits with 2 decimals, appended by V
+	// LCDprint(buff, 1, 1);
 
-	sprintf (buff, "V1: %4.2fV", (AD1DAT1*3.3)/255.0);
+	// sprintf (buff, "V1: %4.2fV", (AD1DAT1*3.3)/255.0);
+	// LCDprint(buff, 2, 1);
+
+	time_update_flag=0;
+	sprintf(buff, "V=%5.2f", (AD1DAT0/255.0)*3.3); // Display the voltage at pin P0.1
+	LCDprint(buff, 1, 1);
+	sprintf(buff, "%02d:%02d", mins, secs); // Display the clock
 	LCDprint(buff, 2, 1);
-		
-	// line_two is timer D:
 }
 
 void main (void)
 {
 	// have to declare variables before you call any functions
-	char str[17];
-	double threshold = 2;
+	//char str[17];
 	
 	//PID Variable
-	double p,d;
-	double k_p=1;
-	double k_d=1;
+	int k_p=1;
+	int k_d=1;
 	double cor = 0;
 	double cur_error =0;
 	double pre_error =0;
-	double dt = .001;
-	double def_speed = 100;
 	double new_speed_low;
 	double new_speed_high;
-	double counter = 0;
-	double thresh = 0;
+	int counter = 0;
+	int thresh = 0;
+	int line_counter = 0;
+	int exec = 0;
+
 	
 	InitPorts();
 	LCD_8BIT();
@@ -266,17 +265,18 @@ void main (void)
 		double line_sensor = (AD1DAT3/255.0)*3.3;
 		double left = (AD1DAT1/255.0)*3.3;
 		double right = (AD1DAT2/255.0)*3.3;
-		double voltage = (AD1DAT0/255.0)*3.3;
+		//double voltage = (AD1DAT0/255.0)*3.3;
 	
 				
 		//Timer Functionality
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
 		{
-			time_update_flag=0;
-			sprintf(str, "V=%5.2f", voltage); // Display the voltage at pin P0.1
-			LCDprint(str, 1, 1);
-			sprintf(str, "%02d:%02d", mins, secs); // Display the clock
-			LCDprint(str, 2, 1);
+			// time_update_flag=0;
+			// sprintf(str, "V=%5.2f", voltage); // Display the voltage at pin P0.1
+			// LCDprint(str, 1, 1);
+			// sprintf(str, "%02d:%02d", mins, secs); // Display the clock
+			// LCDprint(str, 2, 1);
+			display_LCD();
 		}
 	
 		//P-D Controller
@@ -289,14 +289,11 @@ void main (void)
   		}
   		  			
   		//Calc. Prop. and Der. Values
-  		p = k_p * cur_error;
-  		d = k_d*(cur_error - pre_error)/dt;
-  		
-  		cor = p + d;
-  		
+  		cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
+  		 
   		//Selecting New Motor Speeds
-  		new_speed_low = def_speed - cor;
-		new_speed_high = def_speed + cor;
+  		new_speed_low 	=100 - cor;
+		new_speed_high 	=100 + cor;
   		
   		//Speed Maximum and Minimum Settings
   		if(new_speed_low<0){
@@ -306,8 +303,7 @@ void main (void)
   		if(new_speed_high>100){
   			new_speed_high = 100;
   		}		
-  	  	
-  	  	
+  	  	  	  	
   	  	//If error is (+) turn left	
   		if(cur_error > 0){  		
   			pwm_left = new_speed_low;
@@ -354,6 +350,7 @@ void main (void)
   				exec = 1;	  				
   			}
   			
+  			//FINISH THIS LINE COUNTER
   			if(exec == 1){
   				switch(line_counter){
   					case 2:
