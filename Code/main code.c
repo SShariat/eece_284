@@ -34,9 +34,13 @@
 volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
 volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
 volatile bit time_update_flag=0;
+volatile bit line_counter_flag=0;
 volatile unsigned char pwmcount;
 volatile unsigned char pwm_left;
 volatile unsigned char pwm_right;
+volatile int line_counter = 0;
+volatile int exec = 0;
+volatile int line_timer = 0;
 
 void InitPorts(void)
 {
@@ -212,6 +216,9 @@ void Timer0ISR (void) interrupt 1
 		}
 	}
 	
+	if(line_counter_flag==1){
+		line_timer++;
+	}	
 }
 
 void display_LCD(void){
@@ -225,10 +232,6 @@ void display_LCD(void){
 		
 	// line_two is timer D:
 }
-
-void motor_control(void){
-}
-
 
 void main (void)
 {
@@ -260,9 +263,11 @@ void main (void)
 	while(1)
 	{
 		//Sensor Values
+		double line_sensor = (AD1DAT3/255.0)*3.3;
 		double left = (AD1DAT1/255.0)*3.3;
 		double right = (AD1DAT2/255.0)*3.3;
 		double voltage = (AD1DAT0/255.0)*3.3;
+	
 				
 		//Timer Functionality
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
@@ -273,30 +278,8 @@ void main (void)
 			sprintf(str, "%02d:%02d", mins, secs); // Display the clock
 			LCDprint(str, 2, 1);
 		}
-		
-		/*
-		//these comparison statements might not work with...are AD1DAT0 etc. ints?
-		//read voltage 0.2, 0.3
-		if ( (left)>2 && (right)<2 )
-  		{ //left high, right low - turn left, so make right motor go faster
-    		printf("turn left     \r");
-    		pwm_left = 50;
-    		pwm_right = 75;
-  		}
-		else if( (left)<2 && (right)>2 )
-  		{ //left low, right high - turn right, so make left motor go faster
-    		printf("turn right     \r");
-    		pwm_left = 75;
-    		pwm_right = 50;
-  		}
-		else
-  		{ //both low (I know, we need a different statement here) or both high - go straight
-    		printf("go straight    \r");
-    		pwm_left = 50;
-    		pwm_right = 50;
-  		}*/
-  		
-  		//P-D Controller
+	
+		//P-D Controller
   		if((left<thresh)&&(right<thresh))cur_error = 0;
   		if((left<thresh)&&(right>thresh))cur_error = -1;
   		if((left>thresh)&&(right<thresh))cur_error = 1;
@@ -349,6 +332,41 @@ void main (void)
   		if(counter==30){
   		printf("Error:%5.2f Left:%5.2f Right:%5.2f                 \r", cur_error, left, right, pwm_left, pwm_right);
   		};
-	}
-}
+  		
 	
+  		//Implementing Command Section
+  		
+  		if(line_sensor>thresh){
+  			//If tou have not seen a line before
+  			if(line_counter == 0){
+  				//Start Timer
+  				line_counter++;
+  				line_counter_flag = 1;
+  			}
+  			else{
+  				//Counting Lines
+  				line_counter++;  				
+  			}
+  			
+  			if(line_timer == 2000){
+  				line_counter_flag = 0;
+  				line_timer = 0;
+  				exec = 1;	  				
+  			}
+  			
+  			if(exec == 1){
+  				switch(line_counter){
+  					case 2:
+  						printf("TURNING LEFT \r;");
+  					case 3:
+  						printf("TURNING Right \r;");
+  					case 4:
+  						printf("Starting \r;");
+  				}
+  				exec=0;
+  				line_counter = 0;
+  			}
+  			printf("line counter: %d", line_counter);
+  		}
+  	}
+}	
