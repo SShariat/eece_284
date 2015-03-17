@@ -240,7 +240,7 @@ void main (void){
 	int thresh = 0;
 	int line_counter = 0;
 	int exec = 0;
-	int start 1;
+	int state = 0;
 
 	//Microcontroller Init.
 	InitPorts();
@@ -248,126 +248,47 @@ void main (void){
 	InitSerialPort();
 	InitADC();
 	InitTimer0();
+
 	
-	//Turn Motors On
-
-	//Start Counting Lines
-		//if lines = 4
-		//start PD
-
-	pre_error = 0;
-	while(1)
-	{
-		//Sensor Values
+	while(1){
 		double line_sensor = (AD1DAT3/255.0)*3.3;
 		double left = (AD1DAT1/255.0)*3.3;
 		double right = (AD1DAT2/255.0)*3.3;
-		//double voltage = (AD1DAT0/255.0)*3.3;
 
+		switch(state){
+		//Start Case
+			case 0:
+			/**/
+			pwm_right = 100;
+			pwm_left = 100;
+			state = 1;
 
-		//Timer Functionality
-		if(time_update_flag==1) // If the clock has been updated, refresh the display
-		{
-			display_LCD();
-		}
-
-		//P-D Controller
-		if((left<thresh)&&(right<thresh))cur_error = 0;
-		if((left<thresh)&&(right>thresh))cur_error = -1;
-		if((left>thresh)&&(right<thresh))cur_error = 1;
-		if((left>thresh)&&(right>thresh)){
-			if(pre_error>0) cur_error = 5;
-			if(pre_error<=0) cur_error = -5;
-		}
-
-  		//Calc. Prop. and Der. Values
-		cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
-
-  		//Selecting New Motor Speeds
-		new_speed_low 	=100 - cor;
-		new_speed_high 	=100 + cor;
-
-  		//Speed Maximum and Minimum Settings
-		if(new_speed_low<0){
-			new_speed_low = 0;
-		}
-
-		if(new_speed_high>100){
-			new_speed_high = 100;
-		}		
-
-  	  	//If error is (+) turn left	
-		if(cur_error > 0){  		
-			pwm_left = new_speed_low;
-			pwm_right = new_speed_high;		
-		}
-		else if (cur_error < 0){
-			pwm_left = new_speed_high;
-			pwm_right = new_speed_low;
-		}
-		else{
-			if(pre_error > 0){
-				pwm_left = 100;
-				pwm_right = 20;
-			}
-			else if (pre_error < 0){
-				pwm_right = 100;
-				pwm_left = 20;
-			}
-		}
-		counter++;
-		pre_error = cur_error;
-		if(counter==30){
-			printf("Error:%5.2f Left:%5.2f Right:%5.2f                 \r", cur_error, left, right, pwm_left, pwm_right);
-		};
-
-
-  		//Implementing Command Section
-
-		if(line_sensor>thresh){
-  			//If tou have not seen a line before
-			if(line_counter == 0){
+			//Line Counter
+			case 1:
+			if(line_sensor>thresh){
+			//If you have not seen a line before
+				if(line_counter == 0){
   				//Start Timer
-				line_counter++;
-				line_counter_flag = 1;
-			}
-			else{
-  				//Counting Lines
-				line_counter++;  				
-			}
-
-			if(line_timer == 2000){
-				line_counter_flag = 0;
-				line_timer = 0;
-				exec = 1;	  				
-			}
-
-  			//FINISH THIS LINE COUNTER
-			if(exec == 1){
-				switch(line_counter){
-					case 2:
-					printf("TURNING LEFT \r;");
-						pwm_left 	= 100;
-						pwm_right 	=  20; 
-					case 3:
-					printf("TURNING Right \r;");
-						pwm_left 	= 20;
-						pwm_right 	=  100;
-					case 4:
-					printf("Starting \r;");
-					if(start){
-						pwm_left = 100;
-						pwm_right = 100;
-					}
-					else{
-						pwm_right = 0;
-						pwm_left = 0;
-					}
+					line_counter++;
+					line_counter_flag = 1;
 				}
-				exec=0;
-				line_counter = 0;
+				else{
+  				//Counting Lines
+					line_counter++;  				
+				}
+
+				if(line_timer == 2000){
+					switch(line_counter){
+						case 2:
+							state = 2: 
+						case 3:
+						case 4:
+						}
+					line_counter_flag = 0;
+					line_timer = 0;				
+				}
 			}
-			printf("line counter: %d", line_counter);
 		}
 	}
+	pre_error = 0;
 }	
