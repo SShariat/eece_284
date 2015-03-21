@@ -1,4 +1,4 @@
-path=Z:\CrossIDE\Call51\Bin\..\lib\small
+path=C:\Users\Saman\Google Drive\UBC\3rd Year\Term 2\EECE 284\CrossIDE\Call51\Bin\..\lib\small
 lib=libc51.lib
 lib=libint.lib
 lib=liblong.lib
