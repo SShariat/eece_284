@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Sun Mar 22 11:55:16 2015
+; This file was generated Sun Mar 22 13:58:01 2015
 ;--------------------------------------------------------
 $name main_code
 $optc51 --model-small
@@ -449,15 +449,17 @@ _main_cur_error_1_96:
 	ds 4
 _main_pre_error_1_96:
 	ds 4
-_main_new_speed_low_1_96:
-	ds 4
+_main_line_counter_1_96:
+	ds 2
 _main_exec_1_96:
 	ds 2
-_main_left_2_97:
+_main_left_1_96:
 	ds 4
-_main_right_2_97:
+_main_right_1_96:
 	ds 4
-_main_line_sensor_2_97:
+_main_line_sensor_1_96:
+	ds 4
+_main_diff_1_96:
 	ds 4
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
@@ -1184,16 +1186,14 @@ _display_LCD:
 ;cor                       Allocated with name '_main_cor_1_96'
 ;cur_error                 Allocated with name '_main_cur_error_1_96'
 ;pre_error                 Allocated with name '_main_pre_error_1_96'
-;new_speed_low             Allocated with name '_main_new_speed_low_1_96'
-;new_speed_high            Allocated to registers r4 r5 r2 r3 
-;counter                   Allocated to registers 
 ;thresh                    Allocated to registers 
-;line_counter              Allocated to registers r6 r7 
+;line_counter              Allocated with name '_main_line_counter_1_96'
 ;exec                      Allocated with name '_main_exec_1_96'
 ;start                     Allocated to registers 
-;left                      Allocated with name '_main_left_2_97'
-;right                     Allocated with name '_main_right_2_97'
-;line_sensor               Allocated with name '_main_line_sensor_2_97'
+;left                      Allocated with name '_main_left_1_96'
+;right                     Allocated with name '_main_right_1_96'
+;line_sensor               Allocated with name '_main_line_sensor_1_96'
+;diff                      Allocated with name '_main_diff_1_96'
 ;------------------------------------------------------------
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:230: void main (void){
 ;	-----------------------------------------
@@ -1201,43 +1201,42 @@ _display_LCD:
 ;	-----------------------------------------
 _main:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:235: double cur_error =0;
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:241: int line_counter = 0;
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:242: int exec = 0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:238: int line_counter = 0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:239: int exec = 0;
 	clr	a
+	mov	_main_cur_error_1_96,a
+	mov	(_main_cur_error_1_96 + 1),a
+	mov	(_main_cur_error_1_96 + 2),a
 	mov	(_main_cur_error_1_96 + 3),a
-	mov	r6,a
-	mov	r7,a
+	mov	_main_line_counter_1_96,a
+	mov	(_main_line_counter_1_96 + 1),a
 	mov	_main_exec_1_96,a
 	mov	(_main_exec_1_96 + 1),a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:246: InitPorts();
-	push	ar6
-	push	ar7
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:243: double left = (AD1DAT1/255.0)*3.3;
+	mov	a,_AD1DAT1
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:244: double right = (AD1DAT2/255.0)*3.3;
+	mov	a,_AD1DAT2
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:245: double line_sensor = (AD1DAT3/255.0)*3.3;
+	mov	a,_AD1DAT3
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:249: InitPorts();
 	lcall	_InitPorts
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:247: LCD_8BIT();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:250: LCD_8BIT();
 	lcall	_LCD_8BIT
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:248: InitSerialPort();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:251: InitSerialPort();
 	lcall	_InitSerialPort
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:249: InitADC();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:252: InitADC();
 	lcall	_InitADC
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:250: InitTimer0();
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:253: InitTimer0();
 	lcall	_InitTimer0
-	pop	ar7
-	pop	ar6
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:258: pre_error = 0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:261: pre_error = 0;
 	mov	_main_pre_error_1_96,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:259: while(1)
-	clr	a
-	mov	(_main_pre_error_1_96 + 1),a
-	mov	(_main_pre_error_1_96 + 2),a
-	mov	(_main_pre_error_1_96 + 3),a
-L017051?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:267: double left = (AD1DAT1/255.0)*3.3;
+	mov	(_main_pre_error_1_96 + 1),#0x00
+	mov	(_main_pre_error_1_96 + 2),#0x00
+	mov	(_main_pre_error_1_96 + 3),#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:262: while(1)
+L017038?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:272: left = (AD1DAT1/255.0)*3.3;
 	mov	dpl,_AD1DAT1
-	push	ar6
-	push	ar7
 	lcall	___uchar2fs
 	mov	r4,dpl
 	mov	r5,dph
@@ -1270,14 +1269,14 @@ L017051?:
 	mov	b,#0x53
 	mov	a,#0x40
 	lcall	___fsmul
-	mov	_main_left_2_97,dpl
-	mov	(_main_left_2_97 + 1),dph
-	mov	(_main_left_2_97 + 2),b
-	mov	(_main_left_2_97 + 3),a
+	mov	_main_left_1_96,dpl
+	mov	(_main_left_1_96 + 1),dph
+	mov	(_main_left_1_96 + 2),b
+	mov	(_main_left_1_96 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:268: double right = (AD1DAT2/255.0)*3.3;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:273: right = (AD1DAT2/255.0)*3.3;
 	mov	dpl,_AD1DAT2
 	lcall	___uchar2fs
 	mov	r0,dpl
@@ -1311,14 +1310,14 @@ L017051?:
 	mov	b,#0x53
 	mov	a,#0x40
 	lcall	___fsmul
-	mov	_main_right_2_97,dpl
-	mov	(_main_right_2_97 + 1),dph
-	mov	(_main_right_2_97 + 2),b
-	mov	(_main_right_2_97 + 3),a
+	mov	_main_right_1_96,dpl
+	mov	(_main_right_1_96 + 1),dph
+	mov	(_main_right_1_96 + 2),b
+	mov	(_main_right_1_96 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:269: double line_sensor = (AD1DAT3/255.0)*3.3;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:274: line_sensor = (AD1DAT3/255.0)*3.3;
 	mov	dpl,_AD1DAT3
 	lcall	___uchar2fs
 	mov	r0,dpl
@@ -1352,214 +1351,55 @@ L017051?:
 	mov	b,#0x53
 	mov	a,#0x40
 	lcall	___fsmul
-	mov	_main_line_sensor_2_97,dpl
-	mov	(_main_line_sensor_2_97 + 1),dph
-	mov	(_main_line_sensor_2_97 + 2),b
-	mov	(_main_line_sensor_2_97 + 3),a
+	mov	_main_line_sensor_1_96,dpl
+	mov	(_main_line_sensor_1_96 + 1),dph
+	mov	(_main_line_sensor_1_96 + 2),b
+	mov	(_main_line_sensor_1_96 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar7
-	pop	ar6
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:273: if(time_update_flag==1) // If the clock has been updated, refresh the display
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:275: diff = left - right;
+	push	_main_right_1_96
+	push	(_main_right_1_96 + 1)
+	push	(_main_right_1_96 + 2)
+	push	(_main_right_1_96 + 3)
+	mov	dpl,_main_left_1_96
+	mov	dph,(_main_left_1_96 + 1)
+	mov	b,(_main_left_1_96 + 2)
+	mov	a,(_main_left_1_96 + 3)
+	lcall	___fssub
+	mov	_main_diff_1_96,dpl
+	mov	(_main_diff_1_96 + 1),dph
+	mov	(_main_diff_1_96 + 2),b
+	mov	(_main_diff_1_96 + 3),a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:278: if(time_update_flag==1) // If the clock has been updated, refresh the display
 	jnb	_time_update_flag,L017002?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:275: display_LCD();
-	push	ar6
-	push	ar7
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:280: display_LCD();
 	lcall	_display_LCD
-	pop	ar7
-	pop	ar6
 L017002?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:279: if((left<thresh)&&(right<thresh))cur_error = 0;
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,_main_left_2_97
-	mov	dph,(_main_left_2_97 + 1)
-	mov	b,(_main_left_2_97 + 2)
-	mov	a,(_main_left_2_97 + 3)
-	lcall	___fslt
-	mov	r0,dpl
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:284: cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
+	push	_main_cur_error_1_96
+	push	(_main_cur_error_1_96 + 1)
+	push	(_main_cur_error_1_96 + 2)
+	push	(_main_cur_error_1_96 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0xA0
+	mov	a,#0x41
+	lcall	___fsmul
+	mov	r4,dpl
+	mov	r5,dph
+	mov	r2,b
+	mov	r3,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar7
-	pop	ar6
-	mov	a,r0
-	jz	L017004?
-	push	ar6
-	push	ar7
-	push	ar0
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,_main_right_2_97
-	mov	dph,(_main_right_2_97 + 1)
-	mov	b,(_main_right_2_97 + 2)
-	mov	a,(_main_right_2_97 + 3)
-	lcall	___fslt
-	mov	r1,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar0
-	pop	ar7
-	pop	ar6
-	mov	a,r1
-	jz	L017004?
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0x00
-	mov	(_main_cur_error_1_96 + 3),#0x00
-L017004?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:280: if((left<thresh)&&(right>thresh))cur_error = -1;
-	mov	a,r0
-	jz	L017007?
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,_main_right_2_97
-	mov	dph,(_main_right_2_97 + 1)
-	mov	b,(_main_right_2_97 + 2)
-	mov	a,(_main_right_2_97 + 3)
-	lcall	___fsgt
-	mov	r0,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar7
-	pop	ar6
-	mov	a,r0
-	jz	L017007?
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0x80
-	mov	(_main_cur_error_1_96 + 3),#0xBF
-L017007?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:281: if((left>thresh)&&(right<thresh))cur_error = 1;
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,_main_left_2_97
-	mov	dph,(_main_left_2_97 + 1)
-	mov	b,(_main_left_2_97 + 2)
-	mov	a,(_main_left_2_97 + 3)
-	lcall	___fsgt
-	mov	r0,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar7
-	pop	ar6
-	mov	a,r0
-	jz	L017010?
-	push	ar6
-	push	ar7
-	push	ar0
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,_main_right_2_97
-	mov	dph,(_main_right_2_97 + 1)
-	mov	b,(_main_right_2_97 + 2)
-	mov	a,(_main_right_2_97 + 3)
-	lcall	___fslt
-	mov	r1,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar0
-	pop	ar7
-	pop	ar6
-	mov	a,r1
-	jz	L017010?
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0x80
-	mov	(_main_cur_error_1_96 + 3),#0x3F
-L017010?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:282: if((left>thresh)&&(right>thresh)){
-	mov	a,r0
-	jz	L017017?
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	mov	a,#0x40
-	push	acc
-	mov	dpl,_main_right_2_97
-	mov	dph,(_main_right_2_97 + 1)
-	mov	b,(_main_right_2_97 + 2)
-	mov	a,(_main_right_2_97 + 3)
-	lcall	___fsgt
-	mov	r0,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar7
-	pop	ar6
-	mov	a,r0
-	jz	L017017?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:283: if(pre_error>0) cur_error = 5;
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	push	acc
-	mov	dpl,_main_pre_error_1_96
-	mov	dph,(_main_pre_error_1_96 + 1)
-	mov	b,(_main_pre_error_1_96 + 2)
-	mov	a,(_main_pre_error_1_96 + 3)
-	lcall	___fsgt
-	mov	r0,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar7
-	pop	ar6
-	mov	a,r0
-	jz	L017013?
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0xA0
-	mov	(_main_cur_error_1_96 + 3),#0x40
-L017013?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:284: if(pre_error<=0) cur_error = -5;
-	mov	a,r0
-	jnz	L017017?
-	mov	_main_cur_error_1_96,a
-	mov	(_main_cur_error_1_96 + 1),a
-	mov	(_main_cur_error_1_96 + 2),#0xA0
-	mov	(_main_cur_error_1_96 + 3),#0xC0
-L017017?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:288: cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
-	push	ar6
-	push	ar7
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
 	push	_main_pre_error_1_96
 	push	(_main_pre_error_1_96 + 1)
 	push	(_main_pre_error_1_96 + 2)
@@ -1571,8 +1411,8 @@ L017017?:
 	lcall	___fssub
 	mov	r0,dpl
 	mov	r1,dph
-	mov	r2,b
-	mov	r3,a
+	mov	r6,b
+	mov	r7,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
@@ -1586,24 +1426,28 @@ L017017?:
 	push	acc
 	mov	dpl,r0
 	mov	dph,r1
-	mov	b,r2
-	mov	a,r3
+	mov	b,r6
+	mov	a,r7
 	lcall	___fsdiv
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	mov	dpl,_main_cur_error_1_96
-	mov	dph,(_main_cur_error_1_96 + 1)
-	mov	b,(_main_cur_error_1_96 + 2)
-	mov	a,(_main_cur_error_1_96 + 3)
+	pop	ar5
+	pop	ar4
+	pop	ar3
+	pop	ar2
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	mov	dpl,r4
+	mov	dph,r5
+	mov	b,r2
+	mov	a,r3
 	lcall	___fsadd
 	mov	_main_cor_1_96,dpl
 	mov	(_main_cor_1_96 + 1),dph
@@ -1612,7 +1456,146 @@ L017017?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:291: new_speed_low 	=100 - cor;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:286: if(-1<diff && diff<1 && (left > 1) && (left < 2) && (right > 1) && (right < 2)){
+	push	_main_diff_1_96
+	push	(_main_diff_1_96 + 1)
+	push	(_main_diff_1_96 + 2)
+	push	(_main_diff_1_96 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0x80
+	mov	a,#0xBF
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jnz	L017065?
+	ljmp	L017004?
+L017065?:
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_main_diff_1_96
+	mov	dph,(_main_diff_1_96 + 1)
+	mov	b,(_main_diff_1_96 + 2)
+	mov	a,(_main_diff_1_96 + 3)
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jnz	L017066?
+	ljmp	L017004?
+L017066?:
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_main_left_1_96
+	mov	dph,(_main_left_1_96 + 1)
+	mov	b,(_main_left_1_96 + 2)
+	mov	a,(_main_left_1_96 + 3)
+	lcall	___fsgt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jnz	L017067?
+	ljmp	L017004?
+L017067?:
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	mov	a,#0x40
+	push	acc
+	mov	dpl,_main_left_1_96
+	mov	dph,(_main_left_1_96 + 1)
+	mov	b,(_main_left_1_96 + 2)
+	mov	a,(_main_left_1_96 + 3)
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jz	L017004?
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_main_right_1_96
+	mov	dph,(_main_right_1_96 + 1)
+	mov	b,(_main_right_1_96 + 2)
+	mov	a,(_main_right_1_96 + 3)
+	lcall	___fsgt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jz	L017004?
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	mov	a,#0x40
+	push	acc
+	mov	dpl,_main_right_1_96
+	mov	dph,(_main_right_1_96 + 1)
+	mov	b,(_main_right_1_96 + 2)
+	mov	a,(_main_right_1_96 + 3)
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jz	L017004?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:287: cur_error = 0;
+	mov	_main_cur_error_1_96,#0x00
+	mov	(_main_cur_error_1_96 + 1),#0x00
+	mov	(_main_cur_error_1_96 + 2),#0x00
+	mov	(_main_cur_error_1_96 + 3),#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:288: pwm_left = 100;
+	mov	_pwm_left,#0x64
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:289: pwm_right = 100;
+	mov	_pwm_right,#0x64
+L017004?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:291: if(1<diff){	
+	push	_main_diff_1_96
+	push	(_main_diff_1_96 + 1)
+	push	(_main_diff_1_96 + 2)
+	push	(_main_diff_1_96 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0x80
+	mov	a,#0x3F
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jz	L017011?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:292: cur_error = 1;
+	mov	_main_cur_error_1_96,#0x00
+	mov	(_main_cur_error_1_96 + 1),#0x00
+	mov	(_main_cur_error_1_96 + 2),#0x80
+	mov	(_main_cur_error_1_96 + 3),#0x3F
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:293: pwm_left = 100 - cor;
 	push	_main_cor_1_96
 	push	(_main_cor_1_96 + 1)
 	push	(_main_cor_1_96 + 2)
@@ -1621,14 +1604,49 @@ L017017?:
 	mov	b,#0xC8
 	mov	a,#0x42
 	lcall	___fssub
-	mov	_main_new_speed_low_1_96,dpl
-	mov	(_main_new_speed_low_1_96 + 1),dph
-	mov	(_main_new_speed_low_1_96 + 2),b
-	mov	(_main_new_speed_low_1_96 + 3),a
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:292: new_speed_high 	=100 + cor;
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fs2uchar
+	mov	_pwm_left,dpl
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:294: pwm_right = 100;
+	mov	_pwm_right,#0x64
+L017011?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:296: if(diff<-1){
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#0xBF
+	push	acc
+	mov	dpl,_main_diff_1_96
+	mov	dph,(_main_diff_1_96 + 1)
+	mov	b,(_main_diff_1_96 + 2)
+	mov	a,(_main_diff_1_96 + 3)
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jz	L017013?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:297: cur_error= -1;
+	mov	_main_cur_error_1_96,#0x00
+	mov	(_main_cur_error_1_96 + 1),#0x00
+	mov	(_main_cur_error_1_96 + 2),#0x80
+	mov	(_main_cur_error_1_96 + 3),#0xBF
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:298: pwm_left = 100;
+	mov	_pwm_left,#0x64
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:299: pwm_right = 100 + cor;
 	clr	a
 	push	acc
 	push	acc
@@ -1641,57 +1659,119 @@ L017017?:
 	mov	b,(_main_cor_1_96 + 2)
 	mov	a,(_main_cor_1_96 + 3)
 	lcall	___fsadd
-	mov	r4,dpl
-	mov	r5,dph
-	mov	r2,b
-	mov	r3,a
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar7
-	pop	ar6
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:295: if(new_speed_low<0){
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fs2uchar
+	mov	_pwm_right,dpl
+L017013?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:301: if((left < 0.5) && (right < 0.5)){
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_main_left_1_96
+	mov	dph,(_main_left_1_96 + 1)
+	mov	b,(_main_left_1_96 + 2)
+	mov	a,(_main_left_1_96 + 3)
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jnz	L017073?
+	ljmp	L017019?
+L017073?:
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_main_right_1_96
+	mov	dph,(_main_right_1_96 + 1)
+	mov	b,(_main_right_1_96 + 2)
+	mov	a,(_main_right_1_96 + 3)
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jnz	L017074?
+	ljmp	L017019?
+L017074?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:302: if(pre_error>0){
 	clr	a
 	push	acc
 	push	acc
 	push	acc
 	push	acc
-	mov	dpl,_main_new_speed_low_1_96
-	mov	dph,(_main_new_speed_low_1_96 + 1)
-	mov	b,(_main_new_speed_low_1_96 + 2)
-	mov	a,(_main_new_speed_low_1_96 + 3)
-	lcall	___fslt
-	mov	r0,dpl
+	mov	dpl,_main_pre_error_1_96
+	mov	dph,(_main_pre_error_1_96 + 1)
+	mov	b,(_main_pre_error_1_96 + 2)
+	mov	a,(_main_pre_error_1_96 + 3)
+	lcall	___fsgt
+	mov	r6,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r0
-	jz	L017020?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:296: new_speed_low = 0;
-	mov	_main_new_speed_low_1_96,#0x00
-	mov	(_main_new_speed_low_1_96 + 1),#0x00
-	mov	(_main_new_speed_low_1_96 + 2),#0x00
-	mov	(_main_new_speed_low_1_96 + 3),#0x00
-L017020?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:299: if(new_speed_high>100){
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	mov	a,r6
+	jz	L017015?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:303: cur_error = 5;
+	mov	_main_cur_error_1_96,#0x00
+	mov	(_main_cur_error_1_96 + 1),#0x00
+	mov	(_main_cur_error_1_96 + 2),#0xA0
+	mov	(_main_cur_error_1_96 + 3),#0x40
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:305: pwm_left = 100;
+	mov	_pwm_left,#0x64
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:306: pwm_right = 100 - cor;
 	push	ar6
-	push	ar7
+	push	_main_cor_1_96
+	push	(_main_cor_1_96 + 1)
+	push	(_main_cor_1_96 + 2)
+	push	(_main_cor_1_96 + 3)
+	mov	dptr,#0x0000
+	mov	b,#0xC8
+	mov	a,#0x42
+	lcall	___fssub
+	mov	r7,dpl
+	mov	r0,dph
+	mov	r1,b
+	mov	r2,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	dpl,r7
+	mov	dph,r0
+	mov	b,r1
+	mov	a,r2
+	lcall	___fs2uchar
+	mov	_pwm_right,dpl
+	pop	ar6
+L017015?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:308: if(pre_error<=0){
+	mov	a,r6
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:309: cur_error = -5;
+	jnz	L017019?
+	mov	_main_cur_error_1_96,a
+	mov	(_main_cur_error_1_96 + 1),a
+	mov	(_main_cur_error_1_96 + 2),#0xA0
+	mov	(_main_cur_error_1_96 + 3),#0xC0
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:310: pwm_left = 100;
+	mov	_pwm_left,#0x64
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:311: pwm_right = 100 + cor;
 	clr	a
 	push	acc
 	push	acc
@@ -1699,216 +1779,47 @@ L017020?:
 	push	acc
 	mov	a,#0x42
 	push	acc
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r2
-	mov	a,r3
-	lcall	___fsgt
-	mov	r0,dpl
+	mov	dpl,_main_cor_1_96
+	mov	dph,(_main_cor_1_96 + 1)
+	mov	b,(_main_cor_1_96 + 2)
+	mov	a,(_main_cor_1_96 + 3)
+	lcall	___fsadd
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r0
-	jz	L017022?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:300: new_speed_high = 100;
-	mov	r4,#0x00
-	mov	r5,#0x00
-	mov	r2,#0xC8
-	mov	r3,#0x42
-L017022?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:304: if(cur_error > 0){  		
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	push	acc
-	mov	dpl,_main_cur_error_1_96
-	mov	dph,(_main_cur_error_1_96 + 1)
-	mov	b,(_main_cur_error_1_96 + 2)
-	mov	a,(_main_cur_error_1_96 + 3)
-	lcall	___fsgt
-	mov	r0,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r0
-	jz	L017032?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:305: pwm_left = new_speed_low;
-	mov	dpl,_main_new_speed_low_1_96
-	mov	dph,(_main_new_speed_low_1_96 + 1)
-	mov	b,(_main_new_speed_low_1_96 + 2)
-	mov	a,(_main_new_speed_low_1_96 + 3)
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
-	lcall	___fs2uchar
-	mov	_pwm_left,dpl
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:306: pwm_right = new_speed_high;		
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r2
-	mov	a,r3
-	push	ar6
-	push	ar7
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
-	pop	ar7
-	pop	ar6
-	ljmp	L017033?
-L017032?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:308: else if (cur_error < 0){
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	push	acc
-	mov	dpl,_main_cur_error_1_96
-	mov	dph,(_main_cur_error_1_96 + 1)
-	mov	b,(_main_cur_error_1_96 + 2)
-	mov	a,(_main_cur_error_1_96 + 3)
-	lcall	___fslt
-	mov	r0,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r0
-	jz	L017029?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:309: pwm_left = new_speed_high;
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r2
-	mov	a,r3
-	push	ar6
-	push	ar7
-	lcall	___fs2uchar
-	mov	_pwm_left,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:310: pwm_right = new_speed_low;
-	mov	dpl,_main_new_speed_low_1_96
-	mov	dph,(_main_new_speed_low_1_96 + 1)
-	mov	b,(_main_new_speed_low_1_96 + 2)
-	mov	a,(_main_new_speed_low_1_96 + 3)
-	lcall	___fs2uchar
-	mov	_pwm_right,dpl
-	pop	ar7
-	pop	ar6
-	sjmp	L017033?
-L017029?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:313: if(pre_error > 0){
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	push	acc
-	mov	dpl,_main_pre_error_1_96
-	mov	dph,(_main_pre_error_1_96 + 1)
-	mov	b,(_main_pre_error_1_96 + 2)
-	mov	a,(_main_pre_error_1_96 + 3)
-	lcall	___fsgt
-	mov	r2,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar7
-	pop	ar6
-	mov	a,r2
-	jz	L017026?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:314: pwm_left = 100;
-	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:315: pwm_right = 20;
-	mov	_pwm_right,#0x14
-	sjmp	L017033?
-L017026?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:317: else if (pre_error < 0){
-	push	ar6
-	push	ar7
-	clr	a
-	push	acc
-	push	acc
-	push	acc
-	push	acc
-	mov	dpl,_main_pre_error_1_96
-	mov	dph,(_main_pre_error_1_96 + 1)
-	mov	b,(_main_pre_error_1_96 + 2)
-	mov	a,(_main_pre_error_1_96 + 3)
-	lcall	___fslt
-	mov	r2,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar7
-	pop	ar6
-	mov	a,r2
-	jz	L017033?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:318: pwm_right = 100;
-	mov	_pwm_right,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:319: pwm_left = 20;
-	mov	_pwm_left,#0x14
-L017033?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:324: pre_error = cur_error;
+L017019?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:314: pre_error = cur_error;
 	mov	_main_pre_error_1_96,_main_cur_error_1_96
 	mov	(_main_pre_error_1_96 + 1),(_main_cur_error_1_96 + 1)
 	mov	(_main_pre_error_1_96 + 2),(_main_cur_error_1_96 + 2)
 	mov	(_main_pre_error_1_96 + 3),(_main_cur_error_1_96 + 3)
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:325: printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:315: printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
 	mov	r2,_pwm_right
 	mov	r3,#0x00
 	mov	r4,_pwm_left
 	mov	r5,#0x00
-	push	ar6
-	push	ar7
 	push	ar2
 	push	ar3
 	push	ar4
 	push	ar5
-	push	_main_right_2_97
-	push	(_main_right_2_97 + 1)
-	push	(_main_right_2_97 + 2)
-	push	(_main_right_2_97 + 3)
-	push	_main_left_2_97
-	push	(_main_left_2_97 + 1)
-	push	(_main_left_2_97 + 2)
-	push	(_main_left_2_97 + 3)
+	push	_main_right_1_96
+	push	(_main_right_1_96 + 1)
+	push	(_main_right_1_96 + 2)
+	push	(_main_right_1_96 + 3)
+	push	_main_left_1_96
+	push	(_main_left_1_96 + 1)
+	push	(_main_left_1_96 + 2)
+	push	(_main_left_1_96 + 3)
 	push	_main_cur_error_1_96
 	push	(_main_cur_error_1_96 + 1)
 	push	(_main_cur_error_1_96 + 2)
@@ -1923,87 +1834,95 @@ L017033?:
 	mov	a,sp
 	add	a,#0xed
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:330: if(line_sensor>thresh){
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:320: if(line_sensor>thresh){
 	clr	a
 	push	acc
 	push	acc
 	push	acc
 	mov	a,#0x40
 	push	acc
-	mov	dpl,_main_line_sensor_2_97
-	mov	dph,(_main_line_sensor_2_97 + 1)
-	mov	b,(_main_line_sensor_2_97 + 2)
-	mov	a,(_main_line_sensor_2_97 + 3)
+	mov	dpl,_main_line_sensor_1_96
+	mov	dph,(_main_line_sensor_1_96 + 1)
+	mov	b,(_main_line_sensor_1_96 + 2)
+	mov	a,(_main_line_sensor_1_96 + 3)
 	lcall	___fsgt
 	mov	r2,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar7
-	pop	ar6
 	mov	a,r2
-	jnz	L017098?
-	ljmp	L017051?
-L017098?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:332: if(line_counter == 0){
-	mov	a,r6
-	orl	a,r7
-	jnz	L017035?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:334: line_counter++;
-	inc	r6
-	cjne	r6,#0x00,L017100?
-	inc	r7
-L017100?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:335: line_counter_flag = 1;
+	jnz	L017077?
+	ljmp	L017038?
+L017077?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:322: if(line_counter == 0){
+	mov	a,_main_line_counter_1_96
+	orl	a,(_main_line_counter_1_96 + 1)
+	jnz	L017022?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:324: line_counter++;
+	inc	_main_line_counter_1_96
+	clr	a
+	cjne	a,_main_line_counter_1_96,L017079?
+	inc	(_main_line_counter_1_96 + 1)
+L017079?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:325: line_counter_flag = 1;
 	setb	_line_counter_flag
-	sjmp	L017036?
-L017035?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:339: line_counter++;  				
-	inc	r6
-	cjne	r6,#0x00,L017101?
-	inc	r7
-L017101?:
-L017036?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:342: if(line_timer == 2000){
+	sjmp	L017023?
+L017022?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:329: line_counter++;  				
+	inc	_main_line_counter_1_96
+	clr	a
+	cjne	a,_main_line_counter_1_96,L017080?
+	inc	(_main_line_counter_1_96 + 1)
+L017080?:
+L017023?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:332: if(line_timer == 2000){
 	mov	a,#0xD0
-	cjne	a,_line_timer,L017038?
+	cjne	a,_line_timer,L017025?
 	mov	a,#0x07
-	cjne	a,(_line_timer + 1),L017038?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:343: line_counter_flag = 0;
+	cjne	a,(_line_timer + 1),L017025?
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:333: line_counter_flag = 0;
 	clr	_line_counter_flag
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:344: line_timer = 0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:334: line_timer = 0;
 	clr	a
 	mov	_line_timer,a
 	mov	(_line_timer + 1),a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:345: exec = 1;	  				
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:335: exec = 1;	  				
 	mov	_main_exec_1_96,#0x01
 	clr	a
 	mov	(_main_exec_1_96 + 1),a
-L017038?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:349: if(exec == 1){
+L017025?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:339: if(exec == 1){
 	mov	a,#0x01
-	cjne	a,_main_exec_1_96,L017104?
+	cjne	a,_main_exec_1_96,L017083?
 	clr	a
-	cjne	a,(_main_exec_1_96 + 1),L017104?
-	sjmp	L017105?
-L017104?:
-	sjmp	L017047?
-L017105?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:350: switch(line_counter){
-	cjne	r6,#0x02,L017106?
-	cjne	r7,#0x00,L017106?
-	sjmp	L017039?
-L017106?:
-	cjne	r6,#0x03,L017107?
-	cjne	r7,#0x00,L017107?
-	sjmp	L017040?
-L017107?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:351: case 2:
-	cjne	r6,#0x04,L017045?
-	cjne	r7,#0x00,L017045?
-	sjmp	L017041?
-L017039?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:352: printf("TURNING LEFT \r;");
+	cjne	a,(_main_exec_1_96 + 1),L017083?
+	sjmp	L017084?
+L017083?:
+	ljmp	L017034?
+L017084?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:340: switch(line_counter){
+	mov	a,#0x02
+	cjne	a,_main_line_counter_1_96,L017085?
+	clr	a
+	cjne	a,(_main_line_counter_1_96 + 1),L017085?
+	sjmp	L017026?
+L017085?:
+	mov	a,#0x03
+	cjne	a,_main_line_counter_1_96,L017086?
+	clr	a
+	cjne	a,(_main_line_counter_1_96 + 1),L017086?
+	sjmp	L017027?
+L017086?:
+	mov	a,#0x04
+	cjne	a,_main_line_counter_1_96,L017087?
+	clr	a
+	cjne	a,(_main_line_counter_1_96 + 1),L017087?
+	sjmp	L017028?
+L017087?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:341: case 2:
+	sjmp	L017032?
+L017026?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:342: printf("TURNING LEFT \r;");
 	mov	a,#__str_3
 	push	acc
 	mov	a,#(__str_3 >> 8)
@@ -2014,13 +1933,13 @@ L017039?:
 	dec	sp
 	dec	sp
 	dec	sp
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:353: pwm_left 	= 100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:343: pwm_left 	= 100;
 	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:354: pwm_right 	=  20; 
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:344: pwm_right 	=  20; 
 	mov	_pwm_right,#0x14
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:355: case 3:
-L017040?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:356: printf("TURNING Right \r;");
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:345: case 3:
+L017027?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:346: printf("TURNING Right \r;");
 	mov	a,#__str_4
 	push	acc
 	mov	a,#(__str_4 >> 8)
@@ -2031,13 +1950,13 @@ L017040?:
 	dec	sp
 	dec	sp
 	dec	sp
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:357: pwm_left 	= 20;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:347: pwm_left 	= 20;
 	mov	_pwm_left,#0x14
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:358: pwm_right 	=  100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:348: pwm_right 	=  100;
 	mov	_pwm_right,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:359: case 4:
-L017041?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:360: printf("Starting \r;");
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:349: case 4:
+L017028?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:350: printf("Starting \r;");
 	mov	a,#__str_5
 	push	acc
 	mov	a,#(__str_5 >> 8)
@@ -2048,25 +1967,23 @@ L017041?:
 	dec	sp
 	dec	sp
 	dec	sp
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:362: pwm_left = 100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:352: pwm_left = 100;
 	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:363: pwm_right = 100;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:353: pwm_right = 100;
 	mov	_pwm_right,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:369: }
-L017045?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:370: exec=0;
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:371: line_counter = 0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:359: }
+L017032?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:360: exec=0;
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:361: line_counter = 0;
 	clr	a
 	mov	_main_exec_1_96,a
 	mov	(_main_exec_1_96 + 1),a
-	mov	r6,a
-	mov	r7,a
-L017047?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:373: printf("line counter: %d", line_counter);
-	push	ar6
-	push	ar7
-	push	ar6
-	push	ar7
+	mov	_main_line_counter_1_96,a
+	mov	(_main_line_counter_1_96 + 1),a
+L017034?:
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:363: printf("line counter: %d", line_counter);
+	push	_main_line_counter_1_96
+	push	(_main_line_counter_1_96 + 1)
 	mov	a,#__str_6
 	push	acc
 	mov	a,#(__str_6 >> 8)
@@ -2077,9 +1994,7 @@ L017047?:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-	pop	ar7
-	pop	ar6
-	ljmp	L017051?
+	ljmp	L017038?
 	rseg R_CSEG
 
 	rseg R_XINIT

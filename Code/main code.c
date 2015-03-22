@@ -229,17 +229,21 @@ void display_LCD(void){
 
 void main (void){
 	//Variable Declaration
-	int k_p=1;
+	int k_p=20;
 	int k_d=1;
 	double cor = 0;
 	double cur_error =0;
 	double pre_error =0;
-	double new_speed_low;
-	double new_speed_high;
 	int thresh = 2;
 	int line_counter = 0;
 	int exec = 0;
 	int start = 1;
+	
+	//Initializing Reading Sensor Value Variables
+	double left = (AD1DAT1/255.0)*3.3;
+	double right = (AD1DAT2/255.0)*3.3;
+	double line_sensor = (AD1DAT3/255.0)*3.3;
+	double diff = left - right;
 
 	//Microcontroller Init.
 	InitPorts();
@@ -259,15 +263,16 @@ void main (void){
 	{
 		//Sensor Values
 		/*
-		port 0_2: AD1DAT1
-		port 0_3: AD1DAT2
-		port 0_4: AD1DAT3
+			port 0_2: AD1DAT1
+			port 0_3: AD1DAT2
+			port 0_4: AD1DAT3
 		*/
-		double left = (AD1DAT1/255.0)*3.3;
-		double right = (AD1DAT2/255.0)*3.3;
-		double line_sensor = (AD1DAT3/255.0)*3.3;
-		double diff = left - right;
-		//double voltage = (AD1DAT0/255.0)*3.3;
+		
+		//Reading Values of for PID
+		left = (AD1DAT1/255.0)*3.3;
+		right = (AD1DAT2/255.0)*3.3;
+		line_sensor = (AD1DAT3/255.0)*3.3;
+		diff = left - right;
 
 		//Timer Functionality
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
@@ -276,66 +281,36 @@ void main (void){
 		}
 
 		//P-D Controller
-		
-		/*
-		if((left<thresh)&&(right<thresh))cur_error = 0;
-		if((left<thresh)&&(right>thresh))cur_error = -1;
-		if((left>thresh)&&(right<thresh))cur_error = 1;
-		if((left>thresh)&&(right>thresh)){
-			if(pre_error>0) cur_error = 5;
-			if(pre_error<=0) cur_error = -5;
-		}
-		*/
-		
-		if(-1<diff && diff<1))cur_error = 0;
-		if(1<diff)	cur_error = 1;
-		if(diff<-1)	cur_error= -1;
-		if(){
-			if(pre_error>0) cur_error = 5;
-			if(pre_error<=0) cur_error = -5;
-		}
-		
-  		//Calc. Prop. and Der. Values
 		cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
-
-  		//Selecting New Motor Speeds
-		new_speed_low 	=100 - cor;
-		new_speed_high 	=100 + cor;
 		
-		
-		/*
-  		//Speed Maximum and Minimum Settings
-		if(new_speed_low<0){
-			new_speed_low = 0;
+		if(-1<diff && diff<1 && (left > 1) && (left < 2) && (right > 1) && (right < 2)){
+			cur_error = 0;
+			pwm_left = 100;
+			pwm_right = 100;
 		}
-
-		if(new_speed_high>100){
-			new_speed_high = 100;
-		}		
-		*/
-		
-  	  	/*
-  	  	//If error is (+) turn left	
-		if(cur_error > 0){  		
-			pwm_left = new_speed_low;
-			pwm_right = new_speed_high;		
+		if(1<diff){	
+			cur_error = 1;
+			pwm_left = 100 - cor;
+			pwm_right = 100;
 		}
-		else if (cur_error < 0){
-			pwm_left = new_speed_high;
-			pwm_right = new_speed_low;
+		if(diff<-1){
+			cur_error= -1;
+			pwm_left = 100;
+			pwm_right = 100 + cor;
 		}
-		else{
-			if(pre_error > 0){
+		if((left < 0.5) && (right < 0.5)){
+			if(pre_error>0){
+				cur_error = 5;
+			
 				pwm_left = 100;
-				pwm_right = 20;
+				pwm_right = 100 - cor;
 			}
-			else if (pre_error < 0){
-				pwm_right = 100;
-				pwm_left = 20;
+			if(pre_error<=0){
+				cur_error = -5;
+				pwm_left = 100;
+				pwm_right = 100 + cor;
 			}
 		}
-		*/
-		
 		pre_error = cur_error;
 		printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
 
