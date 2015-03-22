@@ -236,11 +236,10 @@ void main (void){
 	double pre_error =0;
 	double new_speed_low;
 	double new_speed_high;
-	int counter = 0;
-	int thresh = 0;
+	int thresh = 2;
 	int line_counter = 0;
 	int exec = 0;
-	int start 1;
+	int start = 1;
 
 	//Microcontroller Init.
 	InitPorts();
@@ -259,11 +258,16 @@ void main (void){
 	while(1)
 	{
 		//Sensor Values
-		double line_sensor = (AD1DAT3/255.0)*3.3;
+		/*
+		port 0_2: AD1DAT1
+		port 0_3: AD1DAT2
+		port 0_4: AD1DAT3
+		*/
 		double left = (AD1DAT1/255.0)*3.3;
 		double right = (AD1DAT2/255.0)*3.3;
+		double line_sensor = (AD1DAT3/255.0)*3.3;
+		double diff = left - right;
 		//double voltage = (AD1DAT0/255.0)*3.3;
-
 
 		//Timer Functionality
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
@@ -272,6 +276,8 @@ void main (void){
 		}
 
 		//P-D Controller
+		
+		/*
 		if((left<thresh)&&(right<thresh))cur_error = 0;
 		if((left<thresh)&&(right>thresh))cur_error = -1;
 		if((left>thresh)&&(right<thresh))cur_error = 1;
@@ -279,14 +285,25 @@ void main (void){
 			if(pre_error>0) cur_error = 5;
 			if(pre_error<=0) cur_error = -5;
 		}
-
+		*/
+		
+		if(-1<diff && diff<1))cur_error = 0;
+		if(1<diff)	cur_error = 1;
+		if(diff<-1)	cur_error= -1;
+		if(){
+			if(pre_error>0) cur_error = 5;
+			if(pre_error<=0) cur_error = -5;
+		}
+		
   		//Calc. Prop. and Der. Values
 		cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
 
   		//Selecting New Motor Speeds
 		new_speed_low 	=100 - cor;
 		new_speed_high 	=100 + cor;
-
+		
+		
+		/*
   		//Speed Maximum and Minimum Settings
 		if(new_speed_low<0){
 			new_speed_low = 0;
@@ -295,7 +312,9 @@ void main (void){
 		if(new_speed_high>100){
 			new_speed_high = 100;
 		}		
-
+		*/
+		
+  	  	/*
   	  	//If error is (+) turn left	
 		if(cur_error > 0){  		
 			pwm_left = new_speed_low;
@@ -315,11 +334,10 @@ void main (void){
 				pwm_left = 20;
 			}
 		}
-		counter++;
+		*/
+		
 		pre_error = cur_error;
-		if(counter==30){
-			printf("Error:%5.2f Left:%5.2f Right:%5.2f                 \r", cur_error, left, right, pwm_left, pwm_right);
-		};
+		printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
 
 
   		//Implementing Command Section
