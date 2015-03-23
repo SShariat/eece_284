@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Sun Mar 22 13:58:01 2015
+; This file was generated Sun Mar 22 16:36:14 2015
 ;--------------------------------------------------------
 $name main_code
 $optc51 --model-small
@@ -1080,8 +1080,8 @@ L015011?:
 _display_LCD:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:223: time_update_flag=0;
 	clr	_time_update_flag
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:224: sprintf(buff, "V=%5.2f", (AD1DAT0/255.0)*3.3); // Display the voltage at pin P0.1
-	mov	dpl,_AD1DAT0
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:224: sprintf(buff, "V=%5.2f L:%5.2f", (AD1DAT0/255.0)*3.3, (AD1DAT1/255.0)*3.3); // Display the voltage at pin P0.1
+	mov	dpl,_AD1DAT1
 	lcall	___uchar2fs
 	mov	r2,dpl
 	mov	r3,dph
@@ -1121,10 +1121,54 @@ _display_LCD:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
+	mov	dpl,_AD1DAT0
 	push	ar2
 	push	ar3
 	push	ar4
 	push	ar5
+	lcall	___uchar2fs
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x7F
+	push	acc
+	mov	a,#0x43
+	push	acc
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fsdiv
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	mov	dptr,#0x3333
+	mov	b,#0x53
+	mov	a,#0x40
+	lcall	___fsmul
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
 	mov	a,#__str_0
 	push	acc
 	mov	a,#(__str_0 >> 8)
@@ -1139,7 +1183,7 @@ _display_LCD:
 	push	acc
 	lcall	_sprintf
 	mov	a,sp
-	add	a,#0xf6
+	add	a,#0xf2
 	mov	sp,a
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:225: LCDprint(buff, 1, 1);
 	mov	_LCDprint_PARM_2,#0x01
@@ -1147,15 +1191,59 @@ _display_LCD:
 	mov	dptr,#_display_LCD_buff_1_94
 	mov	b,#0x40
 	lcall	_LCDprint
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:226: sprintf(buff, "%02d:%02d", mins, secs); // Display the clock
-	mov	r2,_secs
-	mov	r3,#0x00
-	mov	r4,_mins
-	mov	r5,#0x00
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:226: sprintf(buff, "%02d:%02d R: %5.2f ", mins, secs, (AD1DAT2/255.0)*3.3); // Display the clock
+	mov	dpl,_AD1DAT2
+	lcall	___uchar2fs
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x7F
+	push	acc
+	mov	a,#0x43
+	push	acc
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fsdiv
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
 	push	ar2
 	push	ar3
 	push	ar4
 	push	ar5
+	mov	dptr,#0x3333
+	mov	b,#0x53
+	mov	a,#0x40
+	lcall	___fsmul
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	r6,_secs
+	mov	r7,#0x00
+	mov	r0,_mins
+	mov	r1,#0x00
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
 	mov	a,#__str_1
 	push	acc
 	mov	a,#(__str_1 >> 8)
@@ -1170,7 +1258,7 @@ _display_LCD:
 	push	acc
 	lcall	_sprintf
 	mov	a,sp
-	add	a,#0xf6
+	add	a,#0xf2
 	mov	sp,a
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:227: LCDprint(buff, 2, 1);
 	mov	_LCDprint_PARM_2,#0x02
@@ -1234,7 +1322,7 @@ _main:
 	mov	(_main_pre_error_1_96 + 2),#0x00
 	mov	(_main_pre_error_1_96 + 3),#0x00
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:262: while(1)
-L017038?:
+L017036?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:272: left = (AD1DAT1/255.0)*3.3;
 	mov	dpl,_AD1DAT1
 	lcall	___uchar2fs
@@ -1456,47 +1544,10 @@ L017002?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:286: if(-1<diff && diff<1 && (left > 1) && (left < 2) && (right > 1) && (right < 2)){
-	push	_main_diff_1_96
-	push	(_main_diff_1_96 + 1)
-	push	(_main_diff_1_96 + 2)
-	push	(_main_diff_1_96 + 3)
-	mov	dptr,#0x0000
-	mov	b,#0x80
-	mov	a,#0xBF
-	lcall	___fslt
-	mov	r6,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r6
-	jnz	L017065?
-	ljmp	L017004?
-L017065?:
-	clr	a
+;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:286: if((left > 0.7) && (left < 1) && (right > 0.7) && (right < 1)){
+	mov	a,#0x33
 	push	acc
 	push	acc
-	mov	a,#0x80
-	push	acc
-	mov	a,#0x3F
-	push	acc
-	mov	dpl,_main_diff_1_96
-	mov	dph,(_main_diff_1_96 + 1)
-	mov	b,(_main_diff_1_96 + 2)
-	mov	a,(_main_diff_1_96 + 3)
-	lcall	___fslt
-	mov	r6,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r6
-	jnz	L017066?
-	ljmp	L017004?
-L017066?:
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x80
 	push	acc
 	mov	a,#0x3F
 	push	acc
@@ -1510,14 +1561,15 @@ L017066?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jnz	L017067?
+	jnz	L017061?
 	ljmp	L017004?
-L017067?:
+L017061?:
 	clr	a
 	push	acc
 	push	acc
+	mov	a,#0x80
 	push	acc
-	mov	a,#0x40
+	mov	a,#0x3F
 	push	acc
 	mov	dpl,_main_left_1_96
 	mov	dph,(_main_left_1_96 + 1)
@@ -1530,10 +1582,9 @@ L017067?:
 	mov	sp,a
 	mov	a,r6
 	jz	L017004?
-	clr	a
+	mov	a,#0x33
 	push	acc
 	push	acc
-	mov	a,#0x80
 	push	acc
 	mov	a,#0x3F
 	push	acc
@@ -1551,8 +1602,9 @@ L017067?:
 	clr	a
 	push	acc
 	push	acc
+	mov	a,#0x80
 	push	acc
-	mov	a,#0x40
+	mov	a,#0x3F
 	push	acc
 	mov	dpl,_main_right_1_96
 	mov	dph,(_main_right_1_96 + 1)
@@ -1589,7 +1641,7 @@ L017004?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jz	L017011?
+	jz	L017009?
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:292: cur_error = 1;
 	mov	_main_cur_error_1_96,#0x00
 	mov	(_main_cur_error_1_96 + 1),#0x00
@@ -1619,7 +1671,7 @@ L017004?:
 	mov	_pwm_left,dpl
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:294: pwm_right = 100;
 	mov	_pwm_right,#0x64
-L017011?:
+L017009?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:296: if(diff<-1){
 	clr	a
 	push	acc
@@ -1638,7 +1690,7 @@ L017011?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jz	L017013?
+	jz	L017011?
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:297: cur_error= -1;
 	mov	_main_cur_error_1_96,#0x00
 	mov	(_main_cur_error_1_96 + 1),#0x00
@@ -1672,7 +1724,7 @@ L017011?:
 	mov	a,r1
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
-L017013?:
+L017011?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:301: if((left < 0.5) && (right < 0.5)){
 	clr	a
 	push	acc
@@ -1690,9 +1742,9 @@ L017013?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jnz	L017073?
-	ljmp	L017019?
-L017073?:
+	jnz	L017067?
+	ljmp	L017017?
+L017067?:
 	clr	a
 	push	acc
 	push	acc
@@ -1709,9 +1761,9 @@ L017073?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jnz	L017074?
-	ljmp	L017019?
-L017074?:
+	jnz	L017068?
+	ljmp	L017017?
+L017068?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:302: if(pre_error>0){
 	clr	a
 	push	acc
@@ -1728,7 +1780,7 @@ L017074?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jz	L017015?
+	jz	L017013?
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:303: cur_error = 5;
 	mov	_main_cur_error_1_96,#0x00
 	mov	(_main_cur_error_1_96 + 1),#0x00
@@ -1760,11 +1812,11 @@ L017074?:
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
 	pop	ar6
-L017015?:
+L017013?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:308: if(pre_error<=0){
 	mov	a,r6
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:309: cur_error = -5;
-	jnz	L017019?
+	jnz	L017017?
 	mov	_main_cur_error_1_96,a
 	mov	(_main_cur_error_1_96 + 1),a
 	mov	(_main_cur_error_1_96 + 2),#0xA0
@@ -1797,7 +1849,7 @@ L017015?:
 	mov	a,r5
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
-L017019?:
+L017017?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:314: pre_error = cur_error;
 	mov	_main_pre_error_1_96,_main_cur_error_1_96
 	mov	(_main_pre_error_1_96 + 1),(_main_cur_error_1_96 + 1)
@@ -1851,35 +1903,35 @@ L017019?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r2
-	jnz	L017077?
-	ljmp	L017038?
-L017077?:
+	jnz	L017071?
+	ljmp	L017036?
+L017071?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:322: if(line_counter == 0){
 	mov	a,_main_line_counter_1_96
 	orl	a,(_main_line_counter_1_96 + 1)
-	jnz	L017022?
+	jnz	L017020?
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:324: line_counter++;
 	inc	_main_line_counter_1_96
 	clr	a
-	cjne	a,_main_line_counter_1_96,L017079?
+	cjne	a,_main_line_counter_1_96,L017073?
 	inc	(_main_line_counter_1_96 + 1)
-L017079?:
+L017073?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:325: line_counter_flag = 1;
 	setb	_line_counter_flag
-	sjmp	L017023?
-L017022?:
+	sjmp	L017021?
+L017020?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:329: line_counter++;  				
 	inc	_main_line_counter_1_96
 	clr	a
-	cjne	a,_main_line_counter_1_96,L017080?
+	cjne	a,_main_line_counter_1_96,L017074?
 	inc	(_main_line_counter_1_96 + 1)
-L017080?:
-L017023?:
+L017074?:
+L017021?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:332: if(line_timer == 2000){
 	mov	a,#0xD0
-	cjne	a,_line_timer,L017025?
+	cjne	a,_line_timer,L017023?
 	mov	a,#0x07
-	cjne	a,(_line_timer + 1),L017025?
+	cjne	a,(_line_timer + 1),L017023?
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:333: line_counter_flag = 0;
 	clr	_line_counter_flag
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:334: line_timer = 0;
@@ -1890,38 +1942,38 @@ L017023?:
 	mov	_main_exec_1_96,#0x01
 	clr	a
 	mov	(_main_exec_1_96 + 1),a
-L017025?:
+L017023?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:339: if(exec == 1){
 	mov	a,#0x01
-	cjne	a,_main_exec_1_96,L017083?
+	cjne	a,_main_exec_1_96,L017077?
 	clr	a
-	cjne	a,(_main_exec_1_96 + 1),L017083?
-	sjmp	L017084?
-L017083?:
-	ljmp	L017034?
-L017084?:
+	cjne	a,(_main_exec_1_96 + 1),L017077?
+	sjmp	L017078?
+L017077?:
+	ljmp	L017032?
+L017078?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:340: switch(line_counter){
 	mov	a,#0x02
-	cjne	a,_main_line_counter_1_96,L017085?
+	cjne	a,_main_line_counter_1_96,L017079?
 	clr	a
-	cjne	a,(_main_line_counter_1_96 + 1),L017085?
-	sjmp	L017026?
-L017085?:
+	cjne	a,(_main_line_counter_1_96 + 1),L017079?
+	sjmp	L017024?
+L017079?:
 	mov	a,#0x03
-	cjne	a,_main_line_counter_1_96,L017086?
+	cjne	a,_main_line_counter_1_96,L017080?
 	clr	a
-	cjne	a,(_main_line_counter_1_96 + 1),L017086?
-	sjmp	L017027?
-L017086?:
+	cjne	a,(_main_line_counter_1_96 + 1),L017080?
+	sjmp	L017025?
+L017080?:
 	mov	a,#0x04
-	cjne	a,_main_line_counter_1_96,L017087?
+	cjne	a,_main_line_counter_1_96,L017081?
 	clr	a
-	cjne	a,(_main_line_counter_1_96 + 1),L017087?
-	sjmp	L017028?
-L017087?:
+	cjne	a,(_main_line_counter_1_96 + 1),L017081?
+	sjmp	L017026?
+L017081?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:341: case 2:
-	sjmp	L017032?
-L017026?:
+	sjmp	L017030?
+L017024?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:342: printf("TURNING LEFT \r;");
 	mov	a,#__str_3
 	push	acc
@@ -1938,7 +1990,7 @@ L017026?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:344: pwm_right 	=  20; 
 	mov	_pwm_right,#0x14
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:345: case 3:
-L017027?:
+L017025?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:346: printf("TURNING Right \r;");
 	mov	a,#__str_4
 	push	acc
@@ -1955,7 +2007,7 @@ L017027?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:348: pwm_right 	=  100;
 	mov	_pwm_right,#0x64
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:349: case 4:
-L017028?:
+L017026?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:350: printf("Starting \r;");
 	mov	a,#__str_5
 	push	acc
@@ -1972,7 +2024,7 @@ L017028?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:353: pwm_right = 100;
 	mov	_pwm_right,#0x64
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:359: }
-L017032?:
+L017030?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:360: exec=0;
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:361: line_counter = 0;
 	clr	a
@@ -1980,7 +2032,7 @@ L017032?:
 	mov	(_main_exec_1_96 + 1),a
 	mov	_main_line_counter_1_96,a
 	mov	(_main_line_counter_1_96 + 1),a
-L017034?:
+L017032?:
 ;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:363: printf("line counter: %d", line_counter);
 	push	_main_line_counter_1_96
 	push	(_main_line_counter_1_96 + 1)
@@ -1994,17 +2046,17 @@ L017034?:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-	ljmp	L017038?
+	ljmp	L017036?
 	rseg R_CSEG
 
 	rseg R_XINIT
 
 	rseg R_CONST
 __str_0:
-	db 'V=%5.2f'
+	db 'V=%5.2f L:%5.2f'
 	db 0x00
 __str_1:
-	db '%02d:%02d'
+	db '%02d:%02d R: %5.2f '
 	db 0x00
 __str_2:
 	db 'Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor'

@@ -221,9 +221,9 @@ void display_LCD(void){
 	unsigned char buff[17]; // Need to have enough space in the string for a null character
 	
 	time_update_flag=0;
-	sprintf(buff, "V=%5.2f", (AD1DAT0/255.0)*3.3); // Display the voltage at pin P0.1
+	sprintf(buff, "V=%5.2f L:%5.2f", (AD1DAT0/255.0)*3.3, (AD1DAT1/255.0)*3.3); // Display the voltage at pin P0.1
 	LCDprint(buff, 1, 1);
-	sprintf(buff, "%02d:%02d", mins, secs); // Display the clock
+	sprintf(buff, "%02d:%02d R: %5.2f ", mins, secs, (AD1DAT2/255.0)*3.3); // Display the clock
 	LCDprint(buff, 2, 1);
 }
 
@@ -283,7 +283,7 @@ void main (void){
 		//P-D Controller
 		cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
 		
-		if(-1<diff && diff<1 && (left > 1) && (left < 2) && (right > 1) && (right < 2)){
+		if((left > 0.7) && (left < 1) && (right > 0.7) && (right < 1)){
 			cur_error = 0;
 			pwm_left = 100;
 			pwm_right = 100;
