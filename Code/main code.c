@@ -30,6 +30,7 @@
 
 // The volatile keyword prevents the compiler from optimizing out these variables
 // that are shared between an interrupt service routine and the main code.
+volatile int msLine_Count=0;
 volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
 volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
 volatile bit time_update_flag=0;
@@ -212,9 +213,12 @@ void Timer0ISR (void) interrupt 1{
 		}
 	}
 	
-	if(line_counter_flag==1){
-		line_timer++;
-	}	
+	if(line_counter_timer_flag){
+		msLine_Count++;
+		if(msLine_Count==){
+			msLine_Count=0;
+		}
+	}
 }
 
 void display_LCD(void){
@@ -225,6 +229,26 @@ void display_LCD(void){
 	LCDprint(buff, 1, 1);
 	sprintf(buff, "%02d:%02d R: %5.2f ", mins, secs, (AD1DAT2/255.0)*3.3); // Display the clock
 	LCDprint(buff, 2, 1);
+}
+
+void turn_left(void){
+	while(1){
+		pwm_left = 20;
+		pwm_right = 100;
+	}
+}
+void turn_right(void){
+	while(1){
+		pwm_left = 100;
+		pwm_right = 20;
+	}
+}
+
+void stop(void){
+	while(1){
+		pwm_left = 0;
+		pwm_right = 0;
+	}
 }
 
 void main (void){
@@ -238,6 +262,8 @@ void main (void){
 	int line_counter = 0;
 	int exec = 0;
 	int start = 1;
+	int time_thresh = 20;
+	
 	
 	//Initializing Reading Sensor Value Variables
 	double left = (AD1DAT1/255.0)*3.3;
@@ -252,12 +278,7 @@ void main (void){
 	InitADC();
 	InitTimer0();
 	
-	//Turn Motors On
-
-	//Start Counting Lines
-		//if lines = 4
-		//start PD
-
+	//PD Controller
 	pre_error = 0;
 	while(1)
 	{
@@ -281,7 +302,7 @@ void main (void){
 		}
 
 		//P-D Controller
-		cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
+		cor = k_p * cur_error + k_d*abs(cur_error - pre_error)/0.001;
 		
 		if((left > 0.7) && (left < 1) && (right > 0.7) && (right < 1)){
 			cur_error = 0;
@@ -301,7 +322,6 @@ void main (void){
 		if((left < 0.5) && (right < 0.5)){
 			if(pre_error>0){
 				cur_error = 5;
-			
 				pwm_left = 100;
 				pwm_right = 100 - cor;
 			}
@@ -318,49 +338,27 @@ void main (void){
   		//Implementing Command Section
 
 		if(line_sensor>thresh){
-  			//If tou have not seen a line before
+  			//If you have not seen a line before
 			if(line_counter == 0){
-  				//Start Timer
+				line_counter_timer_flag = 1;
 				line_counter++;
-				line_counter_flag = 1;
 			}
-			else{
-  				//Counting Lines
-				line_counter++;  				
+			if(line_counter_timer_flag == 0){
+				line_counter++;
 			}
-
-			if(line_timer == 2000){
-				line_counter_flag = 0;
-				line_timer = 0;
-				exec = 1;	  				
-			}
-
-  			//FINISH THIS LINE COUNTER
-			if(exec == 1){
+			if(time_thresh< timer){
 				switch(line_counter){
 					case 2:
-					printf("TURNING LEFT \r;");
-						pwm_left 	= 100;
-						pwm_right 	=  20; 
+						turn_left();
+						line_counter = 0;
 					case 3:
-					printf("TURNING Right \r;");
-						pwm_left 	= 20;
-						pwm_right 	=  100;
+						turn_left();
+						line_counter = 0;
 					case 4:
-					printf("Starting \r;");
-					if(start){
-						pwm_left = 100;
-						pwm_right = 100;
-					}
-					else{
-						pwm_right = 0;
-						pwm_left = 0;
-					}
+						stop();
 				}
-				exec=0;
-				line_counter = 0;
 			}
 			printf("line counter: %d", line_counter);
 		}
 	}
-}	
+}

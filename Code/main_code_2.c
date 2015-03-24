@@ -251,6 +251,7 @@ void main (void){
 
 	
 	while(1){
+	
 		double line_sensor = (AD1DAT3/255.0)*3.3;
 		double left = (AD1DAT1/255.0)*3.3;
 		double right = (AD1DAT2/255.0)*3.3;
