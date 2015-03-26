@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Mon Mar 23 16:13:45 2015
+; This file was generated Thu Mar 26 15:00:17 2015
 ;--------------------------------------------------------
 $name main_code
 $optc51 --model-small
@@ -25,6 +25,9 @@ $printf_float
 ; Public variables in this module
 ;--------------------------------------------------------
 	public _main
+	public _stop
+	public _turn_right
+	public _turn_left
 	public _display_LCD
 	public _Timer0ISR
 	public _InitTimer0
@@ -51,6 +54,7 @@ $printf_float
 	public _mins
 	public _secs
 	public _msCount
+	public _msLine_Count
 ;--------------------------------------------------------
 ; Special Function Registers
 ;--------------------------------------------------------
@@ -425,6 +429,8 @@ _TMOD20         BIT 0xc8
 ; internal ram data
 ;--------------------------------------------------------
 	rseg R_DSEG
+_msLine_Count:
+	ds 2
 _msCount:
 	ds 2
 _secs:
@@ -441,26 +447,26 @@ _line_timer:
 	ds 2
 _LCDprint_PARM_2:
 	ds 1
-_display_LCD_buff_1_94:
+_display_LCD_buff_1_93:
 	ds 17
-_main_cor_1_96:
+_main_cor_1_104:
 	ds 4
-_main_cur_error_1_96:
+_main_cur_error_1_104:
 	ds 4
-_main_pre_error_1_96:
+_main_pre_error_1_104:
 	ds 4
-_main_line_counter_1_96:
+_main_left_1_104:
+	ds 4
+_main_right_1_104:
+	ds 4
+_main_line_sensor_1_104:
+	ds 4
+_main_diff_1_104:
+	ds 4
+_main_line_counter_1_104:
 	ds 2
-_main_exec_1_96:
+_main_state_1_104:
 	ds 2
-_main_left_1_96:
-	ds 4
-_main_right_1_96:
-	ds 4
-_main_line_sensor_1_96:
-	ds 4
-_main_diff_1_96:
-	ds 4
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -567,21 +573,25 @@ _RTCDATL: ds 1
 ; data variables initialization
 ;--------------------------------------------------------
 	rseg R_DINIT
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:33: volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:39: volatile int msLine_Count=0;
+	clr	a
+	mov	_msLine_Count,a
+	mov	(_msLine_Count + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:40: volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
 	clr	a
 	mov	_msCount,a
 	mov	(_msCount + 1),a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:34: volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:41: volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
 	mov	_secs,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:34: volatile bit time_update_flag=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:41: volatile bit time_update_flag=0;
 	mov	_mins,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:40: volatile int line_timer = 0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:47: volatile int line_timer = 0;
 	clr	a
 	mov	_line_timer,a
 	mov	(_line_timer + 1),a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:35: volatile bit time_update_flag=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:42: volatile bit time_update_flag=0;
 	clr	_time_update_flag
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:36: volatile bit line_counter_flag=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:43: volatile bit line_counter_flag=0;
 	clr	_line_counter_flag
 	; The linker places a 'ret' at the end of segment R_DINIT.
 ;--------------------------------------------------------
@@ -592,39 +602,39 @@ _RTCDATL: ds 1
 ;Allocation info for local variables in function 'InitPorts'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:42: void InitPorts(void)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:49: void InitPorts(void)
 ;	-----------------------------------------
 ;	 function InitPorts
 ;	-----------------------------------------
 _InitPorts:
 	using	0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:44: P0M1=0x1E;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:51: P0M1=0x1E;
 	mov	_P0M1,#0x1E
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:45: P0M2=0x00;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:52: P0M2=0x00;
 	mov	_P0M2,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:46: P1M1=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:53: P1M1=0;
 	mov	_P1M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:47: P1M2=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:54: P1M2=0;
 	mov	_P1M2,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:48: P2M1=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:55: P2M1=0;
 	mov	_P2M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:49: P2M2=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:56: P2M2=0;
 	mov	_P2M2,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:50: P3M1=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:57: P3M1=0;
 	mov	_P3M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:51: P3M2=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:58: P3M2=0;
 	mov	_P3M2,#0x00
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Wait50us'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:54: void Wait50us (void)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:61: void Wait50us (void)
 ;	-----------------------------------------
 ;	 function Wait50us
 ;	-----------------------------------------
 _Wait50us:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:59: _endasm;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:66: _endasm;
 	
 	 mov R0, #82
 	 L0:
@@ -638,14 +648,14 @@ _Wait50us:
 ;j                         Allocated to registers r4 r5 
 ;k                         Allocated to registers r6 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:62: void waitms (unsigned int ms)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:69: void waitms (unsigned int ms)
 ;	-----------------------------------------
 ;	 function waitms
 ;	-----------------------------------------
 _waitms:
 	mov	r2,dpl
 	mov	r3,dph
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:68: for(j=0; j<ms; j++)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:75: for(j=0; j<ms; j++)
 	mov	r4,#0x00
 	mov	r5,#0x00
 L004004?:
@@ -655,7 +665,7 @@ L004004?:
 	mov	a,r5
 	subb	a,r3
 	jnc	L004008?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:69: for (k=0; k<20; k++) Wait50us();
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:76: for (k=0; k<20; k++) Wait50us();
 	mov	r6,#0x14
 L004003?:
 	push	ar2
@@ -670,7 +680,7 @@ L004003?:
 	pop	ar3
 	pop	ar2
 	djnz	r6,L004003?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:68: for(j=0; j<ms; j++)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:75: for(j=0; j<ms; j++)
 	inc	r4
 	cjne	r4,#0x00,L004004?
 	inc	r5
@@ -681,16 +691,16 @@ L004008?:
 ;Allocation info for local variables in function 'LCD_pulse'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:72: void LCD_pulse (void)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:79: void LCD_pulse (void)
 ;	-----------------------------------------
 ;	 function LCD_pulse
 ;	-----------------------------------------
 _LCD_pulse:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:74: LCD_E=1;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:81: LCD_E=1;
 	setb	_P2_5
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:75: Wait50us();
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:82: Wait50us();
 	lcall	_Wait50us
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:76: LCD_E=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:83: LCD_E=0;
 	clr	_P2_5
 	ret
 ;------------------------------------------------------------
@@ -698,55 +708,55 @@ _LCD_pulse:
 ;------------------------------------------------------------
 ;x                         Allocated to registers 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:79: void LCD_byte (unsigned char x)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:86: void LCD_byte (unsigned char x)
 ;	-----------------------------------------
 ;	 function LCD_byte
 ;	-----------------------------------------
 _LCD_byte:
 	mov	_ACC,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:83: LCD_D7=ACC_7;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:90: LCD_D7=ACC_7;
 	mov	c,_ACC_7
 	mov	_P1_4,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:84: LCD_D6=ACC_6;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:91: LCD_D6=ACC_6;
 	mov	c,_ACC_6
 	mov	_P1_6,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:85: LCD_D5=ACC_5;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:92: LCD_D5=ACC_5;
 	mov	c,_ACC_5
 	mov	_P1_7,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:86: LCD_D4=ACC_4;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:93: LCD_D4=ACC_4;
 	mov	c,_ACC_4
 	mov	_P2_0,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:87: LCD_D3=ACC_3;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:94: LCD_D3=ACC_3;
 	mov	c,_ACC_3
 	mov	_P2_1,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:88: LCD_D2=ACC_2;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:95: LCD_D2=ACC_2;
 	mov	c,_ACC_2
 	mov	_P2_2,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:89: LCD_D1=ACC_1;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:96: LCD_D1=ACC_1;
 	mov	c,_ACC_1
 	mov	_P2_3,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:90: LCD_D0=ACC_0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:97: LCD_D0=ACC_0;
 	mov	c,_ACC_0
 	mov	_P2_4,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:91: LCD_pulse();
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:98: LCD_pulse();
 	ljmp	_LCD_pulse
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'WriteData'
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:94: void WriteData (unsigned char x)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:101: void WriteData (unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteData
 ;	-----------------------------------------
 _WriteData:
 	mov	r2,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:96: LCD_RS=1;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:103: LCD_RS=1;
 	setb	_P2_7
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:97: LCD_byte(x);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:104: LCD_byte(x);
 	mov	dpl,r2
 	lcall	_LCD_byte
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:98: waitms(2);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:105: waitms(2);
 	mov	dptr,#0x0002
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -754,55 +764,55 @@ _WriteData:
 ;------------------------------------------------------------
 ;x                         Allocated to registers r2 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:101: void WriteCommand (unsigned char x)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:108: void WriteCommand (unsigned char x)
 ;	-----------------------------------------
 ;	 function WriteCommand
 ;	-----------------------------------------
 _WriteCommand:
 	mov	r2,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:103: LCD_RS=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:110: LCD_RS=0;
 	clr	_P2_7
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:104: LCD_byte(x);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:111: LCD_byte(x);
 	mov	dpl,r2
 	lcall	_LCD_byte
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:105: waitms(5);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:112: waitms(5);
 	mov	dptr,#0x0005
 	ljmp	_waitms
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'LCD_8BIT'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:108: void LCD_8BIT (void)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:115: void LCD_8BIT (void)
 ;	-----------------------------------------
 ;	 function LCD_8BIT
 ;	-----------------------------------------
 _LCD_8BIT:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:110: LCD_E=0;  // Resting state of LCD's enable is zero
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:117: LCD_E=0;  // Resting state of LCD's enable is zero
 	clr	_P2_5
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:111: LCD_RW=0; // We are only writing to the LCD in this program
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:118: LCD_RW=0; // We are only writing to the LCD in this program
 	clr	_P2_6
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:112: waitms(20);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:119: waitms(20);
 	mov	dptr,#0x0014
 	lcall	_waitms
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:114: WriteCommand(0x33);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:121: WriteCommand(0x33);
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:115: WriteCommand(0x33);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:122: WriteCommand(0x33);
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:116: WriteCommand(0x33); // Stay in 8-bit mode
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:123: WriteCommand(0x33); // Stay in 8-bit mode
 	mov	dpl,#0x33
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:119: WriteCommand(0x38);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:126: WriteCommand(0x38);
 	mov	dpl,#0x38
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:120: WriteCommand(0x0c);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:127: WriteCommand(0x0c);
 	mov	dpl,#0x0C
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:121: WriteCommand(0x01); // Clear screen command (takes some time)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:128: WriteCommand(0x01); // Clear screen command (takes some time)
 	mov	dpl,#0x01
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:122: waitms(20); // Wait for clear screen command to finsih.
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:129: waitms(20); // Wait for clear screen command to finsih.
 	mov	dptr,#0x0014
 	ljmp	_waitms
 ;------------------------------------------------------------
@@ -812,7 +822,7 @@ _LCD_8BIT:
 ;string                    Allocated to registers r2 r3 r4 
 ;j                         Allocated to registers r5 
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:125: void LCDprint(char * string, unsigned char line, bit clear)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:132: void LCDprint(char * string, unsigned char line, bit clear)
 ;	-----------------------------------------
 ;	 function LCDprint
 ;	-----------------------------------------
@@ -820,7 +830,7 @@ _LCDprint:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:129: WriteCommand(line==2?0xc0:0x80);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:136: WriteCommand(line==2?0xc0:0x80);
 	mov	a,#0x02
 	cjne	a,_LCDprint_PARM_2,L010013?
 	mov	r5,#0xC0
@@ -833,13 +843,13 @@ L010014?:
 	push	ar3
 	push	ar4
 	lcall	_WriteCommand
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:130: waitms(5);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:137: waitms(5);
 	mov	dptr,#0x0005
 	lcall	_waitms
 	pop	ar4
 	pop	ar3
 	pop	ar2
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:131: for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:138: for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
 	mov	r5,#0x00
 L010003?:
 	mov	a,r5
@@ -868,7 +878,7 @@ L010003?:
 	inc	r5
 	sjmp	L010003?
 L010006?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:132: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:139: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 	jnb	_LCDprint_PARM_3,L010011?
 	mov	ar2,r5
 L010007?:
@@ -887,12 +897,12 @@ L010011?:
 ;Allocation info for local variables in function 'Wait1S'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:135: void Wait1S (void)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:142: void Wait1S (void)
 ;	-----------------------------------------
 ;	 function Wait1S
 ;	-----------------------------------------
 _Wait1S:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:144: _endasm;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:151: _endasm;
 	
 	 mov R2, #40
 	 L3:
@@ -909,48 +919,48 @@ _Wait1S:
 ;Allocation info for local variables in function 'InitSerialPort'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:147: void InitSerialPort(void)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:154: void InitSerialPort(void)
 ;	-----------------------------------------
 ;	 function InitSerialPort
 ;	-----------------------------------------
 _InitSerialPort:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:149: BRGCON=0x00; //Make sure the baud rate generator is off
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:156: BRGCON=0x00; //Make sure the baud rate generator is off
 	mov	_BRGCON,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:150: BRGR1=((XTAL/BAUD)-16)/0x100;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:157: BRGR1=((XTAL/BAUD)-16)/0x100;
 	mov	_BRGR1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:151: BRGR0=((XTAL/BAUD)-16)%0x100;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:158: BRGR0=((XTAL/BAUD)-16)%0x100;
 	mov	_BRGR0,#0x30
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:152: BRGCON=0x03; //Turn-on the baud rate generator
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:159: BRGCON=0x03; //Turn-on the baud rate generator
 	mov	_BRGCON,#0x03
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:153: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:160: SCON=0x52; //Serial port in mode 1, ren, txrdy, rxempty
 	mov	_SCON,#0x52
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:154: P1M1=0x00; //Enable pins RxD and Txd
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:161: P1M1=0x00; //Enable pins RxD and Txd
 	mov	_P1M1,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:155: P1M2=0x00; //Enable pins RxD and Txd
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:162: P1M2=0x00; //Enable pins RxD and Txd
 	mov	_P1M2,#0x00
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'InitADC'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:158: void InitADC(void)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:165: void InitADC(void)
 ;	-----------------------------------------
 ;	 function InitADC
 ;	-----------------------------------------
 _InitADC:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:162: P0M1 |= (P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:169: P0M1 |= (P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
 	orl	_P0M1,#0x1E
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:163: P0M2 &= ~(P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:170: P0M2 &= ~(P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
 	anl	_P0M2,#0xE1
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:166: BURST1=1; //Autoscan continuous conversion mode
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:173: BURST1=1; //Autoscan continuous conversion mode
 	setb	_BURST1
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:167: ADMODB = CLK0; //ADC1 clock is 7.3728MHz/2
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:174: ADMODB = CLK0; //ADC1 clock is 7.3728MHz/2
 	mov	_ADMODB,#0x20
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:168: ADINS  = (ADI13|ADI12|ADI11|ADI10); // Select the four channels for conversion
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:175: ADINS  = (ADI13|ADI12|ADI11|ADI10); // Select the four channels for conversion
 	mov	_ADINS,#0xF0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:169: ADCON1 = (ENADC1|ADCS10); //Enable the converter and start immediately
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:176: ADCON1 = (ENADC1|ADCS10); //Enable the converter and start immediately
 	mov	_ADCON1,#0x05
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:170: while((ADCI1&ADCON1)==0); //Wait for first conversion to complete
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:177: while((ADCI1&ADCON1)==0); //Wait for first conversion to complete
 L013001?:
 	mov	a,_ADCON1
 	jnb	acc.3,L013001?
@@ -959,34 +969,34 @@ L013001?:
 ;Allocation info for local variables in function 'InitTimer0'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:173: void InitTimer0 (void)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:180: void InitTimer0 (void)
 ;	-----------------------------------------
 ;	 function InitTimer0
 ;	-----------------------------------------
 _InitTimer0:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:177: TR0=0; // Stop timer 0
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:184: TR0=0; // Stop timer 0
 	clr	_TR0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:178: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:185: TMOD=(TMOD&0xf0)|0x01; // 16-bit timer
 	mov	a,#0xF0
 	anl	a,_TMOD
 	orl	a,#0x01
 	mov	_TMOD,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:179: TH0=TIMER0_RELOAD_VALUE/0x100; // I think the RHS is 0001 0000 0000, are we dividing?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:186: TH0=TIMER0_RELOAD_VALUE/0x100; // I think the RHS is 0001 0000 0000, are we dividing?
 	mov	_TH0,#0xFE
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:180: TL0=TIMER0_RELOAD_VALUE%0x100; // % means modulo, apparently? ...are we modulo-ing?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:187: TL0=TIMER0_RELOAD_VALUE%0x100; // % means modulo, apparently? ...are we modulo-ing?
 	mov	_TL0,#0x90
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:181: TR0=1; // Start timer 0 (bit 4 in TCON)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:188: TR0=1; // Start timer 0 (bit 4 in TCON)
 	setb	_TR0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:182: ET0=1; // Enable timer 0 interrupt - the interrupt controller IEN0 is bit-adressable, so we change only the bit we need
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:189: ET0=1; // Enable timer 0 interrupt - the interrupt controller IEN0 is bit-adressable, so we change only the bit we need
 	setb	_ET0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:183: EA=1;  // Enable global interrupts
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:190: EA=1;  // Enable global interrupts
 	setb	_EA
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer0ISR'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:187: void Timer0ISR (void) interrupt 1{
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:194: void Timer0ISR (void) interrupt 1{
 ;	-----------------------------------------
 ;	 function Timer0ISR
 ;	-----------------------------------------
@@ -994,74 +1004,64 @@ _Timer0ISR:
 	push	acc
 	push	psw
 	mov	psw,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:189: TR0=0; // Stop timer 0
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:196: TR0=0; // Stop timer 0
 	clr	_TR0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:190: TH0=TIMER0_RELOAD_VALUE/0x100;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:197: TH0=TIMER0_RELOAD_VALUE/0x100;
 	mov	_TH0,#0xFE
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:191: TL0=TIMER0_RELOAD_VALUE%0x100;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:198: TL0=TIMER0_RELOAD_VALUE%0x100;
 	mov	_TL0,#0x90
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:192: TR0=1; // Start timer 0
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:199: TR0=1; // Start timer 0
 	setb	_TR0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:194: if(++pwmcount>99) pwmcount=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:201: if(++pwmcount>99) pwmcount=0;
 	inc	_pwmcount
 	mov	a,_pwmcount
 	add	a,#0xff - 0x63
 	jnc	L015002?
 	mov	_pwmcount,#0x00
 L015002?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:195: P0_5=(pwm_left>pwmcount)?1:0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:202: P0_5=(pwm_left>pwmcount)?1:0;
 	clr	c
 	mov	a,_pwmcount
 	subb	a,_pwm_left
 	mov	_P0_5,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:196: P0_6=(pwm_right>pwmcount)?1:0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:203: P0_6=(pwm_right>pwmcount)?1:0;
 	clr	c
 	mov	a,_pwmcount
 	subb	a,_pwm_right
 	mov	_P0_6,c
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:198: msCount++;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:205: msCount++;
 	mov	a,#0x01
 	add	a,_msCount
 	mov	_msCount,a
 	clr	a
 	addc	a,(_msCount + 1)
 	mov	(_msCount + 1),a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:199: if(msCount==10000)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:206: if(msCount==10000)
 	mov	a,#0x10
-	cjne	a,_msCount,L015008?
+	cjne	a,_msCount,L015009?
 	mov	a,#0x27
-	cjne	a,(_msCount + 1),L015008?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:201: time_update_flag=1;
+	cjne	a,(_msCount + 1),L015009?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:208: time_update_flag=1;
 	setb	_time_update_flag
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:202: msCount=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:209: msCount=0;
 	clr	a
 	mov	_msCount,a
 	mov	(_msCount + 1),a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:203: secs++;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:210: secs++;
 	inc	_secs
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:204: if(secs==60)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:211: if(secs==60)
 	mov	a,#0x3C
-	cjne	a,_secs,L015008?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:206: secs=0;
+	cjne	a,_secs,L015009?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:213: secs=0;
 	mov	_secs,#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:207: mins++;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:214: mins++;
 	inc	_mins
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:208: if(mins==60)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:215: if(mins==60)
 	mov	a,#0x3C
-	cjne	a,_mins,L015008?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:210: mins=0;
+	cjne	a,_mins,L015009?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:217: mins=0;
 	mov	_mins,#0x00
-L015008?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:215: if(line_counter_flag==1){
-	jnb	_line_counter_flag,L015011?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:216: line_timer++;
-	mov	a,#0x01
-	add	a,_line_timer
-	mov	_line_timer,a
-	clr	a
-	addc	a,(_line_timer + 1)
-	mov	(_line_timer + 1),a
-L015011?:
+L015009?:
 	pop	psw
 	pop	acc
 	reti
@@ -1071,17 +1071,17 @@ L015011?:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'display_LCD'
 ;------------------------------------------------------------
-;buff                      Allocated with name '_display_LCD_buff_1_94'
+;buff                      Allocated with name '_display_LCD_buff_1_93'
 ;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:220: void display_LCD(void){
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:223: void display_LCD(void){
 ;	-----------------------------------------
 ;	 function display_LCD
 ;	-----------------------------------------
 _display_LCD:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:223: time_update_flag=0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:226: time_update_flag=0;
 	clr	_time_update_flag
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:224: sprintf(buff, "V=%5.2f L:%5.2f", (AD1DAT0/255.0)*3.3, (AD1DAT1/255.0)*3.3); // Display the voltage at pin P0.1
-	mov	dpl,_AD1DAT1
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:233: sprintf(buff, "L=%5.2f R:%5.2f", (AD1DAT1/255.0)*3.3, (AD1DAT2/255.0)*3.3); //Display Left and Right Sensor
+	mov	dpl,_AD1DAT2
 	lcall	___uchar2fs
 	mov	r2,dpl
 	mov	r3,dph
@@ -1121,7 +1121,7 @@ _display_LCD:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	mov	dpl,_AD1DAT0
+	mov	dpl,_AD1DAT1
 	push	ar2
 	push	ar3
 	push	ar4
@@ -1175,9 +1175,9 @@ _display_LCD:
 	push	acc
 	mov	a,#0x80
 	push	acc
-	mov	a,#_display_LCD_buff_1_94
+	mov	a,#_display_LCD_buff_1_93
 	push	acc
-	mov	a,#(_display_LCD_buff_1_94 >> 8)
+	mov	a,#(_display_LCD_buff_1_93 >> 8)
 	push	acc
 	mov	a,#0x40
 	push	acc
@@ -1185,13 +1185,194 @@ _display_LCD:
 	mov	a,sp
 	add	a,#0xf2
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:225: LCDprint(buff, 1, 1);
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:234: LCDprint(buff, 1, 1);
 	mov	_LCDprint_PARM_2,#0x01
 	setb	_LCDprint_PARM_3
-	mov	dptr,#_display_LCD_buff_1_94
+	mov	dptr,#_display_LCD_buff_1_93
 	mov	b,#0x40
 	lcall	_LCDprint
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:226: sprintf(buff, "%02d:%02d R: %5.2f ", mins, secs, (AD1DAT2/255.0)*3.3); // Display the clock
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:235: sprintf(buff, "LM=%d RM=%d", pwm_left, pwm_right); // Display Motor Values
+	mov	r2,_pwm_right
+	mov	r3,#0x00
+	mov	r4,_pwm_left
+	mov	r5,#0x00
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
+	mov	a,#__str_1
+	push	acc
+	mov	a,#(__str_1 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#_display_LCD_buff_1_93
+	push	acc
+	mov	a,#(_display_LCD_buff_1_93 >> 8)
+	push	acc
+	mov	a,#0x40
+	push	acc
+	lcall	_sprintf
+	mov	a,sp
+	add	a,#0xf6
+	mov	sp,a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:236: LCDprint(buff, 2, 1);
+	mov	_LCDprint_PARM_2,#0x02
+	setb	_LCDprint_PARM_3
+	mov	dptr,#_display_LCD_buff_1_93
+	mov	b,#0x40
+	ljmp	_LCDprint
+;------------------------------------------------------------
+;Allocation info for local variables in function 'turn_left'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:240: void turn_left(void){
+;	-----------------------------------------
+;	 function turn_left
+;	-----------------------------------------
+_turn_left:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:241: while(1){
+L017002?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:242: pwm_left = 20;
+	mov	_pwm_left,#0x14
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:243: pwm_right = 100;
+	mov	_pwm_right,#0x64
+	sjmp	L017002?
+;------------------------------------------------------------
+;Allocation info for local variables in function 'turn_right'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:246: void turn_right(void){
+;	-----------------------------------------
+;	 function turn_right
+;	-----------------------------------------
+_turn_right:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:247: while(1){
+L018002?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:248: pwm_left = 100;
+	mov	_pwm_left,#0x64
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:249: pwm_right = 20;
+	mov	_pwm_right,#0x14
+	sjmp	L018002?
+;------------------------------------------------------------
+;Allocation info for local variables in function 'stop'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:253: void stop(void){
+;	-----------------------------------------
+;	 function stop
+;	-----------------------------------------
+_stop:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:254: while(1){
+L019002?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:255: pwm_left = 0;
+	mov	_pwm_left,#0x00
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:256: pwm_right = 0;
+	mov	_pwm_right,#0x00
+	sjmp	L019002?
+;------------------------------------------------------------
+;Allocation info for local variables in function 'main'
+;------------------------------------------------------------
+;k_p                       Allocated to registers 
+;k_d                       Allocated to registers 
+;cor                       Allocated with name '_main_cor_1_104'
+;cur_error                 Allocated with name '_main_cur_error_1_104'
+;pre_error                 Allocated with name '_main_pre_error_1_104'
+;thresh                    Allocated to registers 
+;exec                      Allocated to registers 
+;start                     Allocated to registers 
+;left                      Allocated with name '_main_left_1_104'
+;right                     Allocated with name '_main_right_1_104'
+;line_sensor               Allocated with name '_main_line_sensor_1_104'
+;diff                      Allocated with name '_main_diff_1_104'
+;line_counter              Allocated with name '_main_line_counter_1_104'
+;command                   Allocated to registers 
+;state                     Allocated with name '_main_state_1_104'
+;------------------------------------------------------------
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:260: void main (void){
+;	-----------------------------------------
+;	 function main
+;	-----------------------------------------
+_main:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:265: double cur_error =0;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:272: double left = (AD1DAT1/255.0)*3.3;
+	clr	a
+	mov	_main_cur_error_1_104,a
+	mov	(_main_cur_error_1_104 + 1),a
+	mov	(_main_cur_error_1_104 + 2),a
+	mov	(_main_cur_error_1_104 + 3),a
+	mov	a,_AD1DAT1
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:273: double right = (AD1DAT2/255.0)*3.3;
+	mov	a,_AD1DAT2
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:274: double line_sensor = (AD1DAT3/255.0)*3.3;
+	mov	a,_AD1DAT3
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:278: int line_counter = 0;
+	clr	a
+	mov	_main_line_counter_1_104,a
+	mov	(_main_line_counter_1_104 + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:280: int state = 1;	
+	mov	_main_state_1_104,#0x01
+	clr	a
+	mov	(_main_state_1_104 + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:283: InitPorts();
+	lcall	_InitPorts
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:284: LCD_8BIT();
+	lcall	_LCD_8BIT
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:285: InitSerialPort();
+	lcall	_InitSerialPort
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:286: InitADC();
+	lcall	_InitADC
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:287: InitTimer0();
+	lcall	_InitTimer0
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:290: pre_error = 0;
+	mov	_main_pre_error_1_104,#0x00
+	mov	(_main_pre_error_1_104 + 1),#0x00
+	mov	(_main_pre_error_1_104 + 2),#0x00
+	mov	(_main_pre_error_1_104 + 3),#0x00
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:291: while(1)
+L020035?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:301: left = (AD1DAT1/255.0)*3.3;
+	mov	dpl,_AD1DAT1
+	lcall	___uchar2fs
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x7F
+	push	acc
+	mov	a,#0x43
+	push	acc
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fsdiv
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	push	ar6
+	push	ar7
+	push	ar0
+	push	ar1
+	mov	dptr,#0x3333
+	mov	b,#0x53
+	mov	a,#0x40
+	lcall	___fsmul
+	mov	_main_left_1_104,dpl
+	mov	(_main_left_1_104 + 1),dph
+	mov	(_main_left_1_104 + 2),b
+	mov	(_main_left_1_104 + 3),a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:302: right = (AD1DAT2/255.0)*3.3;
 	mov	dpl,_AD1DAT2
 	lcall	___uchar2fs
 	mov	r2,dpl
@@ -1225,195 +1406,20 @@ _display_LCD:
 	mov	b,#0x53
 	mov	a,#0x40
 	lcall	___fsmul
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
+	mov	_main_right_1_104,dpl
+	mov	(_main_right_1_104 + 1),dph
+	mov	(_main_right_1_104 + 2),b
+	mov	(_main_right_1_104 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	mov	r6,_secs
-	mov	r7,#0x00
-	mov	r0,_mins
-	mov	r1,#0x00
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar6
-	push	ar7
-	push	ar0
-	push	ar1
-	mov	a,#__str_1
-	push	acc
-	mov	a,#(__str_1 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	mov	a,#_display_LCD_buff_1_94
-	push	acc
-	mov	a,#(_display_LCD_buff_1_94 >> 8)
-	push	acc
-	mov	a,#0x40
-	push	acc
-	lcall	_sprintf
-	mov	a,sp
-	add	a,#0xf2
-	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:227: LCDprint(buff, 2, 1);
-	mov	_LCDprint_PARM_2,#0x02
-	setb	_LCDprint_PARM_3
-	mov	dptr,#_display_LCD_buff_1_94
-	mov	b,#0x40
-	ljmp	_LCDprint
-;------------------------------------------------------------
-;Allocation info for local variables in function 'main'
-;------------------------------------------------------------
-;k_p                       Allocated to registers 
-;k_d                       Allocated to registers 
-;cor                       Allocated with name '_main_cor_1_96'
-;cur_error                 Allocated with name '_main_cur_error_1_96'
-;pre_error                 Allocated with name '_main_pre_error_1_96'
-;thresh                    Allocated to registers 
-;line_counter              Allocated with name '_main_line_counter_1_96'
-;exec                      Allocated with name '_main_exec_1_96'
-;start                     Allocated to registers 
-;left                      Allocated with name '_main_left_1_96'
-;right                     Allocated with name '_main_right_1_96'
-;line_sensor               Allocated with name '_main_line_sensor_1_96'
-;diff                      Allocated with name '_main_diff_1_96'
-;------------------------------------------------------------
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:230: void main (void){
-;	-----------------------------------------
-;	 function main
-;	-----------------------------------------
-_main:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:235: double cur_error =0;
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:238: int line_counter = 0;
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:239: int exec = 0;
-	clr	a
-	mov	_main_cur_error_1_96,a
-	mov	(_main_cur_error_1_96 + 1),a
-	mov	(_main_cur_error_1_96 + 2),a
-	mov	(_main_cur_error_1_96 + 3),a
-	mov	_main_line_counter_1_96,a
-	mov	(_main_line_counter_1_96 + 1),a
-	mov	_main_exec_1_96,a
-	mov	(_main_exec_1_96 + 1),a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:243: double left = (AD1DAT1/255.0)*3.3;
-	mov	a,_AD1DAT1
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:244: double right = (AD1DAT2/255.0)*3.3;
-	mov	a,_AD1DAT2
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:245: double line_sensor = (AD1DAT3/255.0)*3.3;
-	mov	a,_AD1DAT3
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:249: InitPorts();
-	lcall	_InitPorts
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:250: LCD_8BIT();
-	lcall	_LCD_8BIT
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:251: InitSerialPort();
-	lcall	_InitSerialPort
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:252: InitADC();
-	lcall	_InitADC
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:253: InitTimer0();
-	lcall	_InitTimer0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:256: P0_7 = 1;
-	setb	_P0_7
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:263: pre_error = 0;
-	mov	_main_pre_error_1_96,#0x00
-	mov	(_main_pre_error_1_96 + 1),#0x00
-	mov	(_main_pre_error_1_96 + 2),#0x00
-	mov	(_main_pre_error_1_96 + 3),#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:264: while(1)
-L017036?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:274: left = (AD1DAT1/255.0)*3.3;
-	mov	dpl,_AD1DAT1
-	lcall	___uchar2fs
-	mov	r4,dpl
-	mov	r5,dph
-	mov	r2,b
-	mov	r3,a
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x7F
-	push	acc
-	mov	a,#0x43
-	push	acc
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r2
-	mov	a,r3
-	lcall	___fsdiv
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	mov	dptr,#0x3333
-	mov	b,#0x53
-	mov	a,#0x40
-	lcall	___fsmul
-	mov	_main_left_1_96,dpl
-	mov	(_main_left_1_96 + 1),dph
-	mov	(_main_left_1_96 + 2),b
-	mov	(_main_left_1_96 + 3),a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:275: right = (AD1DAT2/255.0)*3.3;
-	mov	dpl,_AD1DAT2
-	lcall	___uchar2fs
-	mov	r0,dpl
-	mov	r1,dph
-	mov	r2,b
-	mov	r3,a
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x7F
-	push	acc
-	mov	a,#0x43
-	push	acc
-	mov	dpl,r0
-	mov	dph,r1
-	mov	b,r2
-	mov	a,r3
-	lcall	___fsdiv
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	mov	dptr,#0x3333
-	mov	b,#0x53
-	mov	a,#0x40
-	lcall	___fsmul
-	mov	_main_right_1_96,dpl
-	mov	(_main_right_1_96 + 1),dph
-	mov	(_main_right_1_96 + 2),b
-	mov	(_main_right_1_96 + 3),a
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:276: line_sensor = (AD1DAT3/255.0)*3.3;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:303: line_sensor = (AD1DAT3/255.0)*3.3;
 	mov	dpl,_AD1DAT3
 	lcall	___uchar2fs
-	mov	r0,dpl
-	mov	r1,dph
-	mov	r2,b
-	mov	r3,a
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
 	clr	a
 	push	acc
 	push	acc
@@ -1421,10 +1427,10 @@ L017036?:
 	push	acc
 	mov	a,#0x43
 	push	acc
-	mov	dpl,r0
-	mov	dph,r1
-	mov	b,r2
-	mov	a,r3
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
 	lcall	___fsdiv
 	mov	r2,dpl
 	mov	r3,dph
@@ -1441,48 +1447,48 @@ L017036?:
 	mov	b,#0x53
 	mov	a,#0x40
 	lcall	___fsmul
-	mov	_main_line_sensor_1_96,dpl
-	mov	(_main_line_sensor_1_96 + 1),dph
-	mov	(_main_line_sensor_1_96 + 2),b
-	mov	(_main_line_sensor_1_96 + 3),a
+	mov	_main_line_sensor_1_104,dpl
+	mov	(_main_line_sensor_1_104 + 1),dph
+	mov	(_main_line_sensor_1_104 + 2),b
+	mov	(_main_line_sensor_1_104 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:277: diff = left - right;
-	push	_main_right_1_96
-	push	(_main_right_1_96 + 1)
-	push	(_main_right_1_96 + 2)
-	push	(_main_right_1_96 + 3)
-	mov	dpl,_main_left_1_96
-	mov	dph,(_main_left_1_96 + 1)
-	mov	b,(_main_left_1_96 + 2)
-	mov	a,(_main_left_1_96 + 3)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:304: diff = left - right;
+	push	_main_right_1_104
+	push	(_main_right_1_104 + 1)
+	push	(_main_right_1_104 + 2)
+	push	(_main_right_1_104 + 3)
+	mov	dpl,_main_left_1_104
+	mov	dph,(_main_left_1_104 + 1)
+	mov	b,(_main_left_1_104 + 2)
+	mov	a,(_main_left_1_104 + 3)
 	lcall	___fssub
-	mov	_main_diff_1_96,dpl
-	mov	(_main_diff_1_96 + 1),dph
-	mov	(_main_diff_1_96 + 2),b
-	mov	(_main_diff_1_96 + 3),a
+	mov	_main_diff_1_104,dpl
+	mov	(_main_diff_1_104 + 1),dph
+	mov	(_main_diff_1_104 + 2),b
+	mov	(_main_diff_1_104 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:280: if(time_update_flag==1) // If the clock has been updated, refresh the display
-	jnb	_time_update_flag,L017002?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:282: display_LCD();
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:307: if(time_update_flag==1) // If the clock has been updated, refresh the display
+	jnb	_time_update_flag,L020002?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:309: display_LCD();
 	lcall	_display_LCD
-L017002?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:286: cor = k_p * cur_error + k_d*(cur_error - pre_error)/0.001;
-	push	_main_cur_error_1_96
-	push	(_main_cur_error_1_96 + 1)
-	push	(_main_cur_error_1_96 + 2)
-	push	(_main_cur_error_1_96 + 3)
+L020002?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:313: cor = k_p * cur_error + k_d*abs(cur_error - pre_error)/0.001;
+	push	_main_cur_error_1_104
+	push	(_main_cur_error_1_104 + 1)
+	push	(_main_cur_error_1_104 + 2)
+	push	(_main_cur_error_1_104 + 3)
 	mov	dptr,#0x0000
 	mov	b,#0xA0
 	mov	a,#0x41
 	lcall	___fsmul
-	mov	r4,dpl
-	mov	r5,dph
-	mov	r2,b
-	mov	r3,a
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
@@ -1490,22 +1496,33 @@ L017002?:
 	push	ar3
 	push	ar4
 	push	ar5
-	push	_main_pre_error_1_96
-	push	(_main_pre_error_1_96 + 1)
-	push	(_main_pre_error_1_96 + 2)
-	push	(_main_pre_error_1_96 + 3)
-	mov	dpl,_main_cur_error_1_96
-	mov	dph,(_main_cur_error_1_96 + 1)
-	mov	b,(_main_cur_error_1_96 + 2)
-	mov	a,(_main_cur_error_1_96 + 3)
+	push	_main_pre_error_1_104
+	push	(_main_pre_error_1_104 + 1)
+	push	(_main_pre_error_1_104 + 2)
+	push	(_main_pre_error_1_104 + 3)
+	mov	dpl,_main_cur_error_1_104
+	mov	dph,(_main_cur_error_1_104 + 1)
+	mov	b,(_main_cur_error_1_104 + 2)
+	mov	a,(_main_cur_error_1_104 + 3)
 	lcall	___fssub
-	mov	r0,dpl
-	mov	r1,dph
-	mov	r6,b
-	mov	r7,a
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
+	lcall	___fs2sint
+	lcall	_abs
+	lcall	___sint2fs
+	mov	r6,dpl
+	mov	r7,dph
+	mov	r0,b
+	mov	r1,a
 	mov	a,#0x6F
 	push	acc
 	mov	a,#0x12
@@ -1514,10 +1531,10 @@ L017002?:
 	push	acc
 	mov	a,#0x3A
 	push	acc
-	mov	dpl,r0
-	mov	dph,r1
-	mov	b,r6
-	mov	a,r7
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r0
+	mov	a,r1
 	lcall	___fsdiv
 	mov	r6,dpl
 	mov	r7,dph
@@ -1534,106 +1551,106 @@ L017002?:
 	push	ar7
 	push	ar0
 	push	ar1
-	mov	dpl,r4
-	mov	dph,r5
-	mov	b,r2
-	mov	a,r3
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
 	lcall	___fsadd
-	mov	_main_cor_1_96,dpl
-	mov	(_main_cor_1_96 + 1),dph
-	mov	(_main_cor_1_96 + 2),b
-	mov	(_main_cor_1_96 + 3),a
+	mov	_main_cor_1_104,dpl
+	mov	(_main_cor_1_104 + 1),dph
+	mov	(_main_cor_1_104 + 2),b
+	mov	(_main_cor_1_104 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:288: if((left > 0.7) && (left < 1) && (right > 0.7) && (right < 1)){
-	mov	a,#0x33
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:315: if((left > 0.4) && (left < 0.7) && (right > 0.4) && (right < 0.7)){
+	mov	a,#0xCD
+	push	acc
+	mov	a,#0xCC
 	push	acc
 	push	acc
+	mov	a,#0x3E
 	push	acc
-	mov	a,#0x3F
-	push	acc
-	mov	dpl,_main_left_1_96
-	mov	dph,(_main_left_1_96 + 1)
-	mov	b,(_main_left_1_96 + 2)
-	mov	a,(_main_left_1_96 + 3)
+	mov	dpl,_main_left_1_104
+	mov	dph,(_main_left_1_104 + 1)
+	mov	b,(_main_left_1_104 + 2)
+	mov	a,(_main_left_1_104 + 3)
 	lcall	___fsgt
 	mov	r6,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jnz	L017061?
-	ljmp	L017004?
-L017061?:
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x80
-	push	acc
-	mov	a,#0x3F
-	push	acc
-	mov	dpl,_main_left_1_96
-	mov	dph,(_main_left_1_96 + 1)
-	mov	b,(_main_left_1_96 + 2)
-	mov	a,(_main_left_1_96 + 3)
-	lcall	___fslt
-	mov	r6,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r6
-	jz	L017004?
+	jnz	L020061?
+	ljmp	L020004?
+L020061?:
 	mov	a,#0x33
 	push	acc
 	push	acc
 	push	acc
 	mov	a,#0x3F
 	push	acc
-	mov	dpl,_main_right_1_96
-	mov	dph,(_main_right_1_96 + 1)
-	mov	b,(_main_right_1_96 + 2)
-	mov	a,(_main_right_1_96 + 3)
-	lcall	___fsgt
-	mov	r6,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r6
-	jz	L017004?
-	clr	a
-	push	acc
-	push	acc
-	mov	a,#0x80
-	push	acc
-	mov	a,#0x3F
-	push	acc
-	mov	dpl,_main_right_1_96
-	mov	dph,(_main_right_1_96 + 1)
-	mov	b,(_main_right_1_96 + 2)
-	mov	a,(_main_right_1_96 + 3)
+	mov	dpl,_main_left_1_104
+	mov	dph,(_main_left_1_104 + 1)
+	mov	b,(_main_left_1_104 + 2)
+	mov	a,(_main_left_1_104 + 3)
 	lcall	___fslt
 	mov	r6,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jz	L017004?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:289: cur_error = 0;
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0x00
-	mov	(_main_cur_error_1_96 + 3),#0x00
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:290: pwm_left = 100;
+	jz	L020004?
+	mov	a,#0xCD
+	push	acc
+	mov	a,#0xCC
+	push	acc
+	push	acc
+	mov	a,#0x3E
+	push	acc
+	mov	dpl,_main_right_1_104
+	mov	dph,(_main_right_1_104 + 1)
+	mov	b,(_main_right_1_104 + 2)
+	mov	a,(_main_right_1_104 + 3)
+	lcall	___fsgt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jz	L020004?
+	mov	a,#0x33
+	push	acc
+	push	acc
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_main_right_1_104
+	mov	dph,(_main_right_1_104 + 1)
+	mov	b,(_main_right_1_104 + 2)
+	mov	a,(_main_right_1_104 + 3)
+	lcall	___fslt
+	mov	r6,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r6
+	jz	L020004?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:316: cur_error = 0;
+	mov	_main_cur_error_1_104,#0x00
+	mov	(_main_cur_error_1_104 + 1),#0x00
+	mov	(_main_cur_error_1_104 + 2),#0x00
+	mov	(_main_cur_error_1_104 + 3),#0x00
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:317: pwm_left = 100;
 	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:291: pwm_right = 100;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:318: pwm_right = 100;
 	mov	_pwm_right,#0x64
-L017004?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:293: if(1<diff){	
-	push	_main_diff_1_96
-	push	(_main_diff_1_96 + 1)
-	push	(_main_diff_1_96 + 2)
-	push	(_main_diff_1_96 + 3)
+L020004?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:320: if(1<diff){	
+	push	_main_diff_1_104
+	push	(_main_diff_1_104 + 1)
+	push	(_main_diff_1_104 + 2)
+	push	(_main_diff_1_104 + 3)
 	mov	dptr,#0x0000
 	mov	b,#0x80
 	mov	a,#0x3F
@@ -1643,17 +1660,17 @@ L017004?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jz	L017009?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:294: cur_error = 1;
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0x80
-	mov	(_main_cur_error_1_96 + 3),#0x3F
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:295: pwm_left = 100 - cor;
-	push	_main_cor_1_96
-	push	(_main_cor_1_96 + 1)
-	push	(_main_cor_1_96 + 2)
-	push	(_main_cor_1_96 + 3)
+	jz	L020009?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:321: cur_error = 1;
+	mov	_main_cur_error_1_104,#0x00
+	mov	(_main_cur_error_1_104 + 1),#0x00
+	mov	(_main_cur_error_1_104 + 2),#0x80
+	mov	(_main_cur_error_1_104 + 3),#0x3F
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:322: pwm_left = 100 - cor;
+	push	_main_cor_1_104
+	push	(_main_cor_1_104 + 1)
+	push	(_main_cor_1_104 + 2)
+	push	(_main_cor_1_104 + 3)
 	mov	dptr,#0x0000
 	mov	b,#0xC8
 	mov	a,#0x42
@@ -1671,10 +1688,10 @@ L017004?:
 	mov	a,r1
 	lcall	___fs2uchar
 	mov	_pwm_left,dpl
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:296: pwm_right = 100;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:323: pwm_right = 100;
 	mov	_pwm_right,#0x64
-L017009?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:298: if(diff<-1){
+L020009?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:325: if(diff<-1){
 	clr	a
 	push	acc
 	push	acc
@@ -1682,25 +1699,25 @@ L017009?:
 	push	acc
 	mov	a,#0xBF
 	push	acc
-	mov	dpl,_main_diff_1_96
-	mov	dph,(_main_diff_1_96 + 1)
-	mov	b,(_main_diff_1_96 + 2)
-	mov	a,(_main_diff_1_96 + 3)
+	mov	dpl,_main_diff_1_104
+	mov	dph,(_main_diff_1_104 + 1)
+	mov	b,(_main_diff_1_104 + 2)
+	mov	a,(_main_diff_1_104 + 3)
 	lcall	___fslt
 	mov	r6,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jz	L017011?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:299: cur_error= -1;
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0x80
-	mov	(_main_cur_error_1_96 + 3),#0xBF
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:300: pwm_left = 100;
+	jz	L020011?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:326: cur_error= -1;
+	mov	_main_cur_error_1_104,#0x00
+	mov	(_main_cur_error_1_104 + 1),#0x00
+	mov	(_main_cur_error_1_104 + 2),#0x80
+	mov	(_main_cur_error_1_104 + 3),#0xBF
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:327: pwm_left = 100;
 	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:301: pwm_right = 100 + cor;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:328: pwm_right = 100 + cor;
 	clr	a
 	push	acc
 	push	acc
@@ -1708,10 +1725,10 @@ L017009?:
 	push	acc
 	mov	a,#0x42
 	push	acc
-	mov	dpl,_main_cor_1_96
-	mov	dph,(_main_cor_1_96 + 1)
-	mov	b,(_main_cor_1_96 + 2)
-	mov	a,(_main_cor_1_96 + 3)
+	mov	dpl,_main_cor_1_104
+	mov	dph,(_main_cor_1_104 + 1)
+	mov	b,(_main_cor_1_104 + 2)
+	mov	a,(_main_cor_1_104 + 3)
 	lcall	___fsadd
 	mov	r6,dpl
 	mov	r7,dph
@@ -1726,76 +1743,76 @@ L017009?:
 	mov	a,r1
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
-L017011?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:303: if((left < 0.5) && (right < 0.5)){
-	clr	a
+L020011?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:330: if((left < 0.3) && (right < 0.3)){
+	mov	a,#0x9A
+	push	acc
+	mov	a,#0x99
 	push	acc
 	push	acc
+	mov	a,#0x3E
 	push	acc
-	mov	a,#0x3F
-	push	acc
-	mov	dpl,_main_left_1_96
-	mov	dph,(_main_left_1_96 + 1)
-	mov	b,(_main_left_1_96 + 2)
-	mov	a,(_main_left_1_96 + 3)
+	mov	dpl,_main_left_1_104
+	mov	dph,(_main_left_1_104 + 1)
+	mov	b,(_main_left_1_104 + 2)
+	mov	a,(_main_left_1_104 + 3)
 	lcall	___fslt
 	mov	r6,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jnz	L017067?
-	ljmp	L017017?
-L017067?:
-	clr	a
+	jnz	L020067?
+	ljmp	L020017?
+L020067?:
+	mov	a,#0x9A
+	push	acc
+	mov	a,#0x99
 	push	acc
 	push	acc
+	mov	a,#0x3E
 	push	acc
-	mov	a,#0x3F
-	push	acc
-	mov	dpl,_main_right_1_96
-	mov	dph,(_main_right_1_96 + 1)
-	mov	b,(_main_right_1_96 + 2)
-	mov	a,(_main_right_1_96 + 3)
+	mov	dpl,_main_right_1_104
+	mov	dph,(_main_right_1_104 + 1)
+	mov	b,(_main_right_1_104 + 2)
+	mov	a,(_main_right_1_104 + 3)
 	lcall	___fslt
 	mov	r6,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jnz	L017068?
-	ljmp	L017017?
-L017068?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:304: if(pre_error>0){
+	jnz	L020068?
+	ljmp	L020017?
+L020068?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:331: if(pre_error>0){
 	clr	a
 	push	acc
 	push	acc
 	push	acc
 	push	acc
-	mov	dpl,_main_pre_error_1_96
-	mov	dph,(_main_pre_error_1_96 + 1)
-	mov	b,(_main_pre_error_1_96 + 2)
-	mov	a,(_main_pre_error_1_96 + 3)
+	mov	dpl,_main_pre_error_1_104
+	mov	dph,(_main_pre_error_1_104 + 1)
+	mov	b,(_main_pre_error_1_104 + 2)
+	mov	a,(_main_pre_error_1_104 + 3)
 	lcall	___fsgt
 	mov	r6,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r6
-	jz	L017013?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:305: cur_error = 5;
-	mov	_main_cur_error_1_96,#0x00
-	mov	(_main_cur_error_1_96 + 1),#0x00
-	mov	(_main_cur_error_1_96 + 2),#0xA0
-	mov	(_main_cur_error_1_96 + 3),#0x40
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:307: pwm_left = 100;
-	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:308: pwm_right = 100 - cor;
+	jz	L020013?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:332: cur_error = 5;
+	mov	_main_cur_error_1_104,#0x00
+	mov	(_main_cur_error_1_104 + 1),#0x00
+	mov	(_main_cur_error_1_104 + 2),#0xA0
+	mov	(_main_cur_error_1_104 + 3),#0x40
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:333: pwm_left = 100 - cor;
 	push	ar6
-	push	_main_cor_1_96
-	push	(_main_cor_1_96 + 1)
-	push	(_main_cor_1_96 + 2)
-	push	(_main_cor_1_96 + 3)
+	push	_main_cor_1_104
+	push	(_main_cor_1_104 + 1)
+	push	(_main_cor_1_104 + 2)
+	push	(_main_cor_1_104 + 3)
 	mov	dptr,#0x0000
 	mov	b,#0xC8
 	mov	a,#0x42
@@ -1812,20 +1829,22 @@ L017068?:
 	mov	b,r1
 	mov	a,r2
 	lcall	___fs2uchar
-	mov	_pwm_right,dpl
+	mov	_pwm_left,dpl
 	pop	ar6
-L017013?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:310: if(pre_error<=0){
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:334: pwm_right = 100;
+	mov	_pwm_right,#0x64
+L020013?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:336: if(pre_error<=0){
 	mov	a,r6
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:311: cur_error = -5;
-	jnz	L017017?
-	mov	_main_cur_error_1_96,a
-	mov	(_main_cur_error_1_96 + 1),a
-	mov	(_main_cur_error_1_96 + 2),#0xA0
-	mov	(_main_cur_error_1_96 + 3),#0xC0
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:312: pwm_left = 100;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:337: cur_error = -5;
+	jnz	L020017?
+	mov	_main_cur_error_1_104,a
+	mov	(_main_cur_error_1_104 + 1),a
+	mov	(_main_cur_error_1_104 + 2),#0xA0
+	mov	(_main_cur_error_1_104 + 3),#0xC0
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:338: pwm_left = 100;
 	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:313: pwm_right = 100 + cor;
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:339: pwm_right = 100 + cor;
 	clr	a
 	push	acc
 	push	acc
@@ -1833,10 +1852,10 @@ L017013?:
 	push	acc
 	mov	a,#0x42
 	push	acc
-	mov	dpl,_main_cor_1_96
-	mov	dph,(_main_cor_1_96 + 1)
-	mov	b,(_main_cor_1_96 + 2)
-	mov	a,(_main_cor_1_96 + 3)
+	mov	dpl,_main_cor_1_104
+	mov	dph,(_main_cor_1_104 + 1)
+	mov	b,(_main_cor_1_104 + 2)
+	mov	a,(_main_cor_1_104 + 3)
 	lcall	___fsadd
 	mov	r2,dpl
 	mov	r3,dph
@@ -1851,13 +1870,13 @@ L017013?:
 	mov	a,r5
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
-L017017?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:316: pre_error = cur_error;
-	mov	_main_pre_error_1_96,_main_cur_error_1_96
-	mov	(_main_pre_error_1_96 + 1),(_main_cur_error_1_96 + 1)
-	mov	(_main_pre_error_1_96 + 2),(_main_cur_error_1_96 + 2)
-	mov	(_main_pre_error_1_96 + 3),(_main_cur_error_1_96 + 3)
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:317: printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
+L020017?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:342: pre_error = cur_error;
+	mov	_main_pre_error_1_104,_main_cur_error_1_104
+	mov	(_main_pre_error_1_104 + 1),(_main_cur_error_1_104 + 1)
+	mov	(_main_pre_error_1_104 + 2),(_main_cur_error_1_104 + 2)
+	mov	(_main_pre_error_1_104 + 3),(_main_cur_error_1_104 + 3)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:343: printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
 	mov	r2,_pwm_right
 	mov	r3,#0x00
 	mov	r4,_pwm_left
@@ -1866,18 +1885,18 @@ L017017?:
 	push	ar3
 	push	ar4
 	push	ar5
-	push	_main_right_1_96
-	push	(_main_right_1_96 + 1)
-	push	(_main_right_1_96 + 2)
-	push	(_main_right_1_96 + 3)
-	push	_main_left_1_96
-	push	(_main_left_1_96 + 1)
-	push	(_main_left_1_96 + 2)
-	push	(_main_left_1_96 + 3)
-	push	_main_cur_error_1_96
-	push	(_main_cur_error_1_96 + 1)
-	push	(_main_cur_error_1_96 + 2)
-	push	(_main_cur_error_1_96 + 3)
+	push	_main_right_1_104
+	push	(_main_right_1_104 + 1)
+	push	(_main_right_1_104 + 2)
+	push	(_main_right_1_104 + 3)
+	push	_main_left_1_104
+	push	(_main_left_1_104 + 1)
+	push	(_main_left_1_104 + 2)
+	push	(_main_left_1_104 + 3)
+	push	_main_cur_error_1_104
+	push	(_main_cur_error_1_104 + 1)
+	push	(_main_cur_error_1_104 + 2)
+	push	(_main_cur_error_1_104 + 3)
 	mov	a,#__str_2
 	push	acc
 	mov	a,#(__str_2 >> 8)
@@ -1888,200 +1907,183 @@ L017017?:
 	mov	a,sp
 	add	a,#0xed
 	mov	sp,a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:322: if(line_sensor>thresh){
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:346: switch(state){
+	mov	a,#0x01
+	cjne	a,_main_state_1_104,L020071?
+	clr	a
+	cjne	a,(_main_state_1_104 + 1),L020071?
+	sjmp	L020019?
+L020071?:
+	mov	a,#0x02
+	cjne	a,_main_state_1_104,L020072?
+	clr	a
+	cjne	a,(_main_state_1_104 + 1),L020072?
+	sjmp	L020022?
+L020072?:
+	mov	a,#0x03
+	cjne	a,_main_state_1_104,L020073?
+	clr	a
+	cjne	a,(_main_state_1_104 + 1),L020073?
+	ljmp	L020026?
+L020073?:
+	mov	a,#0x04
+	cjne	a,_main_state_1_104,L020074?
+	clr	a
+	cjne	a,(_main_state_1_104 + 1),L020074?
+	ljmp	L020032?
+L020074?:
+	ljmp	L020035?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:347: case 1:
+L020019?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:348: if(line_sensor >= HI_THRESH){
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x20
+	push	acc
+	mov	a,#0x41
+	push	acc
+	mov	dpl,_main_line_sensor_1_104
+	mov	dph,(_main_line_sensor_1_104 + 1)
+	mov	b,(_main_line_sensor_1_104 + 2)
+	mov	a,(_main_line_sensor_1_104 + 3)
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jz	L020075?
+	ljmp	L020035?
+L020075?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:349: state = 2;
+	mov	_main_state_1_104,#0x02
+	clr	a
+	mov	(_main_state_1_104 + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:351: break;				
+	ljmp	L020035?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:352: case 2:
+L020022?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:353: if((LO_THRESH<line_sensor)&&(line_sensor<MID_THRESH)){
+	push	_main_line_sensor_1_104
+	push	(_main_line_sensor_1_104 + 1)
+	push	(_main_line_sensor_1_104 + 2)
+	push	(_main_line_sensor_1_104 + 3)
+	mov	dptr,#(0x00&0x00ff)
+	clr	a
+	mov	b,a
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jnz	L020076?
+	ljmp	L020035?
+L020076?:
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0xA0
+	push	acc
+	mov	a,#0x40
+	push	acc
+	mov	dpl,_main_line_sensor_1_104
+	mov	dph,(_main_line_sensor_1_104 + 1)
+	mov	b,(_main_line_sensor_1_104 + 2)
+	mov	a,(_main_line_sensor_1_104 + 3)
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jnz	L020077?
+	ljmp	L020035?
+L020077?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:354: line_counter ++;
+	inc	_main_line_counter_1_104
+	clr	a
+	cjne	a,_main_line_counter_1_104,L020078?
+	inc	(_main_line_counter_1_104 + 1)
+L020078?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:355: state = 3;
+	mov	_main_state_1_104,#0x03
+	clr	a
+	mov	(_main_state_1_104 + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:357: break;
+	ljmp	L020035?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:358: case 3:
+L020026?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:359: if(line_sensor<=LO_THRESH){
 	clr	a
 	push	acc
 	push	acc
 	push	acc
-	mov	a,#0x40
 	push	acc
-	mov	dpl,_main_line_sensor_1_96
-	mov	dph,(_main_line_sensor_1_96 + 1)
-	mov	b,(_main_line_sensor_1_96 + 2)
-	mov	a,(_main_line_sensor_1_96 + 3)
+	mov	dpl,_main_line_sensor_1_104
+	mov	dph,(_main_line_sensor_1_104 + 1)
+	mov	b,(_main_line_sensor_1_104 + 2)
+	mov	a,(_main_line_sensor_1_104 + 3)
 	lcall	___fsgt
 	mov	r2,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r2
-	jnz	L017071?
-	ljmp	L017036?
-L017071?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:324: if(line_counter == 0){
-	mov	a,_main_line_counter_1_96
-	orl	a,(_main_line_counter_1_96 + 1)
-	jnz	L017020?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:326: line_counter++;
-	inc	_main_line_counter_1_96
-	clr	a
-	cjne	a,_main_line_counter_1_96,L017073?
-	inc	(_main_line_counter_1_96 + 1)
-L017073?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:327: line_counter_flag = 1;
-	setb	_line_counter_flag
-	sjmp	L017021?
-L017020?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:331: line_counter++;  				
-	inc	_main_line_counter_1_96
-	clr	a
-	cjne	a,_main_line_counter_1_96,L017074?
-	inc	(_main_line_counter_1_96 + 1)
-L017074?:
-L017021?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:334: if(line_timer == 2000){
-	mov	a,#0xD0
-	cjne	a,_line_timer,L017023?
-	mov	a,#0x07
-	cjne	a,(_line_timer + 1),L017023?
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:335: line_counter_flag = 0;
-	clr	_line_counter_flag
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:336: line_timer = 0;
-	clr	a
-	mov	_line_timer,a
-	mov	(_line_timer + 1),a
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:337: exec = 1;	  				
-	mov	_main_exec_1_96,#0x01
-	clr	a
-	mov	(_main_exec_1_96 + 1),a
-L017023?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:341: if(exec == 1){
+	jz	L020079?
+	ljmp	L020035?
+L020079?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:360: if(line_counter > 1){
+	clr	c
 	mov	a,#0x01
-	cjne	a,_main_exec_1_96,L017077?
+	subb	a,_main_line_counter_1_104
 	clr	a
-	cjne	a,(_main_exec_1_96 + 1),L017077?
-	sjmp	L017078?
-L017077?:
-	ljmp	L017032?
-L017078?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:342: switch(line_counter){
-	mov	a,#0x02
-	cjne	a,_main_line_counter_1_96,L017079?
+	xrl	a,#0x80
+	mov	b,(_main_line_counter_1_104 + 1)
+	xrl	b,#0x80
+	subb	a,b
+	jnc	L020028?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:362: state = 1;
+	mov	_main_state_1_104,#0x01
 	clr	a
-	cjne	a,(_main_line_counter_1_96 + 1),L017079?
-	sjmp	L017024?
-L017079?:
-	mov	a,#0x03
-	cjne	a,_main_line_counter_1_96,L017080?
+	mov	(_main_state_1_104 + 1),a
+	sjmp	L020029?
+L020028?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:365: state = 4;
+	mov	_main_state_1_104,#0x04
 	clr	a
-	cjne	a,(_main_line_counter_1_96 + 1),L017080?
-	sjmp	L017025?
-L017080?:
-	mov	a,#0x04
-	cjne	a,_main_line_counter_1_96,L017081?
+	mov	(_main_state_1_104 + 1),a
+L020029?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:367: line_counter = 0;
 	clr	a
-	cjne	a,(_main_line_counter_1_96 + 1),L017081?
-	sjmp	L017026?
-L017081?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:343: case 2:
-	sjmp	L017030?
-L017024?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:344: printf("TURNING LEFT \r;");
-	mov	a,#__str_3
-	push	acc
-	mov	a,#(__str_3 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:345: pwm_left 	= 100;
-	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:346: pwm_right 	=  20; 
-	mov	_pwm_right,#0x14
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:347: case 3:
-L017025?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:348: printf("TURNING Right \r;");
-	mov	a,#__str_4
-	push	acc
-	mov	a,#(__str_4 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:349: pwm_left 	= 20;
-	mov	_pwm_left,#0x14
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:350: pwm_right 	=  100;
-	mov	_pwm_right,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:351: case 4:
-L017026?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:352: printf("Starting \r;");
-	mov	a,#__str_5
-	push	acc
-	mov	a,#(__str_5 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:354: pwm_left = 100;
-	mov	_pwm_left,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:355: pwm_right = 100;
-	mov	_pwm_right,#0x64
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:361: }
-L017030?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:362: exec=0;
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:363: line_counter = 0;
+	mov	_main_line_counter_1_104,a
+	mov	(_main_line_counter_1_104 + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:369: break;
+	ljmp	L020035?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:370: case 4:
+L020032?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:372: state = 1;
+	mov	_main_state_1_104,#0x01
 	clr	a
-	mov	_main_exec_1_96,a
-	mov	(_main_exec_1_96 + 1),a
-	mov	_main_line_counter_1_96,a
-	mov	(_main_line_counter_1_96 + 1),a
-L017032?:
-;	C:\Users\r6z8\Documents\GitHub\eece_284\Code\main code.c:365: printf("line counter: %d", line_counter);
-	push	_main_line_counter_1_96
-	push	(_main_line_counter_1_96 + 1)
-	mov	a,#__str_6
-	push	acc
-	mov	a,#(__str_6 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	mov	a,sp
-	add	a,#0xfb
-	mov	sp,a
-	ljmp	L017036?
+	mov	(_main_state_1_104 + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:374: }
+	ljmp	L020035?
 	rseg R_CSEG
 
 	rseg R_XINIT
 
 	rseg R_CONST
 __str_0:
-	db 'V=%5.2f L:%5.2f'
+	db 'L=%5.2f R:%5.2f'
 	db 0x00
 __str_1:
-	db '%02d:%02d R: %5.2f '
+	db 'LM=%d RM=%d'
 	db 0x00
 __str_2:
 	db 'Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor'
 	db ':%d                '
 	db 0x0D
-	db 0x00
-__str_3:
-	db 'TURNING LEFT '
-	db 0x0D
-	db ';'
-	db 0x00
-__str_4:
-	db 'TURNING Right '
-	db 0x0D
-	db ';'
-	db 0x00
-__str_5:
-	db 'Starting '
-	db 0x0D
-	db ';'
-	db 0x00
-__str_6:
-	db 'line counter: %d'
 	db 0x00
 
 	CSEG

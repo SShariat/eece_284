@@ -27,6 +27,12 @@
 
 #define CHARS_PER_LINE 16
 
+#define HI_THRESH 10
+#define MID_THRESH 5
+#define LO_THRESH 0
+
+
+
 
 // The volatile keyword prevents the compiler from optimizing out these variables
 // that are shared between an interrupt service routine and the main code.
@@ -212,23 +218,23 @@ void Timer0ISR (void) interrupt 1{
 			}
 		}
 	}
-	
-	if(line_counter_timer_flag){
-		msLine_Count++;
-		if(msLine_Count==){
-			msLine_Count=0;
-		}
-	}
 }
 
 void display_LCD(void){
 	unsigned char buff[17]; // Need to have enough space in the string for a null character
 	
 	time_update_flag=0;
+	/*
 	sprintf(buff, "V=%5.2f L:%5.2f", (AD1DAT0/255.0)*3.3, (AD1DAT1/255.0)*3.3); // Display the voltage at pin P0.1
 	LCDprint(buff, 1, 1);
 	sprintf(buff, "%02d:%02d R: %5.2f ", mins, secs, (AD1DAT2/255.0)*3.3); // Display the clock
 	LCDprint(buff, 2, 1);
+	*/
+	sprintf(buff, "L=%5.2f R:%5.2f", (AD1DAT1/255.0)*3.3, (AD1DAT2/255.0)*3.3); //Display Left and Right Sensor
+	LCDprint(buff, 1, 1);
+	sprintf(buff, "LM=%d RM=%d", pwm_left, pwm_right); // Display Motor Values
+	LCDprint(buff, 2, 1);
+	
 }
 
 void turn_left(void){
@@ -259,18 +265,20 @@ void main (void){
 	double cur_error =0;
 	double pre_error =0;
 	int thresh = 2;
-	int line_counter = 0;
 	int exec = 0;
 	int start = 1;
-	int time_thresh = 20;
-	
-	
+		
 	//Initializing Reading Sensor Value Variables
 	double left = (AD1DAT1/255.0)*3.3;
 	double right = (AD1DAT2/255.0)*3.3;
 	double line_sensor = (AD1DAT3/255.0)*3.3;
 	double diff = left - right;
 
+	//Initializing Line Counter Code Variables
+	int line_counter = 0;
+	int command = 0;
+	int state = 1;	
+	
 	//Microcontroller Init.
 	InitPorts();
 	LCD_8BIT();
@@ -304,7 +312,7 @@ void main (void){
 		//P-D Controller
 		cor = k_p * cur_error + k_d*abs(cur_error - pre_error)/0.001;
 		
-		if((left > 0.7) && (left < 1) && (right > 0.7) && (right < 1)){
+		if((left > 0.4) && (left < 0.7) && (right > 0.4) && (right < 0.7)){
 			cur_error = 0;
 			pwm_left = 100;
 			pwm_right = 100;
@@ -319,11 +327,11 @@ void main (void){
 			pwm_left = 100;
 			pwm_right = 100 + cor;
 		}
-		if((left < 0.5) && (right < 0.5)){
+		if((left < 0.3) && (right < 0.3)){
 			if(pre_error>0){
 				cur_error = 5;
-				pwm_left = 100;
-				pwm_right = 100 - cor;
+				pwm_left = 100 - cor;
+				pwm_right = 100;
 			}
 			if(pre_error<=0){
 				cur_error = -5;
@@ -333,32 +341,36 @@ void main (void){
 		}
 		pre_error = cur_error;
 		printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
-
-
-  		//Implementing Command Section
-
-		if(line_sensor>thresh){
-  			//If you have not seen a line before
-			if(line_counter == 0){
-				line_counter_timer_flag = 1;
-				line_counter++;
-			}
-			if(line_counter_timer_flag == 0){
-				line_counter++;
-			}
-			if(time_thresh< timer){
-				switch(line_counter){
-					case 2:
-						turn_left();
-						line_counter = 0;
-					case 3:
-						turn_left();
-						line_counter = 0;
-					case 4:
-						stop();
+	
+	//State Diagram
+	switch(state){
+		case 1:
+			if(line_sensor >= HI_THRESH){
+				state = 2;
 				}
+			break;				
+		case 2:
+			if((LO_THRESH<line_sensor)&&(line_sensor<MID_THRESH)){
+				line_counter ++;
+				state = 3;
 			}
-			printf("line counter: %d", line_counter);
-		}
+			break;
+		case 3:
+			if(line_sensor<=LO_THRESH){
+				if(line_counter > 1){
+					command = line_counter;
+					state = 1;
+				}
+				else{
+					state = 4;
+				}
+				line_counter = 0;
+			}
+			break;
+		case 4:
+			//execute(command);
+			state = 1;
+			break;
 	}
+}
 }
