@@ -33,8 +33,9 @@
 
 //PID Control Parameters
 //KP = 25
+//KD = 5
 #define KP 25
-#define KD 5
+#define KD 0
 
 
 
@@ -282,16 +283,16 @@ void stop(void){
 void execute(int command){
 	switch(command){
 		case 2:
-			turn_left();
+		turn_left();
 		case 3:
-			turn_right();
+		turn_right();
 		case 4:
-			if(start == 1){
-				start = 0;
-			}
-			else{
-				stop();
-			}
+		if(start == 1){
+			start = 0;
+		}
+		else{
+			stop();
+		}
 	}
 }
 
@@ -301,7 +302,7 @@ void main (void){
 	double cur_error =0;
 	double pre_error =0;
 	int thresh = 2;
-		
+
 	//Initializing Reading Sensor Value Variables
 	double left = (AD1DAT1/255.0)*3.3;
 	double right = (AD1DAT2/255.0)*3.3;
@@ -330,12 +331,12 @@ void main (void){
 			port 0_3: AD1DAT2
 			port 0_4: AD1DAT3
 		*/
-		
+
 		//Reading Values of for PID
-		left = (AD1DAT1/255.0)*3.3;
-		right = (AD1DAT2/255.0)*3.3;
-		line_sensor = (AD1DAT3/255.0)*3.3;
-		diff = left - right;
+			left = (AD1DAT1/255.0)*3.3;
+			right = (AD1DAT2/255.0)*3.3;
+			line_sensor = (AD1DAT3/255.0)*3.3;
+			diff = left - right;
 
 		//Timer Functionality
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
@@ -344,41 +345,31 @@ void main (void){
 		}
 
 		//P-D Controller
-		cor = KP * cur_error + KD*abs(cur_error - pre_error);
+		cor = KP * cur_error + KD*(cur_error - pre_error);
 		
-		if((left > 0.85) && (left < 1.15) && (right > 0.85) && (right < 1.15)){
+		if((0.4 < left) && (left < 0.7) && (0.4 < right) && (right < 0.7)){
 			cur_error = 0;
 			pwm_left = 100;
 			pwm_right = 100;
 		}
 		if(0.5<diff){	
 			cur_error = 3;
-		 	pwm_left = 100 - cor;
-		 	pwm_right = 100;
-		}
-		if(diff<-0.5){
-		 	cur_error= -3;
-			pwm_left = 100;
-		 	pwm_right = 100 + cor;
-		}
-		if(1<diff){	
-			cur_error = 5;
 			pwm_left = 100 - cor;
 			pwm_right = 100;
 		}
-		if(diff<-1){
-			cur_error= -5;
+		if(diff<-0.5){
+			cur_error= -3;
 			pwm_left = 100;
 			pwm_right = 100 + cor;
-		}		
+		}
 		
-		if((left < 0.8) && (right < 0.8)){
+		if((left < 0.4) && (right < 0.4)){
 			if(pre_error>0){
 				cur_error = 5;
 				pwm_left = 100 - cor;
 				pwm_right = 100;
 			}
-			if(pre_error<=0){
+			if(pre_error<0){
 				cur_error = -5;
 				pwm_left = 100;
 				pwm_right = 100 + cor;
@@ -386,21 +377,21 @@ void main (void){
 		}	
 		pre_error = cur_error;
 		printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
-	
+
 	//State Diagram
-	switch(state){
-		case 1:
+		switch(state){
+			case 1:
 			if(line_sensor >= HI_THRESH){
 				state = 2;
-				}
+			}
 			break;				
-		case 2:
+			case 2:
 			if((LO_THRESH<line_sensor)&&(line_sensor<MID_THRESH)){
 				line_counter++;
 				state = 3;
 			}
 			break;
-		case 3:
+			case 3:
 			if(line_sensor<=LO_THRESH){
 				if(line_counter > 1){
 					command = line_counter;
@@ -414,10 +405,10 @@ void main (void){
 			else
 				state = 1;
 			break;
-		case 4:
+			case 4:
 			execute(command);
 			state = 1;
 			break;
+		}
 	}
-}
 }
