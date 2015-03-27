@@ -31,20 +31,24 @@
 #define MID_THRESH 5
 #define LO_THRESH 0
 
+//PID Control Parameters
+//KP = 25
+#define KP 25
+#define KD 5
 
 
 
 // The volatile keyword prevents the compiler from optimizing out these variables
 // that are shared between an interrupt service routine and the main code.
-volatile int msLine_Count=0;
 volatile int msCount=0; // Volatiles can be changed by stuff outside our program, like memory registers
 volatile unsigned char secs=0, mins=0; // They are like global variables, kinda 
 volatile bit time_update_flag=0;
-volatile bit line_counter_flag=0;
 volatile unsigned char pwmcount;
 volatile unsigned char pwm_left;
 volatile unsigned char pwm_right;
-volatile int line_timer = 0;
+volatile int turn_timer = 0;
+volatile bit turn_time_update=0;
+volatile bit start = 1;
 
 void InitPorts(void)
 {
@@ -218,6 +222,10 @@ void Timer0ISR (void) interrupt 1{
 			}
 		}
 	}
+
+	if(turn_time_update == 1){
+		turn_timer++;
+	}
 }
 
 void display_LCD(void){
@@ -238,15 +246,29 @@ void display_LCD(void){
 }
 
 void turn_left(void){
+	turn_timer = 0;
+	turn_time_update = 1;
 	while(1){
 		pwm_left = 20;
 		pwm_right = 100;
+		if(turn_timer == 2000){
+			turn_time_update = 0;
+			turn_timer = 0;
+			break;
+		}
 	}
 }
 void turn_right(void){
+	turn_timer = 0;
+	turn_time_update = 1;
 	while(1){
 		pwm_left = 100;
 		pwm_right = 20;
+		if(turn_timer == 2000){
+			turn_time_update = 0;
+			turn_timer = 0;
+			break;
+		}
 	}
 }
 
@@ -257,16 +279,28 @@ void stop(void){
 	}
 }
 
+void execute(int command){
+	switch(command){
+		case 2:
+			turn_left();
+		case 3:
+			turn_right();
+		case 4:
+			if(start == 1){
+				start = 0;
+			}
+			else{
+				stop();
+			}
+	}
+}
+
 void main (void){
 	//Variable Declaration
-	int k_p=20;
-	int k_d=1;
 	double cor = 0;
 	double cur_error =0;
 	double pre_error =0;
 	int thresh = 2;
-	int exec = 0;
-	int start = 1;
 		
 	//Initializing Reading Sensor Value Variables
 	double left = (AD1DAT1/255.0)*3.3;
@@ -310,24 +344,35 @@ void main (void){
 		}
 
 		//P-D Controller
-		cor = k_p * cur_error + k_d*abs(cur_error - pre_error)/0.001;
+		cor = KP * cur_error + KD*abs(cur_error - pre_error);
 		
-		if((left > 0.4) && (left < 0.7) && (right > 0.4) && (right < 0.7)){
+		if((left > 0.85) && (left < 1.15) && (right > 0.85) && (right < 1.15)){
 			cur_error = 0;
 			pwm_left = 100;
 			pwm_right = 100;
 		}
+		if(0.5<diff){	
+			cur_error = 3;
+		 	pwm_left = 100 - cor;
+		 	pwm_right = 100;
+		}
+		if(diff<-0.5){
+		 	cur_error= -3;
+			pwm_left = 100;
+		 	pwm_right = 100 + cor;
+		}
 		if(1<diff){	
-			cur_error = 1;
+			cur_error = 5;
 			pwm_left = 100 - cor;
 			pwm_right = 100;
 		}
 		if(diff<-1){
-			cur_error= -1;
+			cur_error= -5;
 			pwm_left = 100;
 			pwm_right = 100 + cor;
-		}
-		if((left < 0.3) && (right < 0.3)){
+		}		
+		
+		if((left < 0.8) && (right < 0.8)){
 			if(pre_error>0){
 				cur_error = 5;
 				pwm_left = 100 - cor;
@@ -338,7 +383,7 @@ void main (void){
 				pwm_left = 100;
 				pwm_right = 100 + cor;
 			}
-		}
+		}	
 		pre_error = cur_error;
 		printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
 	
@@ -351,7 +396,7 @@ void main (void){
 			break;				
 		case 2:
 			if((LO_THRESH<line_sensor)&&(line_sensor<MID_THRESH)){
-				line_counter ++;
+				line_counter++;
 				state = 3;
 			}
 			break;
@@ -366,9 +411,11 @@ void main (void){
 				}
 				line_counter = 0;
 			}
+			else
+				state = 1;
 			break;
 		case 4:
-			//execute(command);
+			execute(command);
 			state = 1;
 			break;
 	}
