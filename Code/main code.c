@@ -33,8 +33,8 @@
 
 //PID Control Parameters
 //KP = 25
-#define KP 25
-#define KD 5
+#define KP 40
+#define KD 0
 
 
 
@@ -342,48 +342,44 @@ void main (void){
 		{
 			display_LCD();
 		}
-
+				
 		//P-D Controller
-		cor = KP * cur_error + KD*abs(cur_error - pre_error);
 		
-		if((left > 0.85) && (left < 1.15) && (right > 0.85) && (right < 1.15)){
+		if((left > 0.4) && (left < 0.7) && (right > 0.4) && (right < 0.7)){
 			cur_error = 0;
 			pwm_left = 100;
 			pwm_right = 100;
 		}
-		if(0.5<diff){	
-			cur_error = 3;
+		if(0.3<diff){	
+			cur_error = 1;
+			cor = KP * cur_error + KD*(cur_error - pre_error);
 		 	pwm_left = 100 - cor;
 		 	pwm_right = 100;
 		}
-		if(diff<-0.5){
-		 	cur_error= -3;
+		if(diff<-0.3){
+		 	cur_error= -1;
+		 	cor = KP * cur_error + KD*(cur_error - pre_error);
 			pwm_left = 100;
 		 	pwm_right = 100 + cor;
 		}
-		if(1<diff){	
-			cur_error = 5;
-			pwm_left = 100 - cor;
-			pwm_right = 100;
-		}
-		if(diff<-1){
-			cur_error= -5;
-			pwm_left = 100;
-			pwm_right = 100 + cor;
-		}		
-		
-		if((left < 0.8) && (right < 0.8)){
-			if(pre_error>0){
-				cur_error = 5;
-				pwm_left = 100 - cor;
+		if((left < 0.3) && (right < 0.3)){
+			if(pre_error > 0){
+				//cur_error = 5;
+				//cor = KP * cur_error + KD*(cur_error - pre_error);
+				//pwm_left = 100 - cor;
+				pwm_left = 0;
 				pwm_right = 100;
 			}
-			if(pre_error<=0){
-				cur_error = -5;
-				pwm_left = 100;
+			
+			if(pre_error < 0){
+				//cur_error = -5;
+				//cor = KP * cur_error + KD*(cur_error - pre_error);
+				//pwm_left = 100;
 				pwm_right = 100 + cor;
+				pwm_right = 0;
 			}
-		}	
+		}
+	
 		pre_error = cur_error;
 		printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
 	
