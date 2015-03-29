@@ -1,7 +1,7 @@
 0000              1   ;--------------------------------------------------------
 0000              2   ; File Created by C51
 0000              3   ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-0000              4   ; This file was generated Sun Mar 29 09:06:04 2015
+0000              4   ; This file was generated Sun Mar 29 10:59:17 2015
 0000              5   ;--------------------------------------------------------
                   5   $name main_code
                   6   $optc51 --model-small
@@ -461,21 +461,21 @@
 0023            461            ds 4
 0027            462   _main_pre_error_1_114:
 0027            463            ds 4
-002B            464   _main_right_1_114:
+002B            464   _main_left_1_114:
 002B            465            ds 4
-002F            466   _main_line_sensor_1_114:
+002F            466   _main_right_1_114:
 002F            467            ds 4
-0033            468   _main_diff_1_114:
+0033            468   _main_line_sensor_1_114:
 0033            469            ds 4
-0037            470   _main_line_counter_1_114:
-0037            471            ds 2
-0039            472   _main_command_1_114:
-0039            473            ds 2
-003B            474   _main_state_1_114:
-003B            475            ds 2
-003D            476   ;--------------------------------------------------------
-003D            477   ; overlayable items in internal ram 
-003D            478   ;--------------------------------------------------------
+0037            470   _main_diff_1_114:
+0037            471            ds 4
+003B            472   _main_line_counter_1_114:
+003B            473            ds 2
+003D            474   _main_command_1_114:
+003D            475            ds 2
+003F            476   ;--------------------------------------------------------
+003F            477   ; overlayable items in internal ram 
+003F            478   ;--------------------------------------------------------
 0000            479            rseg R_OSEG
 0000            480   ;--------------------------------------------------------
 0000            481   ; indirectly addressable internal ram data
@@ -1099,10 +1099,10 @@ FFBF            564   ;--------------------------------------------------------
 0200 E4        1099            clr     a
 0201 3549      1100            addc    a,(_action_timer + 1)
 0203 F549      1101            mov     (_action_timer + 1),a
-0205           1102   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:235: if(action_timer == 20000){
-0205 7420      1103            mov     a,#0x20
+0205           1102   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:235: if(action_timer == 5000){
+0205 7488      1103            mov     a,#0x88
 0207 B548D8    1104            cjne    a,_action_timer,L015015?
-020A 744E      1105            mov     a,#0x4E
+020A 7413      1105            mov     a,#0x13
 020C B549D8    1106            cjne    a,(_action_timer + 1),L015015?
 020F           1107   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:236: action_timer = 0;
 020F E4        1108            clr     a
@@ -1365,13 +1365,13 @@ FFBF            564   ;--------------------------------------------------------
 0355           1365   ;cur_error                 Allocated with name '_main_cur_error_1_114'
 0355           1366   ;pre_error                 Allocated with name '_main_pre_error_1_114'
 0355           1367   ;thresh                    Allocated to registers 
-0355           1368   ;left                      Allocated to registers r2 r3 r4 r5 
+0355           1368   ;left                      Allocated with name '_main_left_1_114'
 0355           1369   ;right                     Allocated with name '_main_right_1_114'
 0355           1370   ;line_sensor               Allocated with name '_main_line_sensor_1_114'
 0355           1371   ;diff                      Allocated with name '_main_diff_1_114'
 0355           1372   ;line_counter              Allocated with name '_main_line_counter_1_114'
 0355           1373   ;command                   Allocated with name '_main_command_1_114'
-0355           1374   ;state                     Allocated with name '_main_state_1_114'
+0355           1374   ;state                     Allocated to registers r6 r7 
 0355           1375   ;------------------------------------------------------------
 0355           1376   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:316: void main (void){
 0355           1377   ;        -----------------------------------------
@@ -1393,942 +1393,909 @@ FFBF            564   ;--------------------------------------------------------
 0364           1393   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:330: int line_counter = 0;
 0364           1394   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:331: int command = 0;
 0364 E4        1395            clr     a
-0365 F5B8      1396            mov     _main_line_counter_1_114,a
-0367 F5B9      1397            mov     (_main_line_counter_1_114 + 1),a
-0369 F508      1398            mov     _main_command_1_114,a
-036B F509      1399            mov     (_main_command_1_114 + 1),a
+0365 F508      1396            mov     _main_line_counter_1_114,a
+0367 F509      1397            mov     (_main_line_counter_1_114 + 1),a
+0369 F558      1398            mov     _main_command_1_114,a
+036B F559      1399            mov     (_main_command_1_114 + 1),a
 036D           1400   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:332: int state = 1;  
-036D 755801    1401            mov     _main_state_1_114,#0x01
-0370 E4        1402            clr     a
-0371 F559      1403            mov     (_main_state_1_114 + 1),a
-0373           1404   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:335: InitPorts();
-0373 120100    1405            lcall   _InitPorts
-0376           1406   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:336: LCD_8BIT();
-0376 120100    1407            lcall   _LCD_8BIT
-0379           1408   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:337: InitSerialPort();
-0379 120100    1409            lcall   _InitSerialPort
-037C           1410   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:338: InitADC();
-037C 120100    1411            lcall   _InitADC
-037F           1412   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:339: InitTimer0();
-037F 120100    1413            lcall   _InitTimer0
-0382           1414   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:342: pre_error = 0;
-0382 757800    1415            mov     _main_pre_error_1_114,#0x00
-0385 757900    1416            mov     (_main_pre_error_1_114 + 1),#0x00
-0388 757A00    1417            mov     (_main_pre_error_1_114 + 2),#0x00
-038B 757B00    1418            mov     (_main_pre_error_1_114 + 3),#0x00
-038E           1419   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:343: while(1)
-038E           1420   L021041?:
-038E           1421   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:353: left = (AD1DAT1/255.0)*3.3;
-038E 85D682    1422            mov     dpl,_AD1DAT1
-0391 120100    1423            lcall   ___uchar2fs
-0394 AA82      1424            mov     r2,dpl
-0396 AB83      1425            mov     r3,dph
-0398 ACF0      1426            mov     r4,b
-039A FD        1427            mov     r5,a
-039B E4        1428            clr     a
-039C C0E0      1429            push    acc
-039E C0E0      1430            push    acc
-03A0 747F      1431            mov     a,#0x7F
-03A2 C0E0      1432            push    acc
-03A4 7443      1433            mov     a,#0x43
+036D 7E01      1401            mov     r6,#0x01
+036F 7F00      1402            mov     r7,#0x00
+0371           1403   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:335: InitPorts();
+0371 C006      1404            push    ar6
+0373 C007      1405            push    ar7
+0375 120100    1406            lcall   _InitPorts
+0378           1407   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:336: LCD_8BIT();
+0378 120100    1408            lcall   _LCD_8BIT
+037B           1409   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:337: InitSerialPort();
+037B 120100    1410            lcall   _InitSerialPort
+037E           1411   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:338: InitADC();
+037E 120100    1412            lcall   _InitADC
+0381           1413   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:339: InitTimer0();
+0381 120100    1414            lcall   _InitTimer0
+0384 D007      1415            pop     ar7
+0386 D006      1416            pop     ar6
+0388           1417   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:342: pre_error = 0;
+0388 757800    1418            mov     _main_pre_error_1_114,#0x00
+038B 757900    1419            mov     (_main_pre_error_1_114 + 1),#0x00
+038E 757A00    1420            mov     (_main_pre_error_1_114 + 2),#0x00
+0391 757B00    1421            mov     (_main_pre_error_1_114 + 3),#0x00
+0394           1422   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:343: while(1)
+0394           1423   L021036?:
+0394           1424   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:353: left = (AD1DAT1/255.0)*3.3;
+0394 85D682    1425            mov     dpl,_AD1DAT1
+0397 C006      1426            push    ar6
+0399 C007      1427            push    ar7
+039B 120100    1428            lcall   ___uchar2fs
+039E AA82      1429            mov     r2,dpl
+03A0 AB83      1430            mov     r3,dph
+03A2 ACF0      1431            mov     r4,b
+03A4 FD        1432            mov     r5,a
+03A5 E4        1433            clr     a
 03A6 C0E0      1434            push    acc
-03A8 8A82      1435            mov     dpl,r2
-03AA 8B83      1436            mov     dph,r3
-03AC 8CF0      1437            mov     b,r4
-03AE ED        1438            mov     a,r5
-03AF 120100    1439            lcall   ___fsdiv
-03B2 AA82      1440            mov     r2,dpl
-03B4 AB83      1441            mov     r3,dph
-03B6 ACF0      1442            mov     r4,b
-03B8 FD        1443            mov     r5,a
-03B9 E581      1444            mov     a,sp
-03BB 24FC      1445            add     a,#0xfc
-03BD F581      1446            mov     sp,a
-03BF C002      1447            push    ar2
-03C1 C003      1448            push    ar3
-03C3 C004      1449            push    ar4
-03C5 C005      1450            push    ar5
-03C7 903333    1451            mov     dptr,#0x3333
-03CA 75F053    1452            mov     b,#0x53
-03CD 7440      1453            mov     a,#0x40
-03CF 120100    1454            lcall   ___fsmul
-03D2 AA82      1455            mov     r2,dpl
-03D4 AB83      1456            mov     r3,dph
-03D6 ACF0      1457            mov     r4,b
-03D8 FD        1458            mov     r5,a
-03D9 E581      1459            mov     a,sp
-03DB 24FC      1460            add     a,#0xfc
-03DD F581      1461            mov     sp,a
-03DF           1462   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:354: right = (AD1DAT2/255.0)*3.3;
-03DF 85D782    1463            mov     dpl,_AD1DAT2
-03E2 C002      1464            push    ar2
-03E4 C003      1465            push    ar3
-03E6 C004      1466            push    ar4
-03E8 C005      1467            push    ar5
-03EA 120100    1468            lcall   ___uchar2fs
-03ED A882      1469            mov     r0,dpl
-03EF A983      1470            mov     r1,dph
-03F1 AEF0      1471            mov     r6,b
-03F3 FF        1472            mov     r7,a
-03F4 E4        1473            clr     a
-03F5 C0E0      1474            push    acc
-03F7 C0E0      1475            push    acc
-03F9 747F      1476            mov     a,#0x7F
-03FB C0E0      1477            push    acc
-03FD 7443      1478            mov     a,#0x43
-03FF C0E0      1479            push    acc
-0401 8882      1480            mov     dpl,r0
-0403 8983      1481            mov     dph,r1
-0405 8EF0      1482            mov     b,r6
-0407 EF        1483            mov     a,r7
-0408 120100    1484            lcall   ___fsdiv
-040B AE82      1485            mov     r6,dpl
-040D AF83      1486            mov     r7,dph
-040F A8F0      1487            mov     r0,b
-0411 F9        1488            mov     r1,a
-0412 E581      1489            mov     a,sp
-0414 24FC      1490            add     a,#0xfc
-0416 F581      1491            mov     sp,a
-0418 C006      1492            push    ar6
-041A C007      1493            push    ar7
-041C C000      1494            push    ar0
-041E C001      1495            push    ar1
-0420 903333    1496            mov     dptr,#0x3333
-0423 75F053    1497            mov     b,#0x53
-0426 7440      1498            mov     a,#0x40
-0428 120100    1499            lcall   ___fsmul
-042B 8582C8    1500            mov     _main_right_1_114,dpl
-042E 8583C9    1501            mov     (_main_right_1_114 + 1),dph
-0431 85F0CA    1502            mov     (_main_right_1_114 + 2),b
-0434 F5CB      1503            mov     (_main_right_1_114 + 3),a
-0436 E581      1504            mov     a,sp
-0438 24FC      1505            add     a,#0xfc
-043A F581      1506            mov     sp,a
-043C           1507   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:355: line_sensor = (AD1DAT3/255.0)*3.3;
-043C 85F582    1508            mov     dpl,_AD1DAT3
-043F 120100    1509            lcall   ___uchar2fs
-0442 AE82      1510            mov     r6,dpl
-0444 AF83      1511            mov     r7,dph
-0446 A8F0      1512            mov     r0,b
-0448 F9        1513            mov     r1,a
-0449 E4        1514            clr     a
-044A C0E0      1515            push    acc
-044C C0E0      1516            push    acc
-044E 747F      1517            mov     a,#0x7F
-0450 C0E0      1518            push    acc
-0452 7443      1519            mov     a,#0x43
-0454 C0E0      1520            push    acc
-0456 8E82      1521            mov     dpl,r6
-0458 8F83      1522            mov     dph,r7
-045A 88F0      1523            mov     b,r0
-045C E9        1524            mov     a,r1
-045D 120100    1525            lcall   ___fsdiv
-0460 AE82      1526            mov     r6,dpl
-0462 AF83      1527            mov     r7,dph
-0464 A8F0      1528            mov     r0,b
-0466 F9        1529            mov     r1,a
-0467 E581      1530            mov     a,sp
-0469 24FC      1531            add     a,#0xfc
-046B F581      1532            mov     sp,a
-046D C006      1533            push    ar6
-046F C007      1534            push    ar7
-0471 C000      1535            push    ar0
-0473 C001      1536            push    ar1
-0475 903333    1537            mov     dptr,#0x3333
-0478 75F053    1538            mov     b,#0x53
-047B 7440      1539            mov     a,#0x40
-047D 120100    1540            lcall   ___fsmul
-0480 858218    1541            mov     _main_line_sensor_1_114,dpl
-0483 858319    1542            mov     (_main_line_sensor_1_114 + 1),dph
-0486 85F01A    1543            mov     (_main_line_sensor_1_114 + 2),b
-0489 F51B      1544            mov     (_main_line_sensor_1_114 + 3),a
-048B E581      1545            mov     a,sp
-048D 24FC      1546            add     a,#0xfc
-048F F581      1547            mov     sp,a
-0491 D005      1548            pop     ar5
-0493 D004      1549            pop     ar4
-0495 D003      1550            pop     ar3
-0497 D002      1551            pop     ar2
-0499           1552   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:356: diff = left - right;
-0499 C002      1553            push    ar2
-049B C003      1554            push    ar3
-049D C004      1555            push    ar4
-049F C005      1556            push    ar5
-04A1 C0C8      1557            push    _main_right_1_114
-04A3 C0C9      1558            push    (_main_right_1_114 + 1)
-04A5 C0CA      1559            push    (_main_right_1_114 + 2)
-04A7 C0CB      1560            push    (_main_right_1_114 + 3)
-04A9 8A82      1561            mov     dpl,r2
-04AB 8B83      1562            mov     dph,r3
-04AD 8CF0      1563            mov     b,r4
-04AF ED        1564            mov     a,r5
-04B0 120100    1565            lcall   ___fssub
-04B3 858268    1566            mov     _main_diff_1_114,dpl
-04B6 858369    1567            mov     (_main_diff_1_114 + 1),dph
-04B9 85F06A    1568            mov     (_main_diff_1_114 + 2),b
-04BC F56B      1569            mov     (_main_diff_1_114 + 3),a
-04BE E581      1570            mov     a,sp
-04C0 24FC      1571            add     a,#0xfc
-04C2 F581      1572            mov     sp,a
-04C4 D005      1573            pop     ar5
-04C6 D004      1574            pop     ar4
-04C8 D003      1575            pop     ar3
-04CA D002      1576            pop     ar2
-04CC           1577   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:359: if(time_update_flag==1) // If the clock has been updated, refresh the display
-04CC 307818    1578            jnb     _time_update_flag,L021002?
-04CF           1579   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:361: display_LCD();
-04CF C002      1580            push    ar2
-04D1 C003      1581            push    ar3
-04D3 C004      1582            push    ar4
-04D5 C005      1583            push    ar5
-04D7 120100    1584            lcall   _display_LCD
-04DA D005      1585            pop     ar5
-04DC D004      1586            pop     ar4
-04DE D003      1587            pop     ar3
-04E0 D002      1588            pop     ar2
-04E2           1589   L021002?:
-04E2           1590   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:365: cor = KP * cur_error + KD*(cur_error - pre_error);
-04E2 C002      1591            push    ar2
-04E4 C003      1592            push    ar3
-04E6 C004      1593            push    ar4
-04E8 C005      1594            push    ar5
-04EA C028      1595            push    _main_cur_error_1_114
-04EC C029      1596            push    (_main_cur_error_1_114 + 1)
-04EE C02A      1597            push    (_main_cur_error_1_114 + 2)
-04F0 C02B      1598            push    (_main_cur_error_1_114 + 3)
-04F2 900000    1599            mov     dptr,#0x0000
-04F5 75F0C8    1600            mov     b,#0xC8
-04F8 7441      1601            mov     a,#0x41
-04FA 120100    1602            lcall   ___fsmul
-04FD 8582D8    1603            mov     _main_cor_1_114,dpl
-0500 8583D9    1604            mov     (_main_cor_1_114 + 1),dph
-0503 85F0DA    1605            mov     (_main_cor_1_114 + 2),b
-0506 F5DB      1606            mov     (_main_cor_1_114 + 3),a
-0508 E581      1607            mov     a,sp
-050A 24FC      1608            add     a,#0xfc
-050C F581      1609            mov     sp,a
-050E D005      1610            pop     ar5
-0510 D004      1611            pop     ar4
-0512 D003      1612            pop     ar3
-0514 D002      1613            pop     ar2
-0516           1614   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:367: if((0.4 < left) && (left < 0.7) && (0.4 < right) && (right < 0.7)){
-0516 C002      1615            push    ar2
-0518 C003      1616            push    ar3
-051A C004      1617            push    ar4
-051C C005      1618            push    ar5
-051E C002      1619            push    ar2
-0520 C003      1620            push    ar3
-0522 C004      1621            push    ar4
-0524 C005      1622            push    ar5
-0526 90CCCD    1623            mov     dptr,#0xCCCD
-0529 75F0CC    1624            mov     b,#0xCC
-052C 743E      1625            mov     a,#0x3E
-052E 120100    1626            lcall   ___fslt
-0531 AE82      1627            mov     r6,dpl
-0533 E581      1628            mov     a,sp
-0535 24FC      1629            add     a,#0xfc
-0537 F581      1630            mov     sp,a
-0539 D005      1631            pop     ar5
-053B D004      1632            pop     ar4
-053D D003      1633            pop     ar3
-053F D002      1634            pop     ar2
-0541 EE        1635            mov     a,r6
-0542 7001      1636            jnz     L021070?
-0544 020100    1637            ljmp    L021004?
-0547           1638   L021070?:
-0547 C002      1639            push    ar2
-0549 C003      1640            push    ar3
-054B C004      1641            push    ar4
-054D C005      1642            push    ar5
-054F 7433      1643            mov     a,#0x33
-0551 C0E0      1644            push    acc
-0553 C0E0      1645            push    acc
-0555 C0E0      1646            push    acc
-0557 743F      1647            mov     a,#0x3F
-0559 C0E0      1648            push    acc
-055B 8A82      1649            mov     dpl,r2
-055D 8B83      1650            mov     dph,r3
-055F 8CF0      1651            mov     b,r4
-0561 ED        1652            mov     a,r5
-0562 120100    1653            lcall   ___fslt
-0565 AE82      1654            mov     r6,dpl
-0567 E581      1655            mov     a,sp
-0569 24FC      1656            add     a,#0xfc
-056B F581      1657            mov     sp,a
-056D D005      1658            pop     ar5
-056F D004      1659            pop     ar4
-0571 D003      1660            pop     ar3
-0573 D002      1661            pop     ar2
-0575 EE        1662            mov     a,r6
-0576 6001      1663            jz      L021004?
-0578 C002      1664            push    ar2
-057A C003      1665            push    ar3
-057C C004      1666            push    ar4
-057E C005      1667            push    ar5
-0580 C0C8      1668            push    _main_right_1_114
-0582 C0C9      1669            push    (_main_right_1_114 + 1)
-0584 C0CA      1670            push    (_main_right_1_114 + 2)
-0586 C0CB      1671            push    (_main_right_1_114 + 3)
-0588 90CCCD    1672            mov     dptr,#0xCCCD
-058B 75F0CC    1673            mov     b,#0xCC
-058E 743E      1674            mov     a,#0x3E
-0590 120100    1675            lcall   ___fslt
-0593 AE82      1676            mov     r6,dpl
-0595 E581      1677            mov     a,sp
-0597 24FC      1678            add     a,#0xfc
-0599 F581      1679            mov     sp,a
-059B D005      1680            pop     ar5
-059D D004      1681            pop     ar4
-059F D003      1682            pop     ar3
-05A1 D002      1683            pop     ar2
-05A3 EE        1684            mov     a,r6
-05A4 6001      1685            jz      L021004?
-05A6 C002      1686            push    ar2
-05A8 C003      1687            push    ar3
-05AA C004      1688            push    ar4
-05AC C005      1689            push    ar5
-05AE 7433      1690            mov     a,#0x33
-05B0 C0E0      1691            push    acc
-05B2 C0E0      1692            push    acc
-05B4 C0E0      1693            push    acc
-05B6 743F      1694            mov     a,#0x3F
-05B8 C0E0      1695            push    acc
-05BA 85C882    1696            mov     dpl,_main_right_1_114
-05BD 85C983    1697            mov     dph,(_main_right_1_114 + 1)
-05C0 85CAF0    1698            mov     b,(_main_right_1_114 + 2)
-05C3 E5CB      1699            mov     a,(_main_right_1_114 + 3)
-05C5 120100    1700            lcall   ___fslt
-05C8 AE82      1701            mov     r6,dpl
-05CA E581      1702            mov     a,sp
-05CC 24FC      1703            add     a,#0xfc
-05CE F581      1704            mov     sp,a
-05D0 D005      1705            pop     ar5
-05D2 D004      1706            pop     ar4
-05D4 D003      1707            pop     ar3
-05D6 D002      1708            pop     ar2
-05D8 EE        1709            mov     a,r6
-05D9 6001      1710            jz      L021004?
-05DB           1711   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:368: cur_error = 0;
-05DB 752800    1712            mov     _main_cur_error_1_114,#0x00
-05DE 752900    1713            mov     (_main_cur_error_1_114 + 1),#0x00
-05E1 752A00    1714            mov     (_main_cur_error_1_114 + 2),#0x00
-05E4 752B00    1715            mov     (_main_cur_error_1_114 + 3),#0x00
-05E7           1716   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:369: pwm_left = 100;
-05E7 750864    1717            mov     _pwm_left,#0x64
-05EA           1718   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:370: pwm_right = 100;
-05EA 75C864    1719            mov     _pwm_right,#0x64
-05ED           1720   L021004?:
-05ED           1721   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:372: if(0.5<diff){   
-05ED C002      1722            push    ar2
-05EF C003      1723            push    ar3
-05F1 C004      1724            push    ar4
-05F3 C005      1725            push    ar5
-05F5 C068      1726            push    _main_diff_1_114
-05F7 C069      1727            push    (_main_diff_1_114 + 1)
-05F9 C06A      1728            push    (_main_diff_1_114 + 2)
-05FB C06B      1729            push    (_main_diff_1_114 + 3)
-05FD 900000    1730            mov     dptr,#(0x00&0x00ff)
-0600 E4        1731            clr     a
-0601 F5F0      1732            mov     b,a
-0603 743F      1733            mov     a,#0x3F
-0605 120100    1734            lcall   ___fslt
-0608 AE82      1735            mov     r6,dpl
-060A E581      1736            mov     a,sp
-060C 24FC      1737            add     a,#0xfc
-060E F581      1738            mov     sp,a
-0610 D005      1739            pop     ar5
-0612 D004      1740            pop     ar4
-0614 D003      1741            pop     ar3
-0616 D002      1742            pop     ar2
-0618 EE        1743            mov     a,r6
-0619 6001      1744            jz      L021009?
-061B           1745   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:373: cur_error = 3;
-061B 752800    1746            mov     _main_cur_error_1_114,#0x00
-061E 752900    1747            mov     (_main_cur_error_1_114 + 1),#0x00
-0621 752A40    1748            mov     (_main_cur_error_1_114 + 2),#0x40
-0624 752B40    1749            mov     (_main_cur_error_1_114 + 3),#0x40
-0627           1750   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:374: pwm_left = 100 - cor;
-0627 C002      1751            push    ar2
-0629 C003      1752            push    ar3
-062B C004      1753            push    ar4
-062D C005      1754            push    ar5
-062F C0D8      1755            push    _main_cor_1_114
-0631 C0D9      1756            push    (_main_cor_1_114 + 1)
-0633 C0DA      1757            push    (_main_cor_1_114 + 2)
-0635 C0DB      1758            push    (_main_cor_1_114 + 3)
-0637 900000    1759            mov     dptr,#0x0000
-063A 75F0C8    1760            mov     b,#0xC8
-063D 7442      1761            mov     a,#0x42
-063F 120100    1762            lcall   ___fssub
-0642 AE82      1763            mov     r6,dpl
-0644 AF83      1764            mov     r7,dph
-0646 A8F0      1765            mov     r0,b
-0648 F9        1766            mov     r1,a
-0649 E581      1767            mov     a,sp
-064B 24FC      1768            add     a,#0xfc
-064D F581      1769            mov     sp,a
-064F 8E82      1770            mov     dpl,r6
-0651 8F83      1771            mov     dph,r7
-0653 88F0      1772            mov     b,r0
-0655 E9        1773            mov     a,r1
-0656 120100    1774            lcall   ___fs2uchar
-0659 858208    1775            mov     _pwm_left,dpl
-065C D005      1776            pop     ar5
-065E D004      1777            pop     ar4
-0660 D003      1778            pop     ar3
-0662 D002      1779            pop     ar2
-0664           1780   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:375: pwm_right = 100;
-0664 75C864    1781            mov     _pwm_right,#0x64
-0667           1782   L021009?:
-0667           1783   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:377: if(diff<-0.5){
-0667 C002      1784            push    ar2
-0669 C003      1785            push    ar3
-066B C004      1786            push    ar4
-066D C005      1787            push    ar5
-066F E4        1788            clr     a
-0670 C0E0      1789            push    acc
-0672 C0E0      1790            push    acc
-0674 C0E0      1791            push    acc
-0676 74BF      1792            mov     a,#0xBF
-0678 C0E0      1793            push    acc
-067A 856882    1794            mov     dpl,_main_diff_1_114
-067D 856983    1795            mov     dph,(_main_diff_1_114 + 1)
-0680 856AF0    1796            mov     b,(_main_diff_1_114 + 2)
-0683 E56B      1797            mov     a,(_main_diff_1_114 + 3)
-0685 120100    1798            lcall   ___fslt
-0688 AE82      1799            mov     r6,dpl
-068A E581      1800            mov     a,sp
-068C 24FC      1801            add     a,#0xfc
-068E F581      1802            mov     sp,a
-0690 D005      1803            pop     ar5
-0692 D004      1804            pop     ar4
-0694 D003      1805            pop     ar3
-0696 D002      1806            pop     ar2
-0698 EE        1807            mov     a,r6
-0699 6001      1808            jz      L021011?
-069B           1809   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:378: cur_error= -3;
-069B 752800    1810            mov     _main_cur_error_1_114,#0x00
-069E 752900    1811            mov     (_main_cur_error_1_114 + 1),#0x00
-06A1 752A40    1812            mov     (_main_cur_error_1_114 + 2),#0x40
-06A4 752BC0    1813            mov     (_main_cur_error_1_114 + 3),#0xC0
-06A7           1814   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:379: pwm_left = 100;
-06A7 750864    1815            mov     _pwm_left,#0x64
-06AA           1816   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:380: pwm_right = 100 + cor;
-06AA C002      1817            push    ar2
-06AC C003      1818            push    ar3
-06AE C004      1819            push    ar4
-06B0 C005      1820            push    ar5
-06B2 E4        1821            clr     a
-06B3 C0E0      1822            push    acc
-06B5 C0E0      1823            push    acc
-06B7 74C8      1824            mov     a,#0xC8
-06B9 C0E0      1825            push    acc
-06BB 7442      1826            mov     a,#0x42
-06BD C0E0      1827            push    acc
-06BF 85D882    1828            mov     dpl,_main_cor_1_114
-06C2 85D983    1829            mov     dph,(_main_cor_1_114 + 1)
-06C5 85DAF0    1830            mov     b,(_main_cor_1_114 + 2)
-06C8 E5DB      1831            mov     a,(_main_cor_1_114 + 3)
-06CA 120100    1832            lcall   ___fsadd
-06CD AE82      1833            mov     r6,dpl
-06CF AF83      1834            mov     r7,dph
-06D1 A8F0      1835            mov     r0,b
-06D3 F9        1836            mov     r1,a
-06D4 E581      1837            mov     a,sp
-06D6 24FC      1838            add     a,#0xfc
-06D8 F581      1839            mov     sp,a
-06DA 8E82      1840            mov     dpl,r6
-06DC 8F83      1841            mov     dph,r7
-06DE 88F0      1842            mov     b,r0
-06E0 E9        1843            mov     a,r1
-06E1 120100    1844            lcall   ___fs2uchar
-06E4 8582C8    1845            mov     _pwm_right,dpl
-06E7 D005      1846            pop     ar5
-06E9 D004      1847            pop     ar4
-06EB D003      1848            pop     ar3
-06ED D002      1849            pop     ar2
-06EF           1850   L021011?:
-06EF           1851   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:383: if((left < 0.4) && (right < 0.4)){
-06EF C002      1852            push    ar2
-06F1 C003      1853            push    ar3
-06F3 C004      1854            push    ar4
-06F5 C005      1855            push    ar5
-06F7 74CD      1856            mov     a,#0xCD
-06F9 C0E0      1857            push    acc
-06FB 74CC      1858            mov     a,#0xCC
-06FD C0E0      1859            push    acc
-06FF C0E0      1860            push    acc
-0701 743E      1861            mov     a,#0x3E
-0703 C0E0      1862            push    acc
-0705 8A82      1863            mov     dpl,r2
-0707 8B83      1864            mov     dph,r3
-0709 8CF0      1865            mov     b,r4
-070B ED        1866            mov     a,r5
-070C 120100    1867            lcall   ___fslt
-070F AE82      1868            mov     r6,dpl
-0711 E581      1869            mov     a,sp
-0713 24FC      1870            add     a,#0xfc
-0715 F581      1871            mov     sp,a
-0717 D005      1872            pop     ar5
-0719 D004      1873            pop     ar4
-071B D003      1874            pop     ar3
-071D D002      1875            pop     ar2
-071F EE        1876            mov     a,r6
-0720 7001      1877            jnz     L021076?
-0722 020100    1878            ljmp    L021017?
-0725           1879   L021076?:
-0725 C002      1880            push    ar2
-0727 C003      1881            push    ar3
-0729 C004      1882            push    ar4
-072B C005      1883            push    ar5
-072D 74CD      1884            mov     a,#0xCD
-072F C0E0      1885            push    acc
-0731 74CC      1886            mov     a,#0xCC
-0733 C0E0      1887            push    acc
-0735 C0E0      1888            push    acc
-0737 743E      1889            mov     a,#0x3E
-0739 C0E0      1890            push    acc
-073B 85C882    1891            mov     dpl,_main_right_1_114
-073E 85C983    1892            mov     dph,(_main_right_1_114 + 1)
-0741 85CAF0    1893            mov     b,(_main_right_1_114 + 2)
-0744 E5CB      1894            mov     a,(_main_right_1_114 + 3)
-0746 120100    1895            lcall   ___fslt
-0749 AE82      1896            mov     r6,dpl
-074B E581      1897            mov     a,sp
-074D 24FC      1898            add     a,#0xfc
-074F F581      1899            mov     sp,a
-0751 D005      1900            pop     ar5
-0753 D004      1901            pop     ar4
-0755 D003      1902            pop     ar3
-0757 D002      1903            pop     ar2
-0759 EE        1904            mov     a,r6
-075A 7001      1905            jnz     L021077?
-075C 020100    1906            ljmp    L021017?
-075F           1907   L021077?:
-075F           1908   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:384: if(pre_error>0){
-075F C002      1909            push    ar2
-0761 C003      1910            push    ar3
-0763 C004      1911            push    ar4
-0765 C005      1912            push    ar5
-0767 E4        1913            clr     a
-0768 C0E0      1914            push    acc
-076A C0E0      1915            push    acc
-076C C0E0      1916            push    acc
-076E C0E0      1917            push    acc
-0770 857882    1918            mov     dpl,_main_pre_error_1_114
-0773 857983    1919            mov     dph,(_main_pre_error_1_114 + 1)
-0776 857AF0    1920            mov     b,(_main_pre_error_1_114 + 2)
-0779 E57B      1921            mov     a,(_main_pre_error_1_114 + 3)
-077B 120100    1922            lcall   ___fsgt
-077E AE82      1923            mov     r6,dpl
-0780 E581      1924            mov     a,sp
-0782 24FC      1925            add     a,#0xfc
-0784 F581      1926            mov     sp,a
-0786 D005      1927            pop     ar5
-0788 D004      1928            pop     ar4
-078A D003      1929            pop     ar3
-078C D002      1930            pop     ar2
-078E EE        1931            mov     a,r6
-078F 6001      1932            jz      L021013?
-0791           1933   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:385: cur_error = 5;
-0791 752800    1934            mov     _main_cur_error_1_114,#0x00
-0794 752900    1935            mov     (_main_cur_error_1_114 + 1),#0x00
-0797 752AA0    1936            mov     (_main_cur_error_1_114 + 2),#0xA0
-079A 752B40    1937            mov     (_main_cur_error_1_114 + 3),#0x40
-079D           1938   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:386: pwm_left = 100 - cor;
-079D C002      1939            push    ar2
-079F C003      1940            push    ar3
-07A1 C004      1941            push    ar4
-07A3 C005      1942            push    ar5
-07A5 C0D8      1943            push    _main_cor_1_114
-07A7 C0D9      1944            push    (_main_cor_1_114 + 1)
-07A9 C0DA      1945            push    (_main_cor_1_114 + 2)
-07AB C0DB      1946            push    (_main_cor_1_114 + 3)
-07AD 900000    1947            mov     dptr,#0x0000
-07B0 75F0C8    1948            mov     b,#0xC8
-07B3 7442      1949            mov     a,#0x42
-07B5 120100    1950            lcall   ___fssub
-07B8 AE82      1951            mov     r6,dpl
-07BA AF83      1952            mov     r7,dph
-07BC A8F0      1953            mov     r0,b
-07BE F9        1954            mov     r1,a
-07BF E581      1955            mov     a,sp
-07C1 24FC      1956            add     a,#0xfc
-07C3 F581      1957            mov     sp,a
-07C5 8E82      1958            mov     dpl,r6
-07C7 8F83      1959            mov     dph,r7
-07C9 88F0      1960            mov     b,r0
-07CB E9        1961            mov     a,r1
-07CC 120100    1962            lcall   ___fs2uchar
-07CF 858208    1963            mov     _pwm_left,dpl
-07D2 D005      1964            pop     ar5
-07D4 D004      1965            pop     ar4
-07D6 D003      1966            pop     ar3
-07D8 D002      1967            pop     ar2
-07DA           1968   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:387: pwm_right = 100;
-07DA 75C864    1969            mov     _pwm_right,#0x64
-07DD           1970   L021013?:
-07DD           1971   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:389: if(pre_error<0){
-07DD C002      1972            push    ar2
-07DF C003      1973            push    ar3
-07E1 C004      1974            push    ar4
-07E3 C005      1975            push    ar5
-07E5 E4        1976            clr     a
-07E6 C0E0      1977            push    acc
-07E8 C0E0      1978            push    acc
-07EA C0E0      1979            push    acc
-07EC C0E0      1980            push    acc
-07EE 857882    1981            mov     dpl,_main_pre_error_1_114
-07F1 857983    1982            mov     dph,(_main_pre_error_1_114 + 1)
-07F4 857AF0    1983            mov     b,(_main_pre_error_1_114 + 2)
-07F7 E57B      1984            mov     a,(_main_pre_error_1_114 + 3)
-07F9 120100    1985            lcall   ___fslt
-07FC AE82      1986            mov     r6,dpl
-07FE E581      1987            mov     a,sp
-0800 24FC      1988            add     a,#0xfc
-0802 F581      1989            mov     sp,a
-0804 D005      1990            pop     ar5
-0806 D004      1991            pop     ar4
-0808 D003      1992            pop     ar3
-080A D002      1993            pop     ar2
-080C EE        1994            mov     a,r6
-080D 6001      1995            jz      L021017?
-080F           1996   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:390: cur_error = -5;
-080F 752800    1997            mov     _main_cur_error_1_114,#0x00
-0812 752900    1998            mov     (_main_cur_error_1_114 + 1),#0x00
-0815 752AA0    1999            mov     (_main_cur_error_1_114 + 2),#0xA0
-0818 752BC0    2000            mov     (_main_cur_error_1_114 + 3),#0xC0
-081B           2001   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:391: pwm_left = 100;
-081B 750864    2002            mov     _pwm_left,#0x64
-081E           2003   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:392: pwm_right = 100 + cor;
-081E C002      2004            push    ar2
-0820 C003      2005            push    ar3
-0822 C004      2006            push    ar4
-0824 C005      2007            push    ar5
-0826 E4        2008            clr     a
-0827 C0E0      2009            push    acc
-0829 C0E0      2010            push    acc
-082B 74C8      2011            mov     a,#0xC8
-082D C0E0      2012            push    acc
-082F 7442      2013            mov     a,#0x42
-0831 C0E0      2014            push    acc
-0833 85D882    2015            mov     dpl,_main_cor_1_114
-0836 85D983    2016            mov     dph,(_main_cor_1_114 + 1)
-0839 85DAF0    2017            mov     b,(_main_cor_1_114 + 2)
-083C E5DB      2018            mov     a,(_main_cor_1_114 + 3)
-083E 120100    2019            lcall   ___fsadd
-0841 AE82      2020            mov     r6,dpl
-0843 AF83      2021            mov     r7,dph
-0845 A8F0      2022            mov     r0,b
-0847 F9        2023            mov     r1,a
-0848 E581      2024            mov     a,sp
-084A 24FC      2025            add     a,#0xfc
-084C F581      2026            mov     sp,a
-084E 8E82      2027            mov     dpl,r6
-0850 8F83      2028            mov     dph,r7
-0852 88F0      2029            mov     b,r0
-0854 E9        2030            mov     a,r1
-0855 120100    2031            lcall   ___fs2uchar
-0858 8582C8    2032            mov     _pwm_right,dpl
-085B D005      2033            pop     ar5
-085D D004      2034            pop     ar4
-085F D003      2035            pop     ar3
-0861 D002      2036            pop     ar2
-0863           2037   L021017?:
-0863           2038   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:395: pre_error = cur_error;
-0863 852878    2039            mov     _main_pre_error_1_114,_main_cur_error_1_114
-0866 852979    2040            mov     (_main_pre_error_1_114 + 1),(_main_cur_error_1_114 + 1)
-0869 852A7A    2041            mov     (_main_pre_error_1_114 + 2),(_main_cur_error_1_114 + 2)
-086C 852B7B    2042            mov     (_main_pre_error_1_114 + 3),(_main_cur_error_1_114 + 3)
-086F           2043   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:396: printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
-086F AEC8      2044            mov     r6,_pwm_right
-0871 7F00      2045            mov     r7,#0x00
-0873 A808      2046            mov     r0,_pwm_left
-0875 7900      2047            mov     r1,#0x00
-0877 C006      2048            push    ar6
-0879 C007      2049            push    ar7
-087B C000      2050            push    ar0
-087D C001      2051            push    ar1
-087F C0C8      2052            push    _main_right_1_114
-0881 C0C9      2053            push    (_main_right_1_114 + 1)
-0883 C0CA      2054            push    (_main_right_1_114 + 2)
-0885 C0CB      2055            push    (_main_right_1_114 + 3)
-0887 C002      2056            push    ar2
-0889 C003      2057            push    ar3
-088B C004      2058            push    ar4
-088D C005      2059            push    ar5
-088F C028      2060            push    _main_cur_error_1_114
-0891 C029      2061            push    (_main_cur_error_1_114 + 1)
-0893 C02A      2062            push    (_main_cur_error_1_114 + 2)
-0895 C02B      2063            push    (_main_cur_error_1_114 + 3)
-0897 7458      2064            mov     a,#__str_2
-0899 C0E0      2065            push    acc
-089B 74B8      2066            mov     a,#(__str_2 >> 8)
-089D C0E0      2067            push    acc
-089F 7480      2068            mov     a,#0x80
-08A1 C0E0      2069            push    acc
-08A3 120100    2070            lcall   _printf
-08A6 E581      2071            mov     a,sp
-08A8 24ED      2072            add     a,#0xed
-08AA F581      2073            mov     sp,a
-08AC           2074   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:399: switch(state){
-08AC E4        2075            clr     a
-08AD B558D8    2076            cjne    a,_main_state_1_114,L021080?
-08B0 E4        2077            clr     a
-08B1 B559D8    2078            cjne    a,(_main_state_1_114 + 1),L021080?
-08B4 8001      2079            sjmp    L021019?
-08B6           2080   L021080?:
-08B6 7401      2081            mov     a,#0x01
-08B8 B55858    2082            cjne    a,_main_state_1_114,L021081?
-08BB E4        2083            clr     a
-08BC B55958    2084            cjne    a,(_main_state_1_114 + 1),L021081?
-08BF 8001      2085            sjmp    L021022?
-08C1           2086   L021081?:
-08C1 7402      2087            mov     a,#0x02
-08C3 B558D8    2088            cjne    a,_main_state_1_114,L021082?
-08C6 E4        2089            clr     a
-08C7 B559D8    2090            cjne    a,(_main_state_1_114 + 1),L021082?
-08CA 020100    2091            ljmp    L021027?
-08CD           2092   L021082?:
-08CD 7403      2093            mov     a,#0x03
-08CF B55858    2094            cjne    a,_main_state_1_114,L021083?
-08D2 E4        2095            clr     a
-08D3 B55958    2096            cjne    a,(_main_state_1_114 + 1),L021083?
-08D6 020100    2097            ljmp    L021032?
-08D9           2098   L021083?:
-08D9 7404      2099            mov     a,#0x04
-08DB B558D8    2100            cjne    a,_main_state_1_114,L021084?
-08DE E4        2101            clr     a
-08DF B559D8    2102            cjne    a,(_main_state_1_114 + 1),L021084?
-08E2 020100    2103            ljmp    L021036?
-08E5           2104   L021084?:
-08E5 020100    2105            ljmp    L021041?
-08E8           2106   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:400: case 0:
-08E8           2107   L021019?:
-08E8           2108   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:401: if(line_sensor > HI_THRESH){
-08E8 74CD      2109            mov     a,#0xCD
-08EA C0E0      2110            push    acc
-08EC 74CC      2111            mov     a,#0xCC
-08EE C0E0      2112            push    acc
-08F0 744C      2113            mov     a,#0x4C
-08F2 C0E0      2114            push    acc
-08F4 743F      2115            mov     a,#0x3F
-08F6 C0E0      2116            push    acc
-08F8 851882    2117            mov     dpl,_main_line_sensor_1_114
-08FB 851983    2118            mov     dph,(_main_line_sensor_1_114 + 1)
-08FE 851AF0    2119            mov     b,(_main_line_sensor_1_114 + 2)
-0901 E51B      2120            mov     a,(_main_line_sensor_1_114 + 3)
-0903 120100    2121            lcall   ___fsgt
-0906 AA82      2122            mov     r2,dpl
-0908 E581      2123            mov     a,sp
-090A 24FC      2124            add     a,#0xfc
-090C F581      2125            mov     sp,a
-090E EA        2126            mov     a,r2
-090F 6001      2127            jz      L021022?
-0911           2128   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:402: start_timer = 1;
-0911 D298      2129            setb    _start_timer
-0913           2130   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:403: state = 2;
-0913 755802    2131            mov     _main_state_1_114,#0x02
-0916 E4        2132            clr     a
-0917 F559      2133            mov     (_main_state_1_114 + 1),a
-0919           2134   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:405: case 1:
-0919           2135   L021022?:
-0919           2136   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:406: if(line_sensor > HI_THRESH){
-0919 74CD      2137            mov     a,#0xCD
-091B C0E0      2138            push    acc
-091D 74CC      2139            mov     a,#0xCC
-091F C0E0      2140            push    acc
-0921 744C      2141            mov     a,#0x4C
-0923 C0E0      2142            push    acc
-0925 743F      2143            mov     a,#0x3F
-0927 C0E0      2144            push    acc
-0929 851882    2145            mov     dpl,_main_line_sensor_1_114
-092C 851983    2146            mov     dph,(_main_line_sensor_1_114 + 1)
-092F 851AF0    2147            mov     b,(_main_line_sensor_1_114 + 2)
-0932 E51B      2148            mov     a,(_main_line_sensor_1_114 + 3)
-0934 120100    2149            lcall   ___fsgt
-0937 AA82      2150            mov     r2,dpl
-0939 E581      2151            mov     a,sp
-093B 24FC      2152            add     a,#0xfc
-093D F581      2153            mov     sp,a
-093F EA        2154            mov     a,r2
-0940 6001      2155            jz      L021024?
-0942           2156   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:407: state = 2;
-0942 755802    2157            mov     _main_state_1_114,#0x02
-0945 E4        2158            clr     a
-0946 F559      2159            mov     (_main_state_1_114 + 1),a
-0948           2160   L021024?:
-0948           2161   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:409: if(start_timer == 0){
-0948 309898    2162            jnb     _start_timer,L021087?
-094B 020100    2163            ljmp    L021041?
-094E           2164   L021087?:
-094E           2165   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:410: command = line_counter;
-094E 85B808    2166            mov     _main_command_1_114,_main_line_counter_1_114
-0951 85B909    2167            mov     (_main_command_1_114 + 1),(_main_line_counter_1_114 + 1)
-0954           2168   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:411: line_counter = 0;
-0954 E4        2169            clr     a
-0955 F5B8      2170            mov     _main_line_counter_1_114,a
-0957 F5B9      2171            mov     (_main_line_counter_1_114 + 1),a
-0959           2172   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:412: state = 4;
-0959 755804    2173            mov     _main_state_1_114,#0x04
-095C E4        2174            clr     a
-095D F559      2175            mov     (_main_state_1_114 + 1),a
-095F           2176   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:414: break;                          
-095F 020100    2177            ljmp    L021041?
-0962           2178   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:415: case 2:
-0962           2179   L021027?:
-0962           2180   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:416: if(line_sensor < LO_THRESH){
-0962 7429      2181            mov     a,#0x29
-0964 C0E0      2182            push    acc
-0966 745C      2183            mov     a,#0x5C
-0968 C0E0      2184            push    acc
-096A 748F      2185            mov     a,#0x8F
-096C C0E0      2186            push    acc
-096E 743D      2187            mov     a,#0x3D
-0970 C0E0      2188            push    acc
-0972 851882    2189            mov     dpl,_main_line_sensor_1_114
-0975 851983    2190            mov     dph,(_main_line_sensor_1_114 + 1)
-0978 851AF0    2191            mov     b,(_main_line_sensor_1_114 + 2)
-097B E51B      2192            mov     a,(_main_line_sensor_1_114 + 3)
-097D 120100    2193            lcall   ___fslt
-0980 AA82      2194            mov     r2,dpl
-0982 E581      2195            mov     a,sp
-0984 24FC      2196            add     a,#0xfc
-0986 F581      2197            mov     sp,a
-0988 EA        2198            mov     a,r2
-0989 6001      2199            jz      L021029?
-098B           2200   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:417: line_counter++;
-098B 05B8      2201            inc     _main_line_counter_1_114
-098D E4        2202            clr     a
-098E B5B818    2203            cjne    a,_main_line_counter_1_114,L021089?
-0991 05B9      2204            inc     (_main_line_counter_1_114 + 1)
-0993           2205   L021089?:
-0993           2206   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:418: state = 3;
-0993 755803    2207            mov     _main_state_1_114,#0x03
-0996 E4        2208            clr     a
-0997 F559      2209            mov     (_main_state_1_114 + 1),a
-0999           2210   L021029?:
-0999           2211   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:420: if(start_timer == 0){
-0999 309858    2212            jnb     _start_timer,L021090?
-099C 020100    2213            ljmp    L021041?
-099F           2214   L021090?:
-099F           2215   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:421: command = line_counter;
-099F 85B808    2216            mov     _main_command_1_114,_main_line_counter_1_114
-09A2 85B909    2217            mov     (_main_command_1_114 + 1),(_main_line_counter_1_114 + 1)
-09A5           2218   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:422: line_counter = 0;
-09A5 E4        2219            clr     a
-09A6 F5B8      2220            mov     _main_line_counter_1_114,a
-09A8 F5B9      2221            mov     (_main_line_counter_1_114 + 1),a
-09AA           2222   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:423: state = 4;
-09AA 755804    2223            mov     _main_state_1_114,#0x04
-09AD E4        2224            clr     a
-09AE F559      2225            mov     (_main_state_1_114 + 1),a
-09B0           2226   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:425: break;
-09B0 020100    2227            ljmp    L021041?
-09B3           2228   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:426: case 3:
-09B3           2229   L021032?:
-09B3           2230   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:427: if(start_timer == 0){
-09B3 209898    2231            jb      _start_timer,L021034?
-09B6           2232   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:428: command = line_counter;
-09B6 85B808    2233            mov     _main_command_1_114,_main_line_counter_1_114
-09B9 85B909    2234            mov     (_main_command_1_114 + 1),(_main_line_counter_1_114 + 1)
-09BC           2235   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:429: line_counter = 0;
-09BC E4        2236            clr     a
-09BD F5B8      2237            mov     _main_line_counter_1_114,a
-09BF F5B9      2238            mov     (_main_line_counter_1_114 + 1),a
-09C1           2239   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:430: state = 4;
-09C1 755804    2240            mov     _main_state_1_114,#0x04
-09C4 E4        2241            clr     a
-09C5 F559      2242            mov     (_main_state_1_114 + 1),a
-09C7 020100    2243            ljmp    L021041?
-09CA           2244   L021034?:
-09CA           2245   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:433: state = 1;
-09CA 755801    2246            mov     _main_state_1_114,#0x01
-09CD E4        2247            clr     a
-09CE F559      2248            mov     (_main_state_1_114 + 1),a
-09D0           2249   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:435: break;
-09D0 020100    2250            ljmp    L021041?
-09D3           2251   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:436: case 4:
-09D3           2252   L021036?:
-09D3           2253   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:437: if(line_counter > HI_THRESH){
-09D3 85B882    2254            mov     dpl,_main_line_counter_1_114
-09D6 85B983    2255            mov     dph,(_main_line_counter_1_114 + 1)
-09D9 120100    2256            lcall   ___sint2fs
-09DC AA82      2257            mov     r2,dpl
-09DE AB83      2258            mov     r3,dph
-09E0 ACF0      2259            mov     r4,b
-09E2 FD        2260            mov     r5,a
-09E3 74CD      2261            mov     a,#0xCD
-09E5 C0E0      2262            push    acc
-09E7 74CC      2263            mov     a,#0xCC
-09E9 C0E0      2264            push    acc
-09EB 744C      2265            mov     a,#0x4C
-09ED C0E0      2266            push    acc
-09EF 743F      2267            mov     a,#0x3F
-09F1 C0E0      2268            push    acc
-09F3 8A82      2269            mov     dpl,r2
-09F5 8B83      2270            mov     dph,r3
-09F7 8CF0      2271            mov     b,r4
-09F9 ED        2272            mov     a,r5
-09FA 120100    2273            lcall   ___fsgt
-09FD AA82      2274            mov     r2,dpl
-09FF E581      2275            mov     a,sp
-0A01 24FC      2276            add     a,#0xfc
-0A03 F581      2277            mov     sp,a
-0A05 EA        2278            mov     a,r2
-0A06 7001      2279            jnz     L021092?
-0A08 020100    2280            ljmp    L021041?
-0A0B           2281   L021092?:
-0A0B           2282   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:438: stop();
-0A0B 120100    2283            lcall   _stop
-0A0E           2284   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:439: execute(command);
-0A0E 850882    2285            mov     dpl,_main_command_1_114
-0A11 850983    2286            mov     dph,(_main_command_1_114 + 1)
-0A14 120100    2287            lcall   _execute
-0A17           2288   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:440: state = 0;
-0A17 E4        2289            clr     a
-0A18 F558      2290            mov     _main_state_1_114,a
-0A1A F559      2291            mov     (_main_state_1_114 + 1),a
-0A1C           2292   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:443: }
-0A1C 020100    2293            ljmp    L021041?
-0A1F           2294            rseg R_CSEG
-0A1F           2295   
-0000           2296            rseg R_XINIT
-0000           2297   
-0000           2298            rseg R_CONST
-0000           2299   __str_0:
-0000 4C533D25  2300            db 'LS=%5.2f'
+03A8 C0E0      1435            push    acc
+03AA 747F      1436            mov     a,#0x7F
+03AC C0E0      1437            push    acc
+03AE 7443      1438            mov     a,#0x43
+03B0 C0E0      1439            push    acc
+03B2 8A82      1440            mov     dpl,r2
+03B4 8B83      1441            mov     dph,r3
+03B6 8CF0      1442            mov     b,r4
+03B8 ED        1443            mov     a,r5
+03B9 120100    1444            lcall   ___fsdiv
+03BC AA82      1445            mov     r2,dpl
+03BE AB83      1446            mov     r3,dph
+03C0 ACF0      1447            mov     r4,b
+03C2 FD        1448            mov     r5,a
+03C3 E581      1449            mov     a,sp
+03C5 24FC      1450            add     a,#0xfc
+03C7 F581      1451            mov     sp,a
+03C9 C002      1452            push    ar2
+03CB C003      1453            push    ar3
+03CD C004      1454            push    ar4
+03CF C005      1455            push    ar5
+03D1 903333    1456            mov     dptr,#0x3333
+03D4 75F053    1457            mov     b,#0x53
+03D7 7440      1458            mov     a,#0x40
+03D9 120100    1459            lcall   ___fsmul
+03DC 8582C8    1460            mov     _main_left_1_114,dpl
+03DF 8583C9    1461            mov     (_main_left_1_114 + 1),dph
+03E2 85F0CA    1462            mov     (_main_left_1_114 + 2),b
+03E5 F5CB      1463            mov     (_main_left_1_114 + 3),a
+03E7 E581      1464            mov     a,sp
+03E9 24FC      1465            add     a,#0xfc
+03EB F581      1466            mov     sp,a
+03ED           1467   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:354: right = (AD1DAT2/255.0)*3.3;
+03ED 85D782    1468            mov     dpl,_AD1DAT2
+03F0 120100    1469            lcall   ___uchar2fs
+03F3 A882      1470            mov     r0,dpl
+03F5 A983      1471            mov     r1,dph
+03F7 AAF0      1472            mov     r2,b
+03F9 FB        1473            mov     r3,a
+03FA E4        1474            clr     a
+03FB C0E0      1475            push    acc
+03FD C0E0      1476            push    acc
+03FF 747F      1477            mov     a,#0x7F
+0401 C0E0      1478            push    acc
+0403 7443      1479            mov     a,#0x43
+0405 C0E0      1480            push    acc
+0407 8882      1481            mov     dpl,r0
+0409 8983      1482            mov     dph,r1
+040B 8AF0      1483            mov     b,r2
+040D EB        1484            mov     a,r3
+040E 120100    1485            lcall   ___fsdiv
+0411 AA82      1486            mov     r2,dpl
+0413 AB83      1487            mov     r3,dph
+0415 ACF0      1488            mov     r4,b
+0417 FD        1489            mov     r5,a
+0418 E581      1490            mov     a,sp
+041A 24FC      1491            add     a,#0xfc
+041C F581      1492            mov     sp,a
+041E C002      1493            push    ar2
+0420 C003      1494            push    ar3
+0422 C004      1495            push    ar4
+0424 C005      1496            push    ar5
+0426 903333    1497            mov     dptr,#0x3333
+0429 75F053    1498            mov     b,#0x53
+042C 7440      1499            mov     a,#0x40
+042E 120100    1500            lcall   ___fsmul
+0431 858218    1501            mov     _main_right_1_114,dpl
+0434 858319    1502            mov     (_main_right_1_114 + 1),dph
+0437 85F01A    1503            mov     (_main_right_1_114 + 2),b
+043A F51B      1504            mov     (_main_right_1_114 + 3),a
+043C E581      1505            mov     a,sp
+043E 24FC      1506            add     a,#0xfc
+0440 F581      1507            mov     sp,a
+0442           1508   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:355: line_sensor = (AD1DAT3/255.0)*3.3;
+0442 85F582    1509            mov     dpl,_AD1DAT3
+0445 120100    1510            lcall   ___uchar2fs
+0448 A882      1511            mov     r0,dpl
+044A A983      1512            mov     r1,dph
+044C AAF0      1513            mov     r2,b
+044E FB        1514            mov     r3,a
+044F E4        1515            clr     a
+0450 C0E0      1516            push    acc
+0452 C0E0      1517            push    acc
+0454 747F      1518            mov     a,#0x7F
+0456 C0E0      1519            push    acc
+0458 7443      1520            mov     a,#0x43
+045A C0E0      1521            push    acc
+045C 8882      1522            mov     dpl,r0
+045E 8983      1523            mov     dph,r1
+0460 8AF0      1524            mov     b,r2
+0462 EB        1525            mov     a,r3
+0463 120100    1526            lcall   ___fsdiv
+0466 AA82      1527            mov     r2,dpl
+0468 AB83      1528            mov     r3,dph
+046A ACF0      1529            mov     r4,b
+046C FD        1530            mov     r5,a
+046D E581      1531            mov     a,sp
+046F 24FC      1532            add     a,#0xfc
+0471 F581      1533            mov     sp,a
+0473 C002      1534            push    ar2
+0475 C003      1535            push    ar3
+0477 C004      1536            push    ar4
+0479 C005      1537            push    ar5
+047B 903333    1538            mov     dptr,#0x3333
+047E 75F053    1539            mov     b,#0x53
+0481 7440      1540            mov     a,#0x40
+0483 120100    1541            lcall   ___fsmul
+0486 858268    1542            mov     _main_line_sensor_1_114,dpl
+0489 858369    1543            mov     (_main_line_sensor_1_114 + 1),dph
+048C 85F06A    1544            mov     (_main_line_sensor_1_114 + 2),b
+048F F56B      1545            mov     (_main_line_sensor_1_114 + 3),a
+0491 E581      1546            mov     a,sp
+0493 24FC      1547            add     a,#0xfc
+0495 F581      1548            mov     sp,a
+0497           1549   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:356: diff = left - right;
+0497 C018      1550            push    _main_right_1_114
+0499 C019      1551            push    (_main_right_1_114 + 1)
+049B C01A      1552            push    (_main_right_1_114 + 2)
+049D C01B      1553            push    (_main_right_1_114 + 3)
+049F 85C882    1554            mov     dpl,_main_left_1_114
+04A2 85C983    1555            mov     dph,(_main_left_1_114 + 1)
+04A5 85CAF0    1556            mov     b,(_main_left_1_114 + 2)
+04A8 E5CB      1557            mov     a,(_main_left_1_114 + 3)
+04AA 120100    1558            lcall   ___fssub
+04AD 8582B8    1559            mov     _main_diff_1_114,dpl
+04B0 8583B9    1560            mov     (_main_diff_1_114 + 1),dph
+04B3 85F0BA    1561            mov     (_main_diff_1_114 + 2),b
+04B6 F5BB      1562            mov     (_main_diff_1_114 + 3),a
+04B8 E581      1563            mov     a,sp
+04BA 24FC      1564            add     a,#0xfc
+04BC F581      1565            mov     sp,a
+04BE D007      1566            pop     ar7
+04C0 D006      1567            pop     ar6
+04C2           1568   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:359: if(time_update_flag==1) // If the clock has been updated, refresh the display
+04C2 307818    1569            jnb     _time_update_flag,L021002?
+04C5           1570   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:361: display_LCD();
+04C5 C006      1571            push    ar6
+04C7 C007      1572            push    ar7
+04C9 120100    1573            lcall   _display_LCD
+04CC D007      1574            pop     ar7
+04CE D006      1575            pop     ar6
+04D0           1576   L021002?:
+04D0           1577   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:365: cor = KP * cur_error + KD*(cur_error - pre_error);
+04D0 C006      1578            push    ar6
+04D2 C007      1579            push    ar7
+04D4 C028      1580            push    _main_cur_error_1_114
+04D6 C029      1581            push    (_main_cur_error_1_114 + 1)
+04D8 C02A      1582            push    (_main_cur_error_1_114 + 2)
+04DA C02B      1583            push    (_main_cur_error_1_114 + 3)
+04DC 900000    1584            mov     dptr,#0x0000
+04DF 75F0C8    1585            mov     b,#0xC8
+04E2 7441      1586            mov     a,#0x41
+04E4 120100    1587            lcall   ___fsmul
+04E7 8582D8    1588            mov     _main_cor_1_114,dpl
+04EA 8583D9    1589            mov     (_main_cor_1_114 + 1),dph
+04ED 85F0DA    1590            mov     (_main_cor_1_114 + 2),b
+04F0 F5DB      1591            mov     (_main_cor_1_114 + 3),a
+04F2 E581      1592            mov     a,sp
+04F4 24FC      1593            add     a,#0xfc
+04F6 F581      1594            mov     sp,a
+04F8           1595   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:367: if((0.4 < left) && (left < 0.7) && (0.4 < right) && (right < 0.7)){
+04F8 C0C8      1596            push    _main_left_1_114
+04FA C0C9      1597            push    (_main_left_1_114 + 1)
+04FC C0CA      1598            push    (_main_left_1_114 + 2)
+04FE C0CB      1599            push    (_main_left_1_114 + 3)
+0500 90CCCD    1600            mov     dptr,#0xCCCD
+0503 75F0CC    1601            mov     b,#0xCC
+0506 743E      1602            mov     a,#0x3E
+0508 120100    1603            lcall   ___fslt
+050B A882      1604            mov     r0,dpl
+050D E581      1605            mov     a,sp
+050F 24FC      1606            add     a,#0xfc
+0511 F581      1607            mov     sp,a
+0513 D007      1608            pop     ar7
+0515 D006      1609            pop     ar6
+0517 E8        1610            mov     a,r0
+0518 7001      1611            jnz     L021062?
+051A 020100    1612            ljmp    L021004?
+051D           1613   L021062?:
+051D C006      1614            push    ar6
+051F C007      1615            push    ar7
+0521 7433      1616            mov     a,#0x33
+0523 C0E0      1617            push    acc
+0525 C0E0      1618            push    acc
+0527 C0E0      1619            push    acc
+0529 743F      1620            mov     a,#0x3F
+052B C0E0      1621            push    acc
+052D 85C882    1622            mov     dpl,_main_left_1_114
+0530 85C983    1623            mov     dph,(_main_left_1_114 + 1)
+0533 85CAF0    1624            mov     b,(_main_left_1_114 + 2)
+0536 E5CB      1625            mov     a,(_main_left_1_114 + 3)
+0538 120100    1626            lcall   ___fslt
+053B A882      1627            mov     r0,dpl
+053D E581      1628            mov     a,sp
+053F 24FC      1629            add     a,#0xfc
+0541 F581      1630            mov     sp,a
+0543 D007      1631            pop     ar7
+0545 D006      1632            pop     ar6
+0547 E8        1633            mov     a,r0
+0548 6001      1634            jz      L021004?
+054A C006      1635            push    ar6
+054C C007      1636            push    ar7
+054E C018      1637            push    _main_right_1_114
+0550 C019      1638            push    (_main_right_1_114 + 1)
+0552 C01A      1639            push    (_main_right_1_114 + 2)
+0554 C01B      1640            push    (_main_right_1_114 + 3)
+0556 90CCCD    1641            mov     dptr,#0xCCCD
+0559 75F0CC    1642            mov     b,#0xCC
+055C 743E      1643            mov     a,#0x3E
+055E 120100    1644            lcall   ___fslt
+0561 A882      1645            mov     r0,dpl
+0563 E581      1646            mov     a,sp
+0565 24FC      1647            add     a,#0xfc
+0567 F581      1648            mov     sp,a
+0569 D007      1649            pop     ar7
+056B D006      1650            pop     ar6
+056D E8        1651            mov     a,r0
+056E 6001      1652            jz      L021004?
+0570 C006      1653            push    ar6
+0572 C007      1654            push    ar7
+0574 7433      1655            mov     a,#0x33
+0576 C0E0      1656            push    acc
+0578 C0E0      1657            push    acc
+057A C0E0      1658            push    acc
+057C 743F      1659            mov     a,#0x3F
+057E C0E0      1660            push    acc
+0580 851882    1661            mov     dpl,_main_right_1_114
+0583 851983    1662            mov     dph,(_main_right_1_114 + 1)
+0586 851AF0    1663            mov     b,(_main_right_1_114 + 2)
+0589 E51B      1664            mov     a,(_main_right_1_114 + 3)
+058B 120100    1665            lcall   ___fslt
+058E A882      1666            mov     r0,dpl
+0590 E581      1667            mov     a,sp
+0592 24FC      1668            add     a,#0xfc
+0594 F581      1669            mov     sp,a
+0596 D007      1670            pop     ar7
+0598 D006      1671            pop     ar6
+059A E8        1672            mov     a,r0
+059B 6001      1673            jz      L021004?
+059D           1674   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:368: cur_error = 0;
+059D 752800    1675            mov     _main_cur_error_1_114,#0x00
+05A0 752900    1676            mov     (_main_cur_error_1_114 + 1),#0x00
+05A3 752A00    1677            mov     (_main_cur_error_1_114 + 2),#0x00
+05A6 752B00    1678            mov     (_main_cur_error_1_114 + 3),#0x00
+05A9           1679   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:369: pwm_left = 100;
+05A9 750864    1680            mov     _pwm_left,#0x64
+05AC           1681   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:370: pwm_right = 100;
+05AC 75C864    1682            mov     _pwm_right,#0x64
+05AF           1683   L021004?:
+05AF           1684   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:372: if(0.5<diff){   
+05AF C006      1685            push    ar6
+05B1 C007      1686            push    ar7
+05B3 C0B8      1687            push    _main_diff_1_114
+05B5 C0B9      1688            push    (_main_diff_1_114 + 1)
+05B7 C0BA      1689            push    (_main_diff_1_114 + 2)
+05B9 C0BB      1690            push    (_main_diff_1_114 + 3)
+05BB 900000    1691            mov     dptr,#(0x00&0x00ff)
+05BE E4        1692            clr     a
+05BF F5F0      1693            mov     b,a
+05C1 743F      1694            mov     a,#0x3F
+05C3 120100    1695            lcall   ___fslt
+05C6 A882      1696            mov     r0,dpl
+05C8 E581      1697            mov     a,sp
+05CA 24FC      1698            add     a,#0xfc
+05CC F581      1699            mov     sp,a
+05CE D007      1700            pop     ar7
+05D0 D006      1701            pop     ar6
+05D2 E8        1702            mov     a,r0
+05D3 6001      1703            jz      L021009?
+05D5           1704   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:373: cur_error = 3;
+05D5 752800    1705            mov     _main_cur_error_1_114,#0x00
+05D8 752900    1706            mov     (_main_cur_error_1_114 + 1),#0x00
+05DB 752A40    1707            mov     (_main_cur_error_1_114 + 2),#0x40
+05DE 752B40    1708            mov     (_main_cur_error_1_114 + 3),#0x40
+05E1           1709   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:374: pwm_left = 100 - cor;
+05E1 C006      1710            push    ar6
+05E3 C007      1711            push    ar7
+05E5 C0D8      1712            push    _main_cor_1_114
+05E7 C0D9      1713            push    (_main_cor_1_114 + 1)
+05E9 C0DA      1714            push    (_main_cor_1_114 + 2)
+05EB C0DB      1715            push    (_main_cor_1_114 + 3)
+05ED 900000    1716            mov     dptr,#0x0000
+05F0 75F0C8    1717            mov     b,#0xC8
+05F3 7442      1718            mov     a,#0x42
+05F5 120100    1719            lcall   ___fssub
+05F8 A882      1720            mov     r0,dpl
+05FA A983      1721            mov     r1,dph
+05FC AAF0      1722            mov     r2,b
+05FE FB        1723            mov     r3,a
+05FF E581      1724            mov     a,sp
+0601 24FC      1725            add     a,#0xfc
+0603 F581      1726            mov     sp,a
+0605 8882      1727            mov     dpl,r0
+0607 8983      1728            mov     dph,r1
+0609 8AF0      1729            mov     b,r2
+060B EB        1730            mov     a,r3
+060C 120100    1731            lcall   ___fs2uchar
+060F 858208    1732            mov     _pwm_left,dpl
+0612 D007      1733            pop     ar7
+0614 D006      1734            pop     ar6
+0616           1735   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:375: pwm_right = 100;
+0616 75C864    1736            mov     _pwm_right,#0x64
+0619           1737   L021009?:
+0619           1738   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:377: if(diff<-0.5){
+0619 C006      1739            push    ar6
+061B C007      1740            push    ar7
+061D E4        1741            clr     a
+061E C0E0      1742            push    acc
+0620 C0E0      1743            push    acc
+0622 C0E0      1744            push    acc
+0624 74BF      1745            mov     a,#0xBF
+0626 C0E0      1746            push    acc
+0628 85B882    1747            mov     dpl,_main_diff_1_114
+062B 85B983    1748            mov     dph,(_main_diff_1_114 + 1)
+062E 85BAF0    1749            mov     b,(_main_diff_1_114 + 2)
+0631 E5BB      1750            mov     a,(_main_diff_1_114 + 3)
+0633 120100    1751            lcall   ___fslt
+0636 AA82      1752            mov     r2,dpl
+0638 E581      1753            mov     a,sp
+063A 24FC      1754            add     a,#0xfc
+063C F581      1755            mov     sp,a
+063E D007      1756            pop     ar7
+0640 D006      1757            pop     ar6
+0642 EA        1758            mov     a,r2
+0643 6001      1759            jz      L021011?
+0645           1760   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:378: cur_error= -3;
+0645 752800    1761            mov     _main_cur_error_1_114,#0x00
+0648 752900    1762            mov     (_main_cur_error_1_114 + 1),#0x00
+064B 752A40    1763            mov     (_main_cur_error_1_114 + 2),#0x40
+064E 752BC0    1764            mov     (_main_cur_error_1_114 + 3),#0xC0
+0651           1765   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:379: pwm_left = 100;
+0651 750864    1766            mov     _pwm_left,#0x64
+0654           1767   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:380: pwm_right = 100 + cor;
+0654 C006      1768            push    ar6
+0656 C007      1769            push    ar7
+0658 E4        1770            clr     a
+0659 C0E0      1771            push    acc
+065B C0E0      1772            push    acc
+065D 74C8      1773            mov     a,#0xC8
+065F C0E0      1774            push    acc
+0661 7442      1775            mov     a,#0x42
+0663 C0E0      1776            push    acc
+0665 85D882    1777            mov     dpl,_main_cor_1_114
+0668 85D983    1778            mov     dph,(_main_cor_1_114 + 1)
+066B 85DAF0    1779            mov     b,(_main_cor_1_114 + 2)
+066E E5DB      1780            mov     a,(_main_cor_1_114 + 3)
+0670 120100    1781            lcall   ___fsadd
+0673 AA82      1782            mov     r2,dpl
+0675 AB83      1783            mov     r3,dph
+0677 ACF0      1784            mov     r4,b
+0679 FD        1785            mov     r5,a
+067A E581      1786            mov     a,sp
+067C 24FC      1787            add     a,#0xfc
+067E F581      1788            mov     sp,a
+0680 8A82      1789            mov     dpl,r2
+0682 8B83      1790            mov     dph,r3
+0684 8CF0      1791            mov     b,r4
+0686 ED        1792            mov     a,r5
+0687 120100    1793            lcall   ___fs2uchar
+068A 8582C8    1794            mov     _pwm_right,dpl
+068D D007      1795            pop     ar7
+068F D006      1796            pop     ar6
+0691           1797   L021011?:
+0691           1798   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:383: if((left < 0.4) && (right < 0.4)){
+0691 C006      1799            push    ar6
+0693 C007      1800            push    ar7
+0695 74CD      1801            mov     a,#0xCD
+0697 C0E0      1802            push    acc
+0699 74CC      1803            mov     a,#0xCC
+069B C0E0      1804            push    acc
+069D C0E0      1805            push    acc
+069F 743E      1806            mov     a,#0x3E
+06A1 C0E0      1807            push    acc
+06A3 85C882    1808            mov     dpl,_main_left_1_114
+06A6 85C983    1809            mov     dph,(_main_left_1_114 + 1)
+06A9 85CAF0    1810            mov     b,(_main_left_1_114 + 2)
+06AC E5CB      1811            mov     a,(_main_left_1_114 + 3)
+06AE 120100    1812            lcall   ___fslt
+06B1 AA82      1813            mov     r2,dpl
+06B3 E581      1814            mov     a,sp
+06B5 24FC      1815            add     a,#0xfc
+06B7 F581      1816            mov     sp,a
+06B9 D007      1817            pop     ar7
+06BB D006      1818            pop     ar6
+06BD EA        1819            mov     a,r2
+06BE 7001      1820            jnz     L021068?
+06C0 020100    1821            ljmp    L021017?
+06C3           1822   L021068?:
+06C3 C006      1823            push    ar6
+06C5 C007      1824            push    ar7
+06C7 74CD      1825            mov     a,#0xCD
+06C9 C0E0      1826            push    acc
+06CB 74CC      1827            mov     a,#0xCC
+06CD C0E0      1828            push    acc
+06CF C0E0      1829            push    acc
+06D1 743E      1830            mov     a,#0x3E
+06D3 C0E0      1831            push    acc
+06D5 851882    1832            mov     dpl,_main_right_1_114
+06D8 851983    1833            mov     dph,(_main_right_1_114 + 1)
+06DB 851AF0    1834            mov     b,(_main_right_1_114 + 2)
+06DE E51B      1835            mov     a,(_main_right_1_114 + 3)
+06E0 120100    1836            lcall   ___fslt
+06E3 AA82      1837            mov     r2,dpl
+06E5 E581      1838            mov     a,sp
+06E7 24FC      1839            add     a,#0xfc
+06E9 F581      1840            mov     sp,a
+06EB D007      1841            pop     ar7
+06ED D006      1842            pop     ar6
+06EF EA        1843            mov     a,r2
+06F0 7001      1844            jnz     L021069?
+06F2 020100    1845            ljmp    L021017?
+06F5           1846   L021069?:
+06F5           1847   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:384: if(pre_error>0){
+06F5 C006      1848            push    ar6
+06F7 C007      1849            push    ar7
+06F9 E4        1850            clr     a
+06FA C0E0      1851            push    acc
+06FC C0E0      1852            push    acc
+06FE C0E0      1853            push    acc
+0700 C0E0      1854            push    acc
+0702 857882    1855            mov     dpl,_main_pre_error_1_114
+0705 857983    1856            mov     dph,(_main_pre_error_1_114 + 1)
+0708 857AF0    1857            mov     b,(_main_pre_error_1_114 + 2)
+070B E57B      1858            mov     a,(_main_pre_error_1_114 + 3)
+070D 120100    1859            lcall   ___fsgt
+0710 AA82      1860            mov     r2,dpl
+0712 E581      1861            mov     a,sp
+0714 24FC      1862            add     a,#0xfc
+0716 F581      1863            mov     sp,a
+0718 D007      1864            pop     ar7
+071A D006      1865            pop     ar6
+071C EA        1866            mov     a,r2
+071D 6001      1867            jz      L021013?
+071F           1868   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:385: cur_error = 5;
+071F 752800    1869            mov     _main_cur_error_1_114,#0x00
+0722 752900    1870            mov     (_main_cur_error_1_114 + 1),#0x00
+0725 752AA0    1871            mov     (_main_cur_error_1_114 + 2),#0xA0
+0728 752B40    1872            mov     (_main_cur_error_1_114 + 3),#0x40
+072B           1873   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:386: pwm_left = 100 - cor;
+072B C006      1874            push    ar6
+072D C007      1875            push    ar7
+072F C0D8      1876            push    _main_cor_1_114
+0731 C0D9      1877            push    (_main_cor_1_114 + 1)
+0733 C0DA      1878            push    (_main_cor_1_114 + 2)
+0735 C0DB      1879            push    (_main_cor_1_114 + 3)
+0737 900000    1880            mov     dptr,#0x0000
+073A 75F0C8    1881            mov     b,#0xC8
+073D 7442      1882            mov     a,#0x42
+073F 120100    1883            lcall   ___fssub
+0742 AA82      1884            mov     r2,dpl
+0744 AB83      1885            mov     r3,dph
+0746 ACF0      1886            mov     r4,b
+0748 FD        1887            mov     r5,a
+0749 E581      1888            mov     a,sp
+074B 24FC      1889            add     a,#0xfc
+074D F581      1890            mov     sp,a
+074F 8A82      1891            mov     dpl,r2
+0751 8B83      1892            mov     dph,r3
+0753 8CF0      1893            mov     b,r4
+0755 ED        1894            mov     a,r5
+0756 120100    1895            lcall   ___fs2uchar
+0759 858208    1896            mov     _pwm_left,dpl
+075C D007      1897            pop     ar7
+075E D006      1898            pop     ar6
+0760           1899   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:387: pwm_right = 100;
+0760 75C864    1900            mov     _pwm_right,#0x64
+0763           1901   L021013?:
+0763           1902   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:389: if(pre_error<0){
+0763 C006      1903            push    ar6
+0765 C007      1904            push    ar7
+0767 E4        1905            clr     a
+0768 C0E0      1906            push    acc
+076A C0E0      1907            push    acc
+076C C0E0      1908            push    acc
+076E C0E0      1909            push    acc
+0770 857882    1910            mov     dpl,_main_pre_error_1_114
+0773 857983    1911            mov     dph,(_main_pre_error_1_114 + 1)
+0776 857AF0    1912            mov     b,(_main_pre_error_1_114 + 2)
+0779 E57B      1913            mov     a,(_main_pre_error_1_114 + 3)
+077B 120100    1914            lcall   ___fslt
+077E AA82      1915            mov     r2,dpl
+0780 E581      1916            mov     a,sp
+0782 24FC      1917            add     a,#0xfc
+0784 F581      1918            mov     sp,a
+0786 D007      1919            pop     ar7
+0788 D006      1920            pop     ar6
+078A EA        1921            mov     a,r2
+078B 6001      1922            jz      L021017?
+078D           1923   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:390: cur_error = -5;
+078D 752800    1924            mov     _main_cur_error_1_114,#0x00
+0790 752900    1925            mov     (_main_cur_error_1_114 + 1),#0x00
+0793 752AA0    1926            mov     (_main_cur_error_1_114 + 2),#0xA0
+0796 752BC0    1927            mov     (_main_cur_error_1_114 + 3),#0xC0
+0799           1928   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:391: pwm_left = 100;
+0799 750864    1929            mov     _pwm_left,#0x64
+079C           1930   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:392: pwm_right = 100 + cor;
+079C C006      1931            push    ar6
+079E C007      1932            push    ar7
+07A0 E4        1933            clr     a
+07A1 C0E0      1934            push    acc
+07A3 C0E0      1935            push    acc
+07A5 74C8      1936            mov     a,#0xC8
+07A7 C0E0      1937            push    acc
+07A9 7442      1938            mov     a,#0x42
+07AB C0E0      1939            push    acc
+07AD 85D882    1940            mov     dpl,_main_cor_1_114
+07B0 85D983    1941            mov     dph,(_main_cor_1_114 + 1)
+07B3 85DAF0    1942            mov     b,(_main_cor_1_114 + 2)
+07B6 E5DB      1943            mov     a,(_main_cor_1_114 + 3)
+07B8 120100    1944            lcall   ___fsadd
+07BB AA82      1945            mov     r2,dpl
+07BD AB83      1946            mov     r3,dph
+07BF ACF0      1947            mov     r4,b
+07C1 FD        1948            mov     r5,a
+07C2 E581      1949            mov     a,sp
+07C4 24FC      1950            add     a,#0xfc
+07C6 F581      1951            mov     sp,a
+07C8 8A82      1952            mov     dpl,r2
+07CA 8B83      1953            mov     dph,r3
+07CC 8CF0      1954            mov     b,r4
+07CE ED        1955            mov     a,r5
+07CF 120100    1956            lcall   ___fs2uchar
+07D2 8582C8    1957            mov     _pwm_right,dpl
+07D5 D007      1958            pop     ar7
+07D7 D006      1959            pop     ar6
+07D9           1960   L021017?:
+07D9           1961   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:395: pre_error = cur_error;
+07D9 852878    1962            mov     _main_pre_error_1_114,_main_cur_error_1_114
+07DC 852979    1963            mov     (_main_pre_error_1_114 + 1),(_main_cur_error_1_114 + 1)
+07DF 852A7A    1964            mov     (_main_pre_error_1_114 + 2),(_main_cur_error_1_114 + 2)
+07E2 852B7B    1965            mov     (_main_pre_error_1_114 + 3),(_main_cur_error_1_114 + 3)
+07E5           1966   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:396: printf("State:%2d Command:%3d Sensor:%5.2f Timer: %2d                 \r\n", state, command, line_sensor, start_timer);
+07E5 A298      1967            mov     c,_start_timer
+07E7 E4        1968            clr     a
+07E8 33        1969            rlc     a
+07E9 FA        1970            mov     r2,a
+07EA 7B00      1971            mov     r3,#0x00
+07EC C006      1972            push    ar6
+07EE C007      1973            push    ar7
+07F0 C002      1974            push    ar2
+07F2 C003      1975            push    ar3
+07F4 C068      1976            push    _main_line_sensor_1_114
+07F6 C069      1977            push    (_main_line_sensor_1_114 + 1)
+07F8 C06A      1978            push    (_main_line_sensor_1_114 + 2)
+07FA C06B      1979            push    (_main_line_sensor_1_114 + 3)
+07FC C058      1980            push    _main_command_1_114
+07FE C059      1981            push    (_main_command_1_114 + 1)
+0800 C006      1982            push    ar6
+0802 C007      1983            push    ar7
+0804 7458      1984            mov     a,#__str_2
+0806 C0E0      1985            push    acc
+0808 74B8      1986            mov     a,#(__str_2 >> 8)
+080A C0E0      1987            push    acc
+080C 7480      1988            mov     a,#0x80
+080E C0E0      1989            push    acc
+0810 120100    1990            lcall   _printf
+0813 E581      1991            mov     a,sp
+0815 24F3      1992            add     a,#0xf3
+0817 F581      1993            mov     sp,a
+0819 D007      1994            pop     ar7
+081B D006      1995            pop     ar6
+081D           1996   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:399: switch(state){
+081D BE01D8    1997            cjne    r6,#0x01,L021072?
+0820 BF00D8    1998            cjne    r7,#0x00,L021072?
+0823 8001      1999            sjmp    L021019?
+0825           2000   L021072?:
+0825 BE0258    2001            cjne    r6,#0x02,L021073?
+0828 BF0058    2002            cjne    r7,#0x00,L021073?
+082B 8001      2003            sjmp    L021022?
+082D           2004   L021073?:
+082D BE03D8    2005            cjne    r6,#0x03,L021074?
+0830 BF00D8    2006            cjne    r7,#0x00,L021074?
+0833 020100    2007            ljmp    L021025?
+0836           2008   L021074?:
+0836 BE0458    2009            cjne    r6,#0x04,L021075?
+0839 BF0058    2010            cjne    r7,#0x00,L021075?
+083C 020100    2011            ljmp    L021031?
+083F           2012   L021075?:
+083F 020100    2013            ljmp    L021036?
+0842           2014   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:448: case 1:
+0842           2015   L021019?:
+0842           2016   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:449: if(line_sensor > HI_THRESH){
+0842 C006      2017            push    ar6
+0844 C007      2018            push    ar7
+0846 E4        2019            clr     a
+0847 C0E0      2020            push    acc
+0849 C0E0      2021            push    acc
+084B C0E0      2022            push    acc
+084D 743F      2023            mov     a,#0x3F
+084F C0E0      2024            push    acc
+0851 856882    2025            mov     dpl,_main_line_sensor_1_114
+0854 856983    2026            mov     dph,(_main_line_sensor_1_114 + 1)
+0857 856AF0    2027            mov     b,(_main_line_sensor_1_114 + 2)
+085A E56B      2028            mov     a,(_main_line_sensor_1_114 + 3)
+085C 120100    2029            lcall   ___fsgt
+085F AA82      2030            mov     r2,dpl
+0861 E581      2031            mov     a,sp
+0863 24FC      2032            add     a,#0xfc
+0865 F581      2033            mov     sp,a
+0867 D007      2034            pop     ar7
+0869 D006      2035            pop     ar6
+086B EA        2036            mov     a,r2
+086C 6001      2037            jz      L021021?
+086E           2038   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:450: state = 2;
+086E 7E02      2039            mov     r6,#0x02
+0870 7F00      2040            mov     r7,#0x00
+0872           2041   L021021?:
+0872           2042   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:452: printf("headed to %2d from 1\n", state);
+0872 C006      2043            push    ar6
+0874 C007      2044            push    ar7
+0876 C006      2045            push    ar6
+0878 C007      2046            push    ar7
+087A 7418      2047            mov     a,#__str_3
+087C C0E0      2048            push    acc
+087E 74BB      2049            mov     a,#(__str_3 >> 8)
+0880 C0E0      2050            push    acc
+0882 7480      2051            mov     a,#0x80
+0884 C0E0      2052            push    acc
+0886 120100    2053            lcall   _printf
+0889 E581      2054            mov     a,sp
+088B 24FB      2055            add     a,#0xfb
+088D F581      2056            mov     sp,a
+088F D007      2057            pop     ar7
+0891 D006      2058            pop     ar6
+0893           2059   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:453: break;                          
+0893 020100    2060            ljmp    L021036?
+0896           2061   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:454: case 2:
+0896           2062   L021022?:
+0896           2063   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:455: if(line_sensor < LO_THRESH){
+0896 C006      2064            push    ar6
+0898 C007      2065            push    ar7
+089A 7429      2066            mov     a,#0x29
+089C C0E0      2067            push    acc
+089E 745C      2068            mov     a,#0x5C
+08A0 C0E0      2069            push    acc
+08A2 748F      2070            mov     a,#0x8F
+08A4 C0E0      2071            push    acc
+08A6 743D      2072            mov     a,#0x3D
+08A8 C0E0      2073            push    acc
+08AA 856882    2074            mov     dpl,_main_line_sensor_1_114
+08AD 856983    2075            mov     dph,(_main_line_sensor_1_114 + 1)
+08B0 856AF0    2076            mov     b,(_main_line_sensor_1_114 + 2)
+08B3 E56B      2077            mov     a,(_main_line_sensor_1_114 + 3)
+08B5 120100    2078            lcall   ___fslt
+08B8 AA82      2079            mov     r2,dpl
+08BA E581      2080            mov     a,sp
+08BC 24FC      2081            add     a,#0xfc
+08BE F581      2082            mov     sp,a
+08C0 D007      2083            pop     ar7
+08C2 D006      2084            pop     ar6
+08C4 EA        2085            mov     a,r2
+08C5 6001      2086            jz      L021024?
+08C7           2087   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:456: line_counter++;
+08C7 0508      2088            inc     _main_line_counter_1_114
+08C9 E4        2089            clr     a
+08CA B50898    2090            cjne    a,_main_line_counter_1_114,L021078?
+08CD 0509      2091            inc     (_main_line_counter_1_114 + 1)
+08CF           2092   L021078?:
+08CF           2093   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:457: start_timer = 1;
+08CF D298      2094            setb    _start_timer
+08D1           2095   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:458: state = 3;
+08D1 7E03      2096            mov     r6,#0x03
+08D3 7F00      2097            mov     r7,#0x00
+08D5           2098   L021024?:
+08D5           2099   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:460: printf("headed to %2d from 2\n", state);
+08D5 C006      2100            push    ar6
+08D7 C007      2101            push    ar7
+08D9 C006      2102            push    ar6
+08DB C007      2103            push    ar7
+08DD 74D8      2104            mov     a,#__str_4
+08DF C0E0      2105            push    acc
+08E1 74BB      2106            mov     a,#(__str_4 >> 8)
+08E3 C0E0      2107            push    acc
+08E5 7480      2108            mov     a,#0x80
+08E7 C0E0      2109            push    acc
+08E9 120100    2110            lcall   _printf
+08EC E581      2111            mov     a,sp
+08EE 24FB      2112            add     a,#0xfb
+08F0 F581      2113            mov     sp,a
+08F2 D007      2114            pop     ar7
+08F4 D006      2115            pop     ar6
+08F6           2116   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:461: break;
+08F6 020100    2117            ljmp    L021036?
+08F9           2118   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:462: case 3:
+08F9           2119   L021025?:
+08F9           2120   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:463: if(start_timer == 1){
+08F9 309818    2121            jnb     _start_timer,L021029?
+08FC           2122   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:464: if(line_sensor > HI_THRESH){
+08FC C006      2123            push    ar6
+08FE C007      2124            push    ar7
+0900 E4        2125            clr     a
+0901 C0E0      2126            push    acc
+0903 C0E0      2127            push    acc
+0905 C0E0      2128            push    acc
+0907 743F      2129            mov     a,#0x3F
+0909 C0E0      2130            push    acc
+090B 856882    2131            mov     dpl,_main_line_sensor_1_114
+090E 856983    2132            mov     dph,(_main_line_sensor_1_114 + 1)
+0911 856AF0    2133            mov     b,(_main_line_sensor_1_114 + 2)
+0914 E56B      2134            mov     a,(_main_line_sensor_1_114 + 3)
+0916 120100    2135            lcall   ___fsgt
+0919 AA82      2136            mov     r2,dpl
+091B E581      2137            mov     a,sp
+091D 24FC      2138            add     a,#0xfc
+091F F581      2139            mov     sp,a
+0921 D007      2140            pop     ar7
+0923 D006      2141            pop     ar6
+0925 EA        2142            mov     a,r2
+0926 6001      2143            jz      L021030?
+0928           2144   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:465: start_timer = 0;
+0928 C298      2145            clr     _start_timer
+092A           2146   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:466: action_timer = 0;
+092A E4        2147            clr     a
+092B F548      2148            mov     _action_timer,a
+092D F549      2149            mov     (_action_timer + 1),a
+092F           2150   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:467: state = 2;
+092F 7E02      2151            mov     r6,#0x02
+0931 7F00      2152            mov     r7,#0x00
+0933 8001      2153            sjmp    L021030?
+0935           2154   L021029?:
+0935           2155   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:471: command = line_counter;
+0935 850858    2156            mov     _main_command_1_114,_main_line_counter_1_114
+0938 850959    2157            mov     (_main_command_1_114 + 1),(_main_line_counter_1_114 + 1)
+093B           2158   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:472: line_counter = 0;
+093B E4        2159            clr     a
+093C F508      2160            mov     _main_line_counter_1_114,a
+093E F509      2161            mov     (_main_line_counter_1_114 + 1),a
+0940           2162   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:473: state = 4;
+0940 7E04      2163            mov     r6,#0x04
+0942 7F00      2164            mov     r7,#0x00
+0944           2165   L021030?:
+0944           2166   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:475: printf("headed to %2d from 3\n", state);
+0944 C006      2167            push    ar6
+0946 C007      2168            push    ar7
+0948 C006      2169            push    ar6
+094A C007      2170            push    ar7
+094C 7498      2171            mov     a,#__str_5
+094E C0E0      2172            push    acc
+0950 74BC      2173            mov     a,#(__str_5 >> 8)
+0952 C0E0      2174            push    acc
+0954 7480      2175            mov     a,#0x80
+0956 C0E0      2176            push    acc
+0958 120100    2177            lcall   _printf
+095B E581      2178            mov     a,sp
+095D 24FB      2179            add     a,#0xfb
+095F F581      2180            mov     sp,a
+0961 D007      2181            pop     ar7
+0963 D006      2182            pop     ar6
+0965           2183   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:476: break;
+0965 020100    2184            ljmp    L021036?
+0968           2185   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:477: case 4:
+0968           2186   L021031?:
+0968           2187   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:478: if(line_sensor > HI_THRESH){
+0968 C006      2188            push    ar6
+096A C007      2189            push    ar7
+096C E4        2190            clr     a
+096D C0E0      2191            push    acc
+096F C0E0      2192            push    acc
+0971 C0E0      2193            push    acc
+0973 743F      2194            mov     a,#0x3F
+0975 C0E0      2195            push    acc
+0977 856882    2196            mov     dpl,_main_line_sensor_1_114
+097A 856983    2197            mov     dph,(_main_line_sensor_1_114 + 1)
+097D 856AF0    2198            mov     b,(_main_line_sensor_1_114 + 2)
+0980 E56B      2199            mov     a,(_main_line_sensor_1_114 + 3)
+0982 120100    2200            lcall   ___fsgt
+0985 AA82      2201            mov     r2,dpl
+0987 E581      2202            mov     a,sp
+0989 24FC      2203            add     a,#0xfc
+098B F581      2204            mov     sp,a
+098D D007      2205            pop     ar7
+098F D006      2206            pop     ar6
+0991 EA        2207            mov     a,r2
+0992 7001      2208            jnz     L021081?
+0994 020100    2209            ljmp    L021036?
+0997           2210   L021081?:
+0997           2211   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:479: printf("ERMAGERD: %2d \n", command);
+0997 C058      2212            push    _main_command_1_114
+0999 C059      2213            push    (_main_command_1_114 + 1)
+099B 7418      2214            mov     a,#__str_6
+099D C0E0      2215            push    acc
+099F 74BD      2216            mov     a,#(__str_6 >> 8)
+09A1 C0E0      2217            push    acc
+09A3 7480      2218            mov     a,#0x80
+09A5 C0E0      2219            push    acc
+09A7 120100    2220            lcall   _printf
+09AA E581      2221            mov     a,sp
+09AC 24FB      2222            add     a,#0xfb
+09AE F581      2223            mov     sp,a
+09B0           2224   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:480: execute(command);
+09B0 855882    2225            mov     dpl,_main_command_1_114
+09B3 855983    2226            mov     dph,(_main_command_1_114 + 1)
+09B6 120100    2227            lcall   _execute
+09B9           2228   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:481: state = 1;
+09B9 7E01      2229            mov     r6,#0x01
+09BB 7F00      2230            mov     r7,#0x00
+09BD           2231   ;        C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:484: }
+09BD 020100    2232            ljmp    L021036?
+09C0           2233            rseg R_CSEG
+09C0           2234   
+0000           2235            rseg R_XINIT
+0000           2236   
+0000           2237            rseg R_CONST
+0000           2238   __str_0:
+0000 4C533D25  2239            db 'LS=%5.2f'
      352E3266
-0008 00        2301            db 0x00
-0009           2302   __str_1:
-0009 4C433D25  2303            db 'LC=%d ST=%d'
+0008 00        2240            db 0x00
+0009           2241   __str_1:
+0009 4C433D25  2242            db 'LC=%d ST=%d'
      64205354
      3D2564
-0014 00        2304            db 0x00
-0015           2305   __str_2:
-0015 4572726F  2306            db 'Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor'
-     723A2535
-     2E326620
-     4C656674
+0014 00        2243            db 0x00
+0015           2244   __str_2:
+0015 53746174  2245            db 'State:%2d Command:%3d Sensor:%5.2f Timer: %2d               '
+     653A2532
+     6420436F
+     6D6D616E
+     643A2533
+     64205365
+     6E736F72
      3A25352E
-     32662052
-     69676874
-     3A25352E
-     3266204C
-     6566745F
-     4D6F746F
-     723A2564
-     20526967
-     68745F4D
-     6F746F72
-0051 3A256420  2307            db ':%d                '
+     32662054
+     696D6572
+     3A202532
+     64202020
      20202020
      20202020
      20202020
-     202020
-0064 0D        2308            db 0x0D
-0065 00        2309            db 0x00
-0066           2310   
-000E           2311            CSEG
-000E           2312   
-000E           2313   end
+0051 2020      2246            db '  '
+0053 0D        2247            db 0x0D
+0054 0A        2248            db 0x0A
+0055 00        2249            db 0x00
+0056           2250   __str_3:
+0056 68656164  2251            db 'headed to %2d from 1'
+     65642074
+     6F202532
+     64206672
+     6F6D2031
+006A 0A        2252            db 0x0A
+006B 00        2253            db 0x00
+006C           2254   __str_4:
+006C 68656164  2255            db 'headed to %2d from 2'
+     65642074
+     6F202532
+     64206672
+     6F6D2032
+0080 0A        2256            db 0x0A
+0081 00        2257            db 0x00
+0082           2258   __str_5:
+0082 68656164  2259            db 'headed to %2d from 3'
+     65642074
+     6F202532
+     64206672
+     6F6D2033
+0096 0A        2260            db 0x0A
+0097 00        2261            db 0x00
+0098           2262   __str_6:
+0098 45524D41  2263            db 'ERMAGERD: %2d '
+     47455244
+     3A202532
+     6420
+00A6 0A        2264            db 0x0A
+00A7 00        2265            db 0x00
+00A8           2266   
+000E           2267            CSEG
+000E           2268   
+000E           2269   end

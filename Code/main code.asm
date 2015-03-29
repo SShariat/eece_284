@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Dec 11 2012) (MSVC)
-; This file was generated Sun Mar 29 09:06:04 2015
+; This file was generated Sun Mar 29 10:59:17 2015
 ;--------------------------------------------------------
 $name main_code
 $optc51 --model-small
@@ -461,6 +461,8 @@ _main_cur_error_1_114:
 	ds 4
 _main_pre_error_1_114:
 	ds 4
+_main_left_1_114:
+	ds 4
 _main_right_1_114:
 	ds 4
 _main_line_sensor_1_114:
@@ -470,8 +472,6 @@ _main_diff_1_114:
 _main_line_counter_1_114:
 	ds 2
 _main_command_1_114:
-	ds 2
-_main_state_1_114:
 	ds 2
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
@@ -1099,10 +1099,10 @@ L015010?:
 	clr	a
 	addc	a,(_action_timer + 1)
 	mov	(_action_timer + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:235: if(action_timer == 20000){
-	mov	a,#0x20
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:235: if(action_timer == 5000){
+	mov	a,#0x88
 	cjne	a,_action_timer,L015015?
-	mov	a,#0x4E
+	mov	a,#0x13
 	cjne	a,(_action_timer + 1),L015015?
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:236: action_timer = 0;
 	clr	a
@@ -1365,13 +1365,13 @@ L020008?:
 ;cur_error                 Allocated with name '_main_cur_error_1_114'
 ;pre_error                 Allocated with name '_main_pre_error_1_114'
 ;thresh                    Allocated to registers 
-;left                      Allocated to registers r2 r3 r4 r5 
+;left                      Allocated with name '_main_left_1_114'
 ;right                     Allocated with name '_main_right_1_114'
 ;line_sensor               Allocated with name '_main_line_sensor_1_114'
 ;diff                      Allocated with name '_main_diff_1_114'
 ;line_counter              Allocated with name '_main_line_counter_1_114'
 ;command                   Allocated with name '_main_command_1_114'
-;state                     Allocated with name '_main_state_1_114'
+;state                     Allocated to registers r6 r7 
 ;------------------------------------------------------------
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:316: void main (void){
 ;	-----------------------------------------
@@ -1398,10 +1398,11 @@ _main:
 	mov	_main_command_1_114,a
 	mov	(_main_command_1_114 + 1),a
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:332: int state = 1;	
-	mov	_main_state_1_114,#0x01
-	clr	a
-	mov	(_main_state_1_114 + 1),a
+	mov	r6,#0x01
+	mov	r7,#0x00
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:335: InitPorts();
+	push	ar6
+	push	ar7
 	lcall	_InitPorts
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:336: LCD_8BIT();
 	lcall	_LCD_8BIT
@@ -1411,15 +1412,19 @@ _main:
 	lcall	_InitADC
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:339: InitTimer0();
 	lcall	_InitTimer0
+	pop	ar7
+	pop	ar6
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:342: pre_error = 0;
 	mov	_main_pre_error_1_114,#0x00
 	mov	(_main_pre_error_1_114 + 1),#0x00
 	mov	(_main_pre_error_1_114 + 2),#0x00
 	mov	(_main_pre_error_1_114 + 3),#0x00
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:343: while(1)
-L021041?:
+L021036?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:353: left = (AD1DAT1/255.0)*3.3;
 	mov	dpl,_AD1DAT1
+	push	ar6
+	push	ar7
 	lcall	___uchar2fs
 	mov	r2,dpl
 	mov	r3,dph
@@ -1452,24 +1457,20 @@ L021041?:
 	mov	b,#0x53
 	mov	a,#0x40
 	lcall	___fsmul
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
+	mov	_main_left_1_114,dpl
+	mov	(_main_left_1_114 + 1),dph
+	mov	(_main_left_1_114 + 2),b
+	mov	(_main_left_1_114 + 3),a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:354: right = (AD1DAT2/255.0)*3.3;
 	mov	dpl,_AD1DAT2
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
 	lcall	___uchar2fs
 	mov	r0,dpl
 	mov	r1,dph
-	mov	r6,b
-	mov	r7,a
+	mov	r2,b
+	mov	r3,a
 	clr	a
 	push	acc
 	push	acc
@@ -1479,20 +1480,20 @@ L021041?:
 	push	acc
 	mov	dpl,r0
 	mov	dph,r1
-	mov	b,r6
-	mov	a,r7
+	mov	b,r2
+	mov	a,r3
 	lcall	___fsdiv
-	mov	r6,dpl
-	mov	r7,dph
-	mov	r0,b
-	mov	r1,a
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	push	ar6
-	push	ar7
-	push	ar0
-	push	ar1
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
 	mov	dptr,#0x3333
 	mov	b,#0x53
 	mov	a,#0x40
@@ -1507,10 +1508,10 @@ L021041?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:355: line_sensor = (AD1DAT3/255.0)*3.3;
 	mov	dpl,_AD1DAT3
 	lcall	___uchar2fs
-	mov	r6,dpl
-	mov	r7,dph
-	mov	r0,b
-	mov	r1,a
+	mov	r0,dpl
+	mov	r1,dph
+	mov	r2,b
+	mov	r3,a
 	clr	a
 	push	acc
 	push	acc
@@ -1518,22 +1519,22 @@ L021041?:
 	push	acc
 	mov	a,#0x43
 	push	acc
-	mov	dpl,r6
-	mov	dph,r7
-	mov	b,r0
-	mov	a,r1
+	mov	dpl,r0
+	mov	dph,r1
+	mov	b,r2
+	mov	a,r3
 	lcall	___fsdiv
-	mov	r6,dpl
-	mov	r7,dph
-	mov	r0,b
-	mov	r1,a
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	push	ar6
-	push	ar7
-	push	ar0
-	push	ar1
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar5
 	mov	dptr,#0x3333
 	mov	b,#0x53
 	mov	a,#0x40
@@ -1545,23 +1546,15 @@ L021041?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:356: diff = left - right;
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
 	push	_main_right_1_114
 	push	(_main_right_1_114 + 1)
 	push	(_main_right_1_114 + 2)
 	push	(_main_right_1_114 + 3)
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
+	mov	dpl,_main_left_1_114
+	mov	dph,(_main_left_1_114 + 1)
+	mov	b,(_main_left_1_114 + 2)
+	mov	a,(_main_left_1_114 + 3)
 	lcall	___fssub
 	mov	_main_diff_1_114,dpl
 	mov	(_main_diff_1_114 + 1),dph
@@ -1570,28 +1563,20 @@ L021041?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
+	pop	ar7
+	pop	ar6
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:359: if(time_update_flag==1) // If the clock has been updated, refresh the display
 	jnb	_time_update_flag,L021002?
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:361: display_LCD();
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	lcall	_display_LCD
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
+	pop	ar7
+	pop	ar6
 L021002?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:365: cor = KP * cur_error + KD*(cur_error - pre_error);
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	push	_main_cur_error_1_114
 	push	(_main_cur_error_1_114 + 1)
 	push	(_main_cur_error_1_114 + 2)
@@ -1607,64 +1592,48 @@ L021002?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:367: if((0.4 < left) && (left < 0.7) && (0.4 < right) && (right < 0.7)){
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	_main_left_1_114
+	push	(_main_left_1_114 + 1)
+	push	(_main_left_1_114 + 2)
+	push	(_main_left_1_114 + 3)
 	mov	dptr,#0xCCCD
 	mov	b,#0xCC
 	mov	a,#0x3E
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r0,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
-	jnz	L021070?
+	pop	ar7
+	pop	ar6
+	mov	a,r0
+	jnz	L021062?
 	ljmp	L021004?
-L021070?:
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+L021062?:
+	push	ar6
+	push	ar7
 	mov	a,#0x33
 	push	acc
 	push	acc
 	push	acc
 	mov	a,#0x3F
 	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
+	mov	dpl,_main_left_1_114
+	mov	dph,(_main_left_1_114 + 1)
+	mov	b,(_main_left_1_114 + 2)
+	mov	a,(_main_left_1_114 + 3)
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r0,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
+	pop	ar7
+	pop	ar6
+	mov	a,r0
 	jz	L021004?
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	push	_main_right_1_114
 	push	(_main_right_1_114 + 1)
 	push	(_main_right_1_114 + 2)
@@ -1673,20 +1642,16 @@ L021070?:
 	mov	b,#0xCC
 	mov	a,#0x3E
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r0,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
+	pop	ar7
+	pop	ar6
+	mov	a,r0
 	jz	L021004?
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	mov	a,#0x33
 	push	acc
 	push	acc
@@ -1698,15 +1663,13 @@ L021070?:
 	mov	b,(_main_right_1_114 + 2)
 	mov	a,(_main_right_1_114 + 3)
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r0,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
+	pop	ar7
+	pop	ar6
+	mov	a,r0
 	jz	L021004?
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:368: cur_error = 0;
 	mov	_main_cur_error_1_114,#0x00
@@ -1719,10 +1682,8 @@ L021070?:
 	mov	_pwm_right,#0x64
 L021004?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:372: if(0.5<diff){	
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	push	_main_diff_1_114
 	push	(_main_diff_1_114 + 1)
 	push	(_main_diff_1_114 + 2)
@@ -1732,15 +1693,13 @@ L021004?:
 	mov	b,a
 	mov	a,#0x3F
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r0,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
+	pop	ar7
+	pop	ar6
+	mov	a,r0
 	jz	L021009?
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:373: cur_error = 3;
 	mov	_main_cur_error_1_114,#0x00
@@ -1748,10 +1707,8 @@ L021004?:
 	mov	(_main_cur_error_1_114 + 2),#0x40
 	mov	(_main_cur_error_1_114 + 3),#0x40
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:374: pwm_left = 100 - cor;
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	push	_main_cor_1_114
 	push	(_main_cor_1_114 + 1)
 	push	(_main_cor_1_114 + 2)
@@ -1760,31 +1717,27 @@ L021004?:
 	mov	b,#0xC8
 	mov	a,#0x42
 	lcall	___fssub
-	mov	r6,dpl
-	mov	r7,dph
-	mov	r0,b
-	mov	r1,a
+	mov	r0,dpl
+	mov	r1,dph
+	mov	r2,b
+	mov	r3,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	mov	dpl,r6
-	mov	dph,r7
-	mov	b,r0
-	mov	a,r1
+	mov	dpl,r0
+	mov	dph,r1
+	mov	b,r2
+	mov	a,r3
 	lcall	___fs2uchar
 	mov	_pwm_left,dpl
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
+	pop	ar7
+	pop	ar6
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:375: pwm_right = 100;
 	mov	_pwm_right,#0x64
 L021009?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:377: if(diff<-0.5){
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	clr	a
 	push	acc
 	push	acc
@@ -1796,15 +1749,13 @@ L021009?:
 	mov	b,(_main_diff_1_114 + 2)
 	mov	a,(_main_diff_1_114 + 3)
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r2,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
+	pop	ar7
+	pop	ar6
+	mov	a,r2
 	jz	L021011?
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:378: cur_error= -3;
 	mov	_main_cur_error_1_114,#0x00
@@ -1814,10 +1765,8 @@ L021009?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:379: pwm_left = 100;
 	mov	_pwm_left,#0x64
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:380: pwm_right = 100 + cor;
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	clr	a
 	push	acc
 	push	acc
@@ -1830,29 +1779,25 @@ L021009?:
 	mov	b,(_main_cor_1_114 + 2)
 	mov	a,(_main_cor_1_114 + 3)
 	lcall	___fsadd
-	mov	r6,dpl
-	mov	r7,dph
-	mov	r0,b
-	mov	r1,a
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	mov	dpl,r6
-	mov	dph,r7
-	mov	b,r0
-	mov	a,r1
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
+	pop	ar7
+	pop	ar6
 L021011?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:383: if((left < 0.4) && (right < 0.4)){
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	mov	a,#0xCD
 	push	acc
 	mov	a,#0xCC
@@ -1860,27 +1805,23 @@ L021011?:
 	push	acc
 	mov	a,#0x3E
 	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
+	mov	dpl,_main_left_1_114
+	mov	dph,(_main_left_1_114 + 1)
+	mov	b,(_main_left_1_114 + 2)
+	mov	a,(_main_left_1_114 + 3)
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r2,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
-	jnz	L021076?
+	pop	ar7
+	pop	ar6
+	mov	a,r2
+	jnz	L021068?
 	ljmp	L021017?
-L021076?:
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+L021068?:
+	push	ar6
+	push	ar7
 	mov	a,#0xCD
 	push	acc
 	mov	a,#0xCC
@@ -1893,23 +1834,19 @@ L021076?:
 	mov	b,(_main_right_1_114 + 2)
 	mov	a,(_main_right_1_114 + 3)
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r2,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
-	jnz	L021077?
+	pop	ar7
+	pop	ar6
+	mov	a,r2
+	jnz	L021069?
 	ljmp	L021017?
-L021077?:
+L021069?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:384: if(pre_error>0){
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	clr	a
 	push	acc
 	push	acc
@@ -1920,15 +1857,13 @@ L021077?:
 	mov	b,(_main_pre_error_1_114 + 2)
 	mov	a,(_main_pre_error_1_114 + 3)
 	lcall	___fsgt
-	mov	r6,dpl
+	mov	r2,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
+	pop	ar7
+	pop	ar6
+	mov	a,r2
 	jz	L021013?
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:385: cur_error = 5;
 	mov	_main_cur_error_1_114,#0x00
@@ -1936,10 +1871,8 @@ L021077?:
 	mov	(_main_cur_error_1_114 + 2),#0xA0
 	mov	(_main_cur_error_1_114 + 3),#0x40
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:386: pwm_left = 100 - cor;
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	push	_main_cor_1_114
 	push	(_main_cor_1_114 + 1)
 	push	(_main_cor_1_114 + 2)
@@ -1948,31 +1881,27 @@ L021077?:
 	mov	b,#0xC8
 	mov	a,#0x42
 	lcall	___fssub
-	mov	r6,dpl
-	mov	r7,dph
-	mov	r0,b
-	mov	r1,a
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	mov	dpl,r6
-	mov	dph,r7
-	mov	b,r0
-	mov	a,r1
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
 	lcall	___fs2uchar
 	mov	_pwm_left,dpl
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
+	pop	ar7
+	pop	ar6
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:387: pwm_right = 100;
 	mov	_pwm_right,#0x64
 L021013?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:389: if(pre_error<0){
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	clr	a
 	push	acc
 	push	acc
@@ -1983,15 +1912,13 @@ L021013?:
 	mov	b,(_main_pre_error_1_114 + 2)
 	mov	a,(_main_pre_error_1_114 + 3)
 	lcall	___fslt
-	mov	r6,dpl
+	mov	r2,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
-	mov	a,r6
+	pop	ar7
+	pop	ar6
+	mov	a,r2
 	jz	L021017?
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:390: cur_error = -5;
 	mov	_main_cur_error_1_114,#0x00
@@ -2001,10 +1928,8 @@ L021013?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:391: pwm_left = 100;
 	mov	_pwm_left,#0x64
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:392: pwm_right = 100 + cor;
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar5
+	push	ar6
+	push	ar7
 	clr	a
 	push	acc
 	push	acc
@@ -2017,50 +1942,45 @@ L021013?:
 	mov	b,(_main_cor_1_114 + 2)
 	mov	a,(_main_cor_1_114 + 3)
 	lcall	___fsadd
-	mov	r6,dpl
-	mov	r7,dph
-	mov	r0,b
-	mov	r1,a
+	mov	r2,dpl
+	mov	r3,dph
+	mov	r4,b
+	mov	r5,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	mov	dpl,r6
-	mov	dph,r7
-	mov	b,r0
-	mov	a,r1
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
 	lcall	___fs2uchar
 	mov	_pwm_right,dpl
-	pop	ar5
-	pop	ar4
-	pop	ar3
-	pop	ar2
+	pop	ar7
+	pop	ar6
 L021017?:
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:395: pre_error = cur_error;
 	mov	_main_pre_error_1_114,_main_cur_error_1_114
 	mov	(_main_pre_error_1_114 + 1),(_main_cur_error_1_114 + 1)
 	mov	(_main_pre_error_1_114 + 2),(_main_cur_error_1_114 + 2)
 	mov	(_main_pre_error_1_114 + 3),(_main_cur_error_1_114 + 3)
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:396: printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
-	mov	r6,_pwm_right
-	mov	r7,#0x00
-	mov	r0,_pwm_left
-	mov	r1,#0x00
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:396: printf("State:%2d Command:%3d Sensor:%5.2f Timer: %2d                 \r\n", state, command, line_sensor, start_timer);
+	mov	c,_start_timer
+	clr	a
+	rlc	a
+	mov	r2,a
+	mov	r3,#0x00
 	push	ar6
 	push	ar7
-	push	ar0
-	push	ar1
-	push	_main_right_1_114
-	push	(_main_right_1_114 + 1)
-	push	(_main_right_1_114 + 2)
-	push	(_main_right_1_114 + 3)
 	push	ar2
 	push	ar3
-	push	ar4
-	push	ar5
-	push	_main_cur_error_1_114
-	push	(_main_cur_error_1_114 + 1)
-	push	(_main_cur_error_1_114 + 2)
-	push	(_main_cur_error_1_114 + 3)
+	push	_main_line_sensor_1_114
+	push	(_main_line_sensor_1_114 + 1)
+	push	(_main_line_sensor_1_114 + 2)
+	push	(_main_line_sensor_1_114 + 3)
+	push	_main_command_1_114
+	push	(_main_command_1_114 + 1)
+	push	ar6
+	push	ar7
 	mov	a,#__str_2
 	push	acc
 	mov	a,#(__str_2 >> 8)
@@ -2069,48 +1989,36 @@ L021017?:
 	push	acc
 	lcall	_printf
 	mov	a,sp
-	add	a,#0xed
+	add	a,#0xf3
 	mov	sp,a
+	pop	ar7
+	pop	ar6
 ;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:399: switch(state){
-	clr	a
-	cjne	a,_main_state_1_114,L021080?
-	clr	a
-	cjne	a,(_main_state_1_114 + 1),L021080?
+	cjne	r6,#0x01,L021072?
+	cjne	r7,#0x00,L021072?
 	sjmp	L021019?
-L021080?:
-	mov	a,#0x01
-	cjne	a,_main_state_1_114,L021081?
-	clr	a
-	cjne	a,(_main_state_1_114 + 1),L021081?
+L021072?:
+	cjne	r6,#0x02,L021073?
+	cjne	r7,#0x00,L021073?
 	sjmp	L021022?
-L021081?:
-	mov	a,#0x02
-	cjne	a,_main_state_1_114,L021082?
-	clr	a
-	cjne	a,(_main_state_1_114 + 1),L021082?
-	ljmp	L021027?
-L021082?:
-	mov	a,#0x03
-	cjne	a,_main_state_1_114,L021083?
-	clr	a
-	cjne	a,(_main_state_1_114 + 1),L021083?
-	ljmp	L021032?
-L021083?:
-	mov	a,#0x04
-	cjne	a,_main_state_1_114,L021084?
-	clr	a
-	cjne	a,(_main_state_1_114 + 1),L021084?
+L021073?:
+	cjne	r6,#0x03,L021074?
+	cjne	r7,#0x00,L021074?
+	ljmp	L021025?
+L021074?:
+	cjne	r6,#0x04,L021075?
+	cjne	r7,#0x00,L021075?
+	ljmp	L021031?
+L021075?:
 	ljmp	L021036?
-L021084?:
-	ljmp	L021041?
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:400: case 0:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:448: case 1:
 L021019?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:401: if(line_sensor > HI_THRESH){
-	mov	a,#0xCD
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:449: if(line_sensor > HI_THRESH){
+	push	ar6
+	push	ar7
+	clr	a
 	push	acc
-	mov	a,#0xCC
 	push	acc
-	mov	a,#0x4C
 	push	acc
 	mov	a,#0x3F
 	push	acc
@@ -2123,61 +2031,38 @@ L021019?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
+	pop	ar7
+	pop	ar6
 	mov	a,r2
-	jz	L021022?
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:402: start_timer = 1;
-	setb	_start_timer
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:403: state = 2;
-	mov	_main_state_1_114,#0x02
-	clr	a
-	mov	(_main_state_1_114 + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:405: case 1:
+	jz	L021021?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:450: state = 2;
+	mov	r6,#0x02
+	mov	r7,#0x00
+L021021?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:452: printf("headed to %2d from 1\n", state);
+	push	ar6
+	push	ar7
+	push	ar6
+	push	ar7
+	mov	a,#__str_3
+	push	acc
+	mov	a,#(__str_3 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xfb
+	mov	sp,a
+	pop	ar7
+	pop	ar6
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:453: break;				
+	ljmp	L021036?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:454: case 2:
 L021022?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:406: if(line_sensor > HI_THRESH){
-	mov	a,#0xCD
-	push	acc
-	mov	a,#0xCC
-	push	acc
-	mov	a,#0x4C
-	push	acc
-	mov	a,#0x3F
-	push	acc
-	mov	dpl,_main_line_sensor_1_114
-	mov	dph,(_main_line_sensor_1_114 + 1)
-	mov	b,(_main_line_sensor_1_114 + 2)
-	mov	a,(_main_line_sensor_1_114 + 3)
-	lcall	___fsgt
-	mov	r2,dpl
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	mov	a,r2
-	jz	L021024?
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:407: state = 2;
-	mov	_main_state_1_114,#0x02
-	clr	a
-	mov	(_main_state_1_114 + 1),a
-L021024?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:409: if(start_timer == 0){
-	jnb	_start_timer,L021087?
-	ljmp	L021041?
-L021087?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:410: command = line_counter;
-	mov	_main_command_1_114,_main_line_counter_1_114
-	mov	(_main_command_1_114 + 1),(_main_line_counter_1_114 + 1)
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:411: line_counter = 0;
-	clr	a
-	mov	_main_line_counter_1_114,a
-	mov	(_main_line_counter_1_114 + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:412: state = 4;
-	mov	_main_state_1_114,#0x04
-	clr	a
-	mov	(_main_state_1_114 + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:414: break;				
-	ljmp	L021041?
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:415: case 2:
-L021027?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:416: if(line_sensor < LO_THRESH){
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:455: if(line_sensor < LO_THRESH){
+	push	ar6
+	push	ar7
 	mov	a,#0x29
 	push	acc
 	mov	a,#0x5C
@@ -2195,102 +2080,156 @@ L021027?:
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
+	pop	ar7
+	pop	ar6
 	mov	a,r2
-	jz	L021029?
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:417: line_counter++;
+	jz	L021024?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:456: line_counter++;
 	inc	_main_line_counter_1_114
 	clr	a
-	cjne	a,_main_line_counter_1_114,L021089?
+	cjne	a,_main_line_counter_1_114,L021078?
 	inc	(_main_line_counter_1_114 + 1)
-L021089?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:418: state = 3;
-	mov	_main_state_1_114,#0x03
-	clr	a
-	mov	(_main_state_1_114 + 1),a
-L021029?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:420: if(start_timer == 0){
-	jnb	_start_timer,L021090?
-	ljmp	L021041?
-L021090?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:421: command = line_counter;
-	mov	_main_command_1_114,_main_line_counter_1_114
-	mov	(_main_command_1_114 + 1),(_main_line_counter_1_114 + 1)
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:422: line_counter = 0;
-	clr	a
-	mov	_main_line_counter_1_114,a
-	mov	(_main_line_counter_1_114 + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:423: state = 4;
-	mov	_main_state_1_114,#0x04
-	clr	a
-	mov	(_main_state_1_114 + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:425: break;
-	ljmp	L021041?
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:426: case 3:
-L021032?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:427: if(start_timer == 0){
-	jb	_start_timer,L021034?
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:428: command = line_counter;
-	mov	_main_command_1_114,_main_line_counter_1_114
-	mov	(_main_command_1_114 + 1),(_main_line_counter_1_114 + 1)
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:429: line_counter = 0;
-	clr	a
-	mov	_main_line_counter_1_114,a
-	mov	(_main_line_counter_1_114 + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:430: state = 4;
-	mov	_main_state_1_114,#0x04
-	clr	a
-	mov	(_main_state_1_114 + 1),a
-	ljmp	L021041?
-L021034?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:433: state = 1;
-	mov	_main_state_1_114,#0x01
-	clr	a
-	mov	(_main_state_1_114 + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:435: break;
-	ljmp	L021041?
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:436: case 4:
-L021036?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:437: if(line_counter > HI_THRESH){
-	mov	dpl,_main_line_counter_1_114
-	mov	dph,(_main_line_counter_1_114 + 1)
-	lcall	___sint2fs
-	mov	r2,dpl
-	mov	r3,dph
-	mov	r4,b
-	mov	r5,a
-	mov	a,#0xCD
+L021078?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:457: start_timer = 1;
+	setb	_start_timer
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:458: state = 3;
+	mov	r6,#0x03
+	mov	r7,#0x00
+L021024?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:460: printf("headed to %2d from 2\n", state);
+	push	ar6
+	push	ar7
+	push	ar6
+	push	ar7
+	mov	a,#__str_4
 	push	acc
-	mov	a,#0xCC
+	mov	a,#(__str_4 >> 8)
 	push	acc
-	mov	a,#0x4C
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xfb
+	mov	sp,a
+	pop	ar7
+	pop	ar6
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:461: break;
+	ljmp	L021036?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:462: case 3:
+L021025?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:463: if(start_timer == 1){
+	jnb	_start_timer,L021029?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:464: if(line_sensor > HI_THRESH){
+	push	ar6
+	push	ar7
+	clr	a
+	push	acc
+	push	acc
 	push	acc
 	mov	a,#0x3F
 	push	acc
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	mov	a,r5
+	mov	dpl,_main_line_sensor_1_114
+	mov	dph,(_main_line_sensor_1_114 + 1)
+	mov	b,(_main_line_sensor_1_114 + 2)
+	mov	a,(_main_line_sensor_1_114 + 3)
 	lcall	___fsgt
 	mov	r2,dpl
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
+	pop	ar7
+	pop	ar6
 	mov	a,r2
-	jnz	L021092?
-	ljmp	L021041?
-L021092?:
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:438: stop();
-	lcall	_stop
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:439: execute(command);
+	jz	L021030?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:465: start_timer = 0;
+	clr	_start_timer
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:466: action_timer = 0;
+	clr	a
+	mov	_action_timer,a
+	mov	(_action_timer + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:467: state = 2;
+	mov	r6,#0x02
+	mov	r7,#0x00
+	sjmp	L021030?
+L021029?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:471: command = line_counter;
+	mov	_main_command_1_114,_main_line_counter_1_114
+	mov	(_main_command_1_114 + 1),(_main_line_counter_1_114 + 1)
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:472: line_counter = 0;
+	clr	a
+	mov	_main_line_counter_1_114,a
+	mov	(_main_line_counter_1_114 + 1),a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:473: state = 4;
+	mov	r6,#0x04
+	mov	r7,#0x00
+L021030?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:475: printf("headed to %2d from 3\n", state);
+	push	ar6
+	push	ar7
+	push	ar6
+	push	ar7
+	mov	a,#__str_5
+	push	acc
+	mov	a,#(__str_5 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xfb
+	mov	sp,a
+	pop	ar7
+	pop	ar6
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:476: break;
+	ljmp	L021036?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:477: case 4:
+L021031?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:478: if(line_sensor > HI_THRESH){
+	push	ar6
+	push	ar7
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_main_line_sensor_1_114
+	mov	dph,(_main_line_sensor_1_114 + 1)
+	mov	b,(_main_line_sensor_1_114 + 2)
+	mov	a,(_main_line_sensor_1_114 + 3)
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar7
+	pop	ar6
+	mov	a,r2
+	jnz	L021081?
+	ljmp	L021036?
+L021081?:
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:479: printf("ERMAGERD: %2d \n", command);
+	push	_main_command_1_114
+	push	(_main_command_1_114 + 1)
+	mov	a,#__str_6
+	push	acc
+	mov	a,#(__str_6 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xfb
+	mov	sp,a
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:480: execute(command);
 	mov	dpl,_main_command_1_114
 	mov	dph,(_main_command_1_114 + 1)
 	lcall	_execute
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:440: state = 0;
-	clr	a
-	mov	_main_state_1_114,a
-	mov	(_main_state_1_114 + 1),a
-;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:443: }
-	ljmp	L021041?
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:481: state = 1;
+	mov	r6,#0x01
+	mov	r7,#0x00
+;	C:\Users\Zachary Morris\Documents\GitHub\eece_284\Code\main code.c:484: }
+	ljmp	L021036?
 	rseg R_CSEG
 
 	rseg R_XINIT
@@ -2303,9 +2242,26 @@ __str_1:
 	db 'LC=%d ST=%d'
 	db 0x00
 __str_2:
-	db 'Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor'
-	db ':%d                '
+	db 'State:%2d Command:%3d Sensor:%5.2f Timer: %2d               '
+	db '  '
 	db 0x0D
+	db 0x0A
+	db 0x00
+__str_3:
+	db 'headed to %2d from 1'
+	db 0x0A
+	db 0x00
+__str_4:
+	db 'headed to %2d from 2'
+	db 0x0A
+	db 0x00
+__str_5:
+	db 'headed to %2d from 3'
+	db 0x0A
+	db 0x00
+__str_6:
+	db 'ERMAGERD: %2d '
+	db 0x0A
 	db 0x00
 
 	CSEG

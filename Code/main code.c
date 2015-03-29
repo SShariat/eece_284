@@ -27,7 +27,7 @@
 
 #define CHARS_PER_LINE 16
 
-#define HI_THRESH 0.8
+#define HI_THRESH 0.5
 #define LO_THRESH 0.07
 
 //PID Control Parameters
@@ -232,7 +232,7 @@ void Timer0ISR (void) interrupt 1{
 	
 	if(start_timer == 1){
 		action_timer++;
-		if(action_timer == 20000){
+		if(action_timer == 5000){
 			action_timer = 0;
 			start_timer = 0;
 		}
@@ -393,24 +393,27 @@ void main (void){
 			}
 		}	
 		pre_error = cur_error;
-		printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
+		printf("State:%2d Command:%3d Sensor:%5.2f Timer: %2d                 \r\n", state, command, line_sensor, start_timer);
 
 	//State Diagram
 		switch(state){
-			case 0:
+			/*case 0:
 				if(line_sensor > HI_THRESH){
 					start_timer = 1;
 					state = 2;
+					printf("headed to 2 from 0 \n");
 				}
+			break;
 			case 1:
 				if(line_sensor > HI_THRESH){
-					state = 2;
+					state = 2;h
 				}
 				if(start_timer == 0){
 					command = line_counter;
 					line_counter = 0;
 					state = 4;
 				}
+				printf("headed to %2d from 1\n", state);
 			break;				
 			case 2:
 				if(line_sensor < LO_THRESH){
@@ -422,6 +425,7 @@ void main (void){
 					line_counter = 0;
 					state = 4;
 				}
+				printf("headed to %2d from 2\n", state);
 			break;
 			case 3:
 				if(start_timer == 0){
@@ -432,12 +436,49 @@ void main (void){
 				else{
 					state = 1;
 				}
+				printf("headed to %2d from 3\n", state);
 			break;
 			case 4:
 				if(line_counter > HI_THRESH){
-					stop();
+					printf("ERMAGERD: %2d", command);
 					execute(command);
 					state = 0;
+				}
+			break;*/
+			case 1:
+				if(line_sensor > HI_THRESH){
+					state = 2;
+				}
+				printf("headed to %2d from 1\n", state);
+			break;				
+			case 2:
+				if(line_sensor < LO_THRESH){
+					line_counter++;
+					start_timer = 1;
+					state = 3;
+				}
+				printf("headed to %2d from 2\n", state);
+			break;
+			case 3:
+				if(start_timer == 1){
+					if(line_sensor > HI_THRESH){
+						start_timer = 0;
+						action_timer = 0;
+						state = 2;
+					}
+				}
+				else{
+					command = line_counter;
+					line_counter = 0;
+					state = 4;
+				}
+				printf("headed to %2d from 3\n", state);
+			break;
+			case 4:
+				if(line_sensor > HI_THRESH){
+					printf("ERMAGERD: %2d \n", command);
+					execute(command);
+					state = 1;
 				}
 			break;
 		}
