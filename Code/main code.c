@@ -27,13 +27,13 @@
 
 #define CHARS_PER_LINE 16
 
-#define HI_THRESH 10
-#define MID_THRESH 5
-#define LO_THRESH 0
+#define HI_THRESH 0.8
+#define LO_THRESH 0.07
 
 //PID Control Parameters
 //KP = 25
-#define KP 40
+//KD = 5
+#define KP 25
 #define KD 0
 
 
@@ -49,6 +49,9 @@ volatile unsigned char pwm_right;
 volatile int turn_timer = 0;
 volatile bit turn_time_update=0;
 volatile bit start = 1;
+volatile bit start_timer = 0;
+volatile int action_timer = 0;
+volatile int line_counter = 0;
 
 void InitPorts(void)
 {
@@ -226,6 +229,15 @@ void Timer0ISR (void) interrupt 1{
 	if(turn_time_update == 1){
 		turn_timer++;
 	}
+	
+	if(start_timer == 1){
+		action_timer++;
+		if(action_timer == 20000){
+			action_timer = 0;
+			start_timer = 0;
+		}
+		
+	}
 }
 
 void display_LCD(void){
@@ -237,10 +249,16 @@ void display_LCD(void){
 	LCDprint(buff, 1, 1);
 	sprintf(buff, "%02d:%02d R: %5.2f ", mins, secs, (AD1DAT2/255.0)*3.3); // Display the clock
 	LCDprint(buff, 2, 1);
-	*/
+	
 	sprintf(buff, "L=%5.2f R:%5.2f", (AD1DAT1/255.0)*3.3, (AD1DAT2/255.0)*3.3); //Display Left and Right Sensor
 	LCDprint(buff, 1, 1);
 	sprintf(buff, "LM=%d RM=%d", pwm_left, pwm_right); // Display Motor Values
+	LCDprint(buff, 2, 1);
+	*/
+	
+	sprintf(buff, "LS=%5.2f", (AD1DAT3/255.0)*3.3); //Display Line Sensor
+	LCDprint(buff, 1, 1);
+	sprintf(buff, "LC=%d ST=%d", line_counter, start_timer); // Display line counter, start_timer
 	LCDprint(buff, 2, 1);
 	
 }
@@ -282,16 +300,16 @@ void stop(void){
 void execute(int command){
 	switch(command){
 		case 2:
-			turn_left();
+		turn_left();
 		case 3:
-			turn_right();
+		turn_right();
 		case 4:
-			if(start == 1){
-				start = 0;
-			}
-			else{
-				stop();
-			}
+		if(start == 1){
+			start = 0;
+		}
+		else{
+			stop();
+		}
 	}
 }
 
@@ -301,7 +319,7 @@ void main (void){
 	double cur_error =0;
 	double pre_error =0;
 	int thresh = 2;
-		
+
 	//Initializing Reading Sensor Value Variables
 	double left = (AD1DAT1/255.0)*3.3;
 	double right = (AD1DAT2/255.0)*3.3;
@@ -330,90 +348,98 @@ void main (void){
 			port 0_3: AD1DAT2
 			port 0_4: AD1DAT3
 		*/
-		
+
 		//Reading Values of for PID
-		left = (AD1DAT1/255.0)*3.3;
-		right = (AD1DAT2/255.0)*3.3;
-		line_sensor = (AD1DAT3/255.0)*3.3;
-		diff = left - right;
+			left = (AD1DAT1/255.0)*3.3;
+			right = (AD1DAT2/255.0)*3.3;
+			line_sensor = (AD1DAT3/255.0)*3.3;
+			diff = left - right;
 
 		//Timer Functionality
 		if(time_update_flag==1) // If the clock has been updated, refresh the display
 		{
 			display_LCD();
 		}
-				
+
 		//P-D Controller
+		cor = KP * cur_error + KD*(cur_error - pre_error);
 		
-		if((left > 0.4) && (left < 0.7) && (right > 0.4) && (right < 0.7)){
+		if((0.4 < left) && (left < 0.7) && (0.4 < right) && (right < 0.7)){
 			cur_error = 0;
 			pwm_left = 100;
 			pwm_right = 100;
 		}
-		if(0.3<diff){	
-			cur_error = 1;
-			cor = KP * cur_error + KD*(cur_error - pre_error);
-		 	pwm_left = 100 - cor;
-		 	pwm_right = 100;
+		if(0.5<diff){	
+			cur_error = 3;
+			pwm_left = 100 - cor;
+			pwm_right = 100;
 		}
-		if(diff<-0.3){
-		 	cur_error= -1;
-		 	cor = KP * cur_error + KD*(cur_error - pre_error);
+		if(diff<-0.5){
+			cur_error= -3;
 			pwm_left = 100;
-		 	pwm_right = 100 + cor;
+			pwm_right = 100 + cor;
 		}
-		if((left < 0.3) && (right < 0.3)){
-			if(pre_error > 0){
-				//cur_error = 5;
-				//cor = KP * cur_error + KD*(cur_error - pre_error);
-				//pwm_left = 100 - cor;
-				pwm_left = 0;
+		
+		if((left < 0.4) && (right < 0.4)){
+			if(pre_error>0){
+				cur_error = 5;
+				pwm_left = 100 - cor;
 				pwm_right = 100;
 			}
-			
-			if(pre_error < 0){
-				//cur_error = -5;
-				//cor = KP * cur_error + KD*(cur_error - pre_error);
-				//pwm_left = 100;
+			if(pre_error<0){
+				cur_error = -5;
+				pwm_left = 100;
 				pwm_right = 100 + cor;
-				pwm_right = 0;
 			}
-		}
-	
+		}	
 		pre_error = cur_error;
 		printf("Error:%5.2f Left:%5.2f Right:%5.2f Left_Motor:%d Right_Motor:%d                \r", cur_error, left, right, pwm_left, pwm_right);
-	
+
 	//State Diagram
-	switch(state){
-		case 1:
-			if(line_sensor >= HI_THRESH){
-				state = 2;
+		switch(state){
+			case 0:
+				if(line_sensor > HI_THRESH){
+					start_timer = 1;
+					state = 2;
 				}
-			break;				
-		case 2:
-			if((LO_THRESH<line_sensor)&&(line_sensor<MID_THRESH)){
-				line_counter++;
-				state = 3;
-			}
-			break;
-		case 3:
-			if(line_sensor<=LO_THRESH){
-				if(line_counter > 1){
+			case 1:
+				if(line_sensor > HI_THRESH){
+					state = 2;
+				}
+				if(start_timer == 0){
 					command = line_counter;
-					state = 1;
-				}
-				else{
+					line_counter = 0;
 					state = 4;
 				}
-				line_counter = 0;
-			}
-			else
-				state = 1;
+			break;				
+			case 2:
+				if(line_sensor < LO_THRESH){
+					line_counter++;
+					state = 3;
+				}
+				if(start_timer == 0){
+					command = line_counter;
+					line_counter = 0;
+					state = 4;
+				}
 			break;
-		case 4:
-			execute(command);
-			state = 1;
+			case 3:
+				if(start_timer == 0){
+					command = line_counter;
+					line_counter = 0;
+					state = 4;
+				}
+				else{
+					state = 1;
+				}
 			break;
+			case 4:
+				if(line_counter > HI_THRESH){
+					stop();
+					execute(command);
+					state = 0;
+				}
+			break;
+		}
 	}
-}
 }
