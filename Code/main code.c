@@ -31,10 +31,11 @@
 #define LO_THRESH 0.07
 
 //PID Control Parameters
-//KP = 25
-//KD = 5
-#define KP 25
-#define KD 0
+//KP = 40
+//KD = 0
+#define KP 40
+#define KD 3
+
 
 
 
@@ -249,45 +250,41 @@ void display_LCD(void){
 	LCDprint(buff, 1, 1);
 	sprintf(buff, "%02d:%02d R: %5.2f ", mins, secs, (AD1DAT2/255.0)*3.3); // Display the clock
 	LCDprint(buff, 2, 1);
-	
+	*/
 	sprintf(buff, "L=%5.2f R:%5.2f", (AD1DAT1/255.0)*3.3, (AD1DAT2/255.0)*3.3); //Display Left and Right Sensor
 	LCDprint(buff, 1, 1);
 	sprintf(buff, "LM=%d RM=%d", pwm_left, pwm_right); // Display Motor Values
 	LCDprint(buff, 2, 1);
-	*/
 	
+	/*
 	sprintf(buff, "LS=%5.2f", (AD1DAT3/255.0)*3.3); //Display Line Sensor
 	LCDprint(buff, 1, 1);
 	sprintf(buff, "LC=%d ST=%d", line_counter, start_timer); // Display line counter, start_timer
 	LCDprint(buff, 2, 1);
-	
+	*/
 }
 
 void turn_left(void){
 	turn_timer = 0;
 	turn_time_update = 1;
-	while(1){
-		pwm_left = 20;
+	while(turn_timer < 7000){
+		pwm_left = 0;
 		pwm_right = 100;
-		if(turn_timer == 2000){
-			turn_time_update = 0;
-			turn_timer = 0;
-			break;
-		}
+		printf("turning left!\n");
 	}
+	turn_time_update = 0;
+	turn_timer = 0;
 }
 void turn_right(void){
 	turn_timer = 0;
 	turn_time_update = 1;
-	while(1){
+	while(turn_timer < 7000){
 		pwm_left = 100;
-		pwm_right = 20;
-		if(turn_timer == 2000){
-			turn_time_update = 0;
-			turn_timer = 0;
-			break;
-		}
+		pwm_right = 0;
+		printf("turning right!\n");
 	}
+	turn_time_update = 0;
+	turn_timer = 0;
 }
 
 void stop(void){
@@ -300,16 +297,19 @@ void stop(void){
 void execute(int command){
 	switch(command){
 		case 2:
-		turn_left();
+			turn_left();
+		break;
 		case 3:
-		turn_right();
+			turn_right();
+		break;
 		case 4:
-		if(start == 1){
-			start = 0;
-		}
+			if(start == 1){
+				start = 0;
+			}
 		else{
 			stop();
 		}
+		break;
 	}
 }
 
@@ -362,25 +362,25 @@ void main (void){
 		}
 
 		//P-D Controller
-		cor = KP * cur_error + KD*(cur_error - pre_error);
+		cor = KP*cur_error + KD*(cur_error - pre_error);
 		
-		if((0.4 < left) && (left < 0.7) && (0.4 < right) && (right < 0.7)){
+		if(((1 < left) && (left < 1.2)) && ((1 < right) && (right < 1.2))){
 			cur_error = 0;
 			pwm_left = 100;
 			pwm_right = 100;
 		}
-		if(0.5<diff){	
-			cur_error = 3;
+		else if(0.2 < diff){	
+			cur_error = 1;
 			pwm_left = 100 - cor;
 			pwm_right = 100;
 		}
-		if(diff<-0.5){
-			cur_error= -3;
+		else if(diff < -0.2){
+			cur_error= -1;
 			pwm_left = 100;
 			pwm_right = 100 + cor;
 		}
 		
-		if((left < 0.4) && (right < 0.4)){
+		else if((left < 0.8) && (right < 0.8)){
 			if(pre_error>0){
 				cur_error = 5;
 				pwm_left = 100 - cor;
@@ -391,9 +391,12 @@ void main (void){
 				pwm_left = 100;
 				pwm_right = 100 + cor;
 			}
+		}
+		else{
+			stop();
 		}	
 		pre_error = cur_error;
-		printf("State:%2d Command:%3d Sensor:%5.2f Timer: %2d                 \r\n", state, command, line_sensor, start_timer);
+		//printf("State:%2d Command:%3d Sensor:%5.2f Timer: %2d                 \r\n", state, command, line_sensor, start_timer);
 
 	//State Diagram
 		switch(state){
@@ -449,7 +452,7 @@ void main (void){
 				if(line_sensor > HI_THRESH){
 					state = 2;
 				}
-				printf("headed to %2d from 1\n", state);
+				//printf("headed to %2d from 1\n", state);
 			break;				
 			case 2:
 				if(line_sensor < LO_THRESH){
@@ -457,7 +460,7 @@ void main (void){
 					start_timer = 1;
 					state = 3;
 				}
-				printf("headed to %2d from 2\n", state);
+				//printf("headed to %2d from 2\n", state);
 			break;
 			case 3:
 				if(start_timer == 1){
@@ -468,15 +471,21 @@ void main (void){
 					}
 				}
 				else{
-					command = line_counter;
-					line_counter = 0;
-					state = 4;
+					if(line_counter > 1){
+						command = line_counter;
+						line_counter = 0;
+						state = 4;
+					}
+					else{
+						state = 1;
+						line_counter = 0;
+					}
 				}
-				printf("headed to %2d from 3\n", state);
+				//printf("headed to %2d from 3\n", state);
 			break;
 			case 4:
 				if(line_sensor > HI_THRESH){
-					printf("ERMAGERD: %2d \n", command);
+					//printf("ERMAGERD: %2d \n", command);
 					execute(command);
 					state = 1;
 				}
