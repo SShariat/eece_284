@@ -27,18 +27,20 @@
 
 #define CHARS_PER_LINE 16
 
-#define HI_THRESH 0.5
-#define LO_THRESH 0.07
+#define HI_THRESH 1
+#define LO_THRESH 0.7
 
 //PID Control Parameters
-//KP = 40
+//KP = 31
 //KD = 0
+// HI 0.65
+// LO 0.95
 
-#define MID_THRESH_LO 	0.7
-#define MID_THRESH_HI 	1
+#define MID_THRESH_LO 	0.55
+#define MID_THRESH_HI 	0.85
 #define SIDE_THRESH 	0.3
 
-#define KP 28
+#define KP 31
 #define KD 0
 
 
@@ -82,7 +84,7 @@ void waitms (unsigned int ms){
 	//Waiting for 1 Micro-second
 	for(j=0; j<ms; j++)
 		for (k=0; k<20; k++) Wait50us();
-}
+	}
 
 void LCD_pulse (void){
 	LCD_E=1;
@@ -235,16 +237,16 @@ void display_LCD(void){
 	unsigned char buff[17]; // Need to have enough space in the string for a null character
 	
 	time_update_flag=0;
-	/*
-	sprintf(buff, "V=%5.2f L:%5.2f", (AD1DAT0/255.0)*3.3, (AD1DAT1/255.0)*3.3); // Display the voltage at pin P0.1
+	
+	sprintf(buff, "V=%5.2f L:%5.2f", (AD1DAT0/255.0)*3.3*9/2.69, (AD1DAT1/255.0)*3.3); // Display the voltage at pin P0.1
 	LCDprint(buff, 1, 1);
 	sprintf(buff, "%02d:%02d R: %5.2f ", mins, secs, (AD1DAT2/255.0)*3.3); // Display the clock
 	LCDprint(buff, 2, 1);
-	*/
-	sprintf(buff, "L=%5.2f R:%5.2f", (AD1DAT1/255.0)*3.3, (AD1DAT2/255.0)*3.3); //Display Left and Right Sensor
+	
+	/*sprintf(buff, "L=%5.2f R:%5.2f", (AD1DAT1/255.0)*3.3, (AD1DAT2/255.0)*3.3); //Display Left and Right Sensor
 	LCDprint(buff, 1, 1);
-	sprintf(buff, "LM=%d RM=%d", pwm_left, pwm_right); // Display Motor Values
-	LCDprint(buff, 2, 1);
+	sprintf(buff, "LS:%5.2f LC:%d", (AD1DAT1/255.0)*3.3, line_counter); // Display Motor Values
+	LCDprint(buff, 2, 1);*/
 	
 	/*
 	sprintf(buff, "LS=%5.2f", (AD1DAT3/255.0)*3.3); //Display Line Sensor
@@ -257,7 +259,7 @@ void display_LCD(void){
 void turn_left(void){
 	turn_timer = 0;
 	turn_time_update = 1;
-	while(turn_timer < 7000){
+	while(turn_timer < 7500){
 		pwm_left = 0;
 		pwm_right = 100;
 		printf("turning left!\n");
@@ -268,7 +270,7 @@ void turn_left(void){
 void turn_right(void){
 	turn_timer = 0;
 	turn_time_update = 1;
-	while(turn_timer < 7000){
+	while(turn_timer < 7500){
 		pwm_left = 100;
 		pwm_right = 0;
 		printf("turning right!\n");
@@ -287,18 +289,10 @@ void stop(void){
 void execute(int command){
 	switch(command){
 		case 2:
-			turn_left();
+		turn_left();
 		break;
 		case 3:
-			turn_right();
-		break;
-		case 4:
-			if(start == 1){
-				start = 0;
-			}
-		else{
-			stop();
-		}
+		turn_right();
 		break;
 	}
 }
@@ -309,6 +303,8 @@ void main (void){
 	double cur_error =0;
 	double pre_error =0;
 	int thresh = 2;
+	int q = 0;
+	int m = 0;
 
 	//Initializing Reading Sensor Value Variables
 	double left = (AD1DAT1/255.0)*3.3;
@@ -317,7 +313,6 @@ void main (void){
 	double diff = left - right;
 
 	//Initializing Line Counter Code Variables
-	int line_counter = 0;
 	int command = 0;
 	int state = 1;	
 	
@@ -378,54 +373,72 @@ void main (void){
 				pwm_left = 100;
 				pwm_right = 100 + cor;
 			}
+		}
+		if(!(pre_error==cur_error)){
+			q=m;
+			m=1;
 		}	
-		cor = KP*cur_error + KD*(cur_error - pre_error);
+		cor = KP*cur_error + KD*(cur_error - pre_error)/(q+m);
+		m=m+1;
 		pre_error = cur_error;
-		//printf("State:%2d Command:%3d Sensor:%5.2f Timer: %2d                 \r\n", state, command, line_sensor, start_timer);
-
+		printf("State:%d LC:%d Sensor:%5.2f Timer:%d                 \r\n", state, line_counter, line_sensor, start_timer);
+		
 	//State Diagram
 		switch(state){
 			case 1:
-				if(line_sensor > HI_THRESH){
-					state = 2;
-				}
-				//printf("headed to %2d from 1\n", state);
+			if(line_sensor > HI_THRESH){
+					//pwm_right = 100;
+					//pwm_left = 100;
+				state = 2;
+			}
+			printf("headed to %2d from 1\n", state);
 			break;				
 			case 2:
-				if(line_sensor < LO_THRESH){
-					line_counter++;
-					start_timer = 1;
-					state = 3;
-				}
-				//printf("headed to %2d from 2\n", state);
+			if(line_sensor < LO_THRESH){
+				line_counter++;
+				start_timer = 1;
+				state = 3;
+			}
+			printf("headed to %2d from 2\n", state);
 			break;
 			case 3:
-				if(start_timer == 1){
-					if(line_sensor > HI_THRESH){
-						start_timer = 0;
-						action_timer = 0;
-						state = 2;
-					}
+			if(start_timer == 1){
+				if(line_sensor > HI_THRESH){
+					start_timer = 0;
+					action_timer = 0;
+					state = 2;
+				}
+			}
+			else{
+				if(line_counter > 1){
+					command = line_counter;
+					line_counter = 0;
+					state = 4;
 				}
 				else{
-					if(line_counter > 1){
-						command = line_counter;
-						line_counter = 0;
-						state = 4;
-					}
-					else{
-						state = 1;
-						line_counter = 0;
-					}
+					state = 1;
+					line_counter = 0;
 				}
-				//printf("headed to %2d from 3\n", state);
+			}
+			printf("headed to %2d from 3\n", state);
 			break;
 			case 4:
-				if(line_sensor > HI_THRESH){
-					//printf("ERMAGERD: %2d \n", command);
-					execute(command);
+			if(command == 4){
+				if(start == 1){
+					start = 0;
 					state = 1;
+					secs = 0;
+					mins = 0;
 				}
+				else{
+					stop();
+				}
+			}
+			else if(line_sensor > HI_THRESH){
+				printf("ERMAGERD: %2d \n", command);
+				execute(command);
+				state = 1;
+			}
 			break;
 		}
 	}
