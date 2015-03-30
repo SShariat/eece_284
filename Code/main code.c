@@ -33,10 +33,13 @@
 //PID Control Parameters
 //KP = 40
 //KD = 0
-#define KP 40
-#define KD 3
 
+#define MID_THRESH_LO 	0.7
+#define MID_THRESH_HI 	1
+#define SIDE_THRESH 	0.3
 
+#define KP 28
+#define KD 0
 
 
 // The volatile keyword prevents the compiler from optimizing out these variables
@@ -54,8 +57,7 @@ volatile bit start_timer = 0;
 volatile int action_timer = 0;
 volatile int line_counter = 0;
 
-void InitPorts(void)
-{
+void InitPorts(void){
 	P0M1=0x1E;
 	P0M2=0x00;
 	P1M1=0;
@@ -66,33 +68,29 @@ void InitPorts(void)
 	P3M2=0;
 }
 
-void Wait50us (void)
-{
+void Wait50us (void){
 	_asm
 	mov R0, #82
 	L0: djnz R0, L0 ; 2 machine cycles-> 2*0.27126us*92=50us
 	_endasm;
 }
 
-void waitms (unsigned int ms)
-{
+void waitms (unsigned int ms){
 	unsigned int j;
 	unsigned char k;
 	
 	//Waiting for 1 Micro-second
 	for(j=0; j<ms; j++)
 		for (k=0; k<20; k++) Wait50us();
-	}
+}
 
-void LCD_pulse (void)
-{
+void LCD_pulse (void){
 	LCD_E=1;
 	Wait50us();
 	LCD_E=0;
 }
 
-void LCD_byte (unsigned char x)
-{
+void LCD_byte (unsigned char x){
 	// The accumulator in the C8051Fxxx is bit addressable!
 	ACC=x;
 	LCD_D7=ACC_7;
@@ -106,22 +104,19 @@ void LCD_byte (unsigned char x)
 	LCD_pulse();
 }
 
-void WriteData (unsigned char x)
-{
+void WriteData (unsigned char x){
 	LCD_RS=1;
 	LCD_byte(x);
 	waitms(2);
 }
 
-void WriteCommand (unsigned char x)
-{
+void WriteCommand (unsigned char x){
 	LCD_RS=0;
 	LCD_byte(x);
 	waitms(5);
 }
 
-void LCD_8BIT (void)
-{
+void LCD_8BIT (void){
 	LCD_E=0;  // Resting state of LCD's enable is zero
 	LCD_RW=0; // We are only writing to the LCD in this program
 	waitms(20);
@@ -137,8 +132,7 @@ void LCD_8BIT (void)
 	waitms(20); // Wait for clear screen command to finsih.
 }
 
-void LCDprint(char * string, unsigned char line, bit clear)
-{
+void LCDprint(char * string, unsigned char line, bit clear){
 	unsigned char j;
 	
 	WriteCommand(line==2?0xc0:0x80);
@@ -147,8 +141,7 @@ void LCDprint(char * string, unsigned char line, bit clear)
 	if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
 }
 
-void Wait1S (void)
-{
+void Wait1S (void){
 	_asm
 	mov R2, #40
 	L3: mov R1, #250
@@ -159,8 +152,7 @@ void Wait1S (void)
 	_endasm;
 }
 
-void InitSerialPort(void)
-{
+void InitSerialPort(void){
 	BRGCON=0x00; //Make sure the baud rate generator is off
 	BRGR1=((XTAL/BAUD)-16)/0x100;
 	BRGR0=((XTAL/BAUD)-16)%0x100;
@@ -170,8 +162,7 @@ void InitSerialPort(void)
 	P1M2=0x00; //Enable pins RxD and Txd
 }
 
-void InitADC(void)
-{
+void InitADC(void){
 	// Set adc1 channel pins as input only 
 
 	P0M1 |= (P0M1_4 | P0M1_3 | P0M1_2 | P0M1_1);
@@ -185,8 +176,7 @@ void InitADC(void)
 	while((ADCI1&ADCON1)==0); //Wait for first conversion to complete
 }
 
-void InitTimer0 (void)
-{
+void InitTimer0 (void){
 	// Initialize timer 0 for ISR 'pwmcounter' below
 	// maybe we don't set TAMOD because it is naturally in the 0 state?
 	TR0=0; // Stop timer 0
@@ -362,25 +352,22 @@ void main (void){
 		}
 
 		//P-D Controller
-		cor = KP*cur_error + KD*(cur_error - pre_error);
-		
-		if(((1 < left) && (left < 1.2)) && ((1 < right) && (right < 1.2))){
+		if(((MID_THRESH_LO< left) && (left < MID_THRESH_HI)) && ((MID_THRESH_LO < right) && (right < MID_THRESH_HI))){
 			cur_error = 0;
 			pwm_left = 100;
 			pwm_right = 100;
 		}
 		else if(0.2 < diff){	
-			cur_error = 1;
+			cur_error = 3;
 			pwm_left = 100 - cor;
 			pwm_right = 100;
 		}
 		else if(diff < -0.2){
-			cur_error= -1;
+			cur_error= -3;
 			pwm_left = 100;
 			pwm_right = 100 + cor;
 		}
-		
-		else if((left < 0.8) && (right < 0.8)){
+		else if((left < SIDE_THRESH) && (right < SIDE_THRESH)){
 			if(pre_error>0){
 				cur_error = 5;
 				pwm_left = 100 - cor;
@@ -391,63 +378,13 @@ void main (void){
 				pwm_left = 100;
 				pwm_right = 100 + cor;
 			}
-		}
-		else{
-			stop();
 		}	
+		cor = KP*cur_error + KD*(cur_error - pre_error);
 		pre_error = cur_error;
 		//printf("State:%2d Command:%3d Sensor:%5.2f Timer: %2d                 \r\n", state, command, line_sensor, start_timer);
 
 	//State Diagram
 		switch(state){
-			/*case 0:
-				if(line_sensor > HI_THRESH){
-					start_timer = 1;
-					state = 2;
-					printf("headed to 2 from 0 \n");
-				}
-			break;
-			case 1:
-				if(line_sensor > HI_THRESH){
-					state = 2;h
-				}
-				if(start_timer == 0){
-					command = line_counter;
-					line_counter = 0;
-					state = 4;
-				}
-				printf("headed to %2d from 1\n", state);
-			break;				
-			case 2:
-				if(line_sensor < LO_THRESH){
-					line_counter++;
-					state = 3;
-				}
-				if(start_timer == 0){
-					command = line_counter;
-					line_counter = 0;
-					state = 4;
-				}
-				printf("headed to %2d from 2\n", state);
-			break;
-			case 3:
-				if(start_timer == 0){
-					command = line_counter;
-					line_counter = 0;
-					state = 4;
-				}
-				else{
-					state = 1;
-				}
-				printf("headed to %2d from 3\n", state);
-			break;
-			case 4:
-				if(line_counter > HI_THRESH){
-					printf("ERMAGERD: %2d", command);
-					execute(command);
-					state = 0;
-				}
-			break;*/
 			case 1:
 				if(line_sensor > HI_THRESH){
 					state = 2;
